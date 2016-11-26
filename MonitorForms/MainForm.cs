@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using GraphMonitor;
 
@@ -43,12 +37,12 @@ namespace MonitorForms
 
         private void addSeriesButton_Click(object sender, EventArgs e)
         {
-            graphChart1.Count++;
+            graphChart1.AddNewSeries();
         }
 
         private void removeSeriesButton_Click(object sender, EventArgs e)
         {
-            graphChart1.Count--;
+            graphChart1.RemoveLastSeries();
         }
     }
 }

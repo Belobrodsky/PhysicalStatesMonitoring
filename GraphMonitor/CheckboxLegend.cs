@@ -1,39 +1,74 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.VisualStyles;
 
 namespace GraphMonitor
 {
-    class CheckboxLegend : LegendItem
+    /// <summary>
+    /// Класс для отображения названия графика с чекбоксом
+    /// </summary>
+    internal class CheckboxLegend : LegendItem
     {
+        //Путь к изображению отмеченного чекбокса
         private static string _checkboxCheckedPath;
+        //Путь к изображению неотмеченного чекбокса
         private static string _checkboxUncheckedPath;
-        public CheckboxLegend()
+        //Ассоциированный график
+        private readonly Series _series;
+
+        public CheckboxLegend(Series series)
         {
+            _series = series;
+            _series.IsVisibleInLegend = false;
+            ImageStyle = LegendImageStyle.Line;
             if (!File.Exists(_checkboxCheckedPath) || !File.Exists(_checkboxUncheckedPath))
                 DrawBitmaps();
             AddCells();
         }
 
+        /// <summary>
+        /// Добавление ячеек с нужными элементами
+        /// </summary>
         private void AddCells()
         {
-            var imageCell = new LegendCell() { CellType = LegendCellType.Image, Image = _checkboxUncheckedPath };
-            var seriesCell = new LegendCell() { CellType = LegendCellType.Text, Text = SeriesName };
+            //Изображение чекбокса
+            var imageCell = new LegendCell()
+            {
+                CellType = LegendCellType.Image,
+                Image = _series.Enabled ? _checkboxCheckedPath : _checkboxUncheckedPath,
+                //Margins = new Margins(0, 50, 0, 0)
+            };
+            //Цвет графика
+            var seriesCell = new LegendCell(LegendCellType.Text, _series.Name);
+
+            //Название графика
+            var typeCell = new LegendCell()
+            {
+                CellType = LegendCellType.SeriesSymbol,
+                BackColor = _series.Color,
+            };
+            Cells.Add(imageCell);
+            Cells.Add(typeCell);
+            Cells.Add(seriesCell);
         }
 
-        private void DrawBitmaps()
+        /// <summary>
+        /// Рисование чекбоксов
+        /// </summary>
+        private static void DrawBitmaps()
         {
+            //Пути к файлам во временной папке
             _checkboxCheckedPath = Path.Combine(Path.GetTempPath(), "checkboxChecked.bmp");
             _checkboxUncheckedPath = Path.Combine(Path.GetTempPath(), "checkboxUnchecked.bmp");
+            //Размеры изображений чекбоксов для разных состояний
             var sizeChecked = CheckBoxRenderer.GetGlyphSize(Graphics.FromHwnd(IntPtr.Zero), CheckBoxState.CheckedNormal);
             var sizeUnchecked = CheckBoxRenderer.GetGlyphSize(Graphics.FromHwnd(IntPtr.Zero), CheckBoxState.UncheckedNormal);
+
+            //Рисование изображений чекбоксов
             using (Bitmap checkedBmp = new Bitmap(sizeChecked.Width, sizeChecked.Height), unCheckedBmp = new Bitmap(sizeUnchecked.Width, sizeUnchecked.Height))
             {
                 using (Graphics g = Graphics.FromImage(checkedBmp), g1 = Graphics.FromImage(unCheckedBmp))
@@ -41,9 +76,19 @@ namespace GraphMonitor
                     CheckBoxRenderer.DrawCheckBox(g, new Point(), CheckBoxState.CheckedNormal);
                     CheckBoxRenderer.DrawCheckBox(g1, new Point(), CheckBoxState.UncheckedNormal);
                 }
-                checkedBmp.Save(_checkboxCheckedPath, ImageFormat.Bmp);
-                unCheckedBmp.Save(_checkboxUncheckedPath, ImageFormat.Bmp);
+                //Сохранение во временную папку.
+                if (!File.Exists(_checkboxCheckedPath))
+                    checkedBmp.Save(_checkboxCheckedPath, ImageFormat.Bmp);
+                if (!File.Exists(_checkboxUncheckedPath))
+                    unCheckedBmp.Save(_checkboxUncheckedPath, ImageFormat.Bmp);
             }
+        }
+
+        /// <summary> Клик по описанию графика </summary>
+        public void Click()
+        {
+            _series.Enabled = !_series.Enabled;
+            Cells[0].Image = _series.Enabled ? _checkboxCheckedPath : _checkboxUncheckedPath;
         }
     }
 }
