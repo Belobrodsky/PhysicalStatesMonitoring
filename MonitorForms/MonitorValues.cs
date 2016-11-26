@@ -9,11 +9,11 @@ namespace MonitorForms
     public class MonitorValues
     {
         /// <summary> Значения отслеживаемых величин </summary>
-        public List<double> Values { get; }
+        public List<double> Values { get; private set; }
         /// <summary> Минимумы для каждой величины </summary>
-        public List<double> Mins { get; }
+        public List<double> Mins { get; private set; }
         /// <summary> Максимумы для каждой величины </summary>
-        public List<double> Maxs { get; }
+        public List<double> Maxs { get; private set; }
 
         public MonitorValues()
             : this(new List<double>(), new List<double>(), new List<double>())
@@ -57,7 +57,7 @@ namespace MonitorForms
             set
             {
                 if (index > Values.Count - 1 || index < 0)
-                    throw new ArgumentOutOfRangeException(nameof(index));
+                    throw new ArgumentOutOfRangeException("index");
                 Values[index] = value;
             }
         }

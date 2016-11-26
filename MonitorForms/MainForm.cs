@@ -24,7 +24,7 @@ namespace MonitorForms
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            PerformanceMeter.Start($"Графиков {graphChart1.Count}.");
+            PerformanceMeter.Start(String.Format("Графиков {0}.", graphChart1.Count));
             for (int i = 0; i < graphChart1.Count; i++)
                 graphChart1.AddValue(new MonitorValue(DateTime.Now, _rnd.Next(-10, 11), 10, -10), i, _normalize);
             PerformanceMeter.Stop();

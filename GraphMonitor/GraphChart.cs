@@ -55,6 +55,9 @@ namespace GraphMonitor
             _range = (double)rangeNumericUpDown.Value;
         }
 
+        /// <summary>
+        /// Инициализация графика
+        /// </summary>
         private void InitChart()
         {
             chart.ChartAreas.Clear();
@@ -97,6 +100,7 @@ namespace GraphMonitor
             _area.AxisX.ScaleView.SmallScrollSizeType = DateTimeIntervalType.Milliseconds;
             _area.AxisX.ScaleView.SmallScrollSize = 0.5;
             _area.AxisX.ScaleView.MinSizeType = DateTimeIntervalType.Seconds;
+
             chart.ChartAreas.Add(_area);
         }
 
@@ -134,7 +138,7 @@ namespace GraphMonitor
             _count++;
             if (!_stopwatch.IsRunning) _stopwatch.Start();
             if (_count < 10) return;
-            freqLabel.Text = $"{(double)_count / (_stopwatch.ElapsedMilliseconds / 1000):f2} Гц";
+            freqLabel.Text = String.Format("{0:f2} Гц", (double) _count/( _stopwatch.ElapsedMilliseconds/1000 ));
             _count = 0;
             _stopwatch.Restart();
         }

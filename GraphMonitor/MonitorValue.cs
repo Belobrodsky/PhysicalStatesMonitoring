@@ -12,9 +12,13 @@ namespace GraphMonitor
         public double Max { get; set; }
         public double Min { get; set; }
 
-        public double NValue => Math.Abs(Max - Min) < double.Epsilon ? Value : (Value - Min) / (Max - Min);
+        public double NValue
+        {
+            get { return Math.Abs(Max - Min) < double.Epsilon ? Value : ( Value - Min )/( Max - Min ); }
+        }
 
         public MonitorValue(DateTime timestamp, double value, double max, double min)
+            : this()
         {
             TimeStamp = timestamp;
             Value = value;
