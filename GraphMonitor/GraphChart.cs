@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -17,7 +18,36 @@ namespace GraphMonitor
         private ChartArea _area;
         /// <summary>Отображаемый диапазон</summary>
         private double _range;
-        private bool _saveState;
+        /// <summary>Форма с информацией</summary>
+        private SelPointInfoForm _infoForm = new SelPointInfoForm();
+        /// <summary>Выбранный график</summary>
+        public Series SelectedSeries { get; set; }
+
+        private DataPoint _selectedPoint;
+
+        /// <summary>Выбранная точка графика</summary>
+        public DataPoint SelectedPoint
+        {
+            get { return _selectedPoint; }
+            set
+            {
+                _selectedPoint = value;
+                if (_selectedPoint == null || _selectedPoint.IsEmpty)
+                {
+                    if (_infoForm != null) _infoForm.Hide();
+                    return;
+                }
+                //Помещаем курсор в точное положение на графике
+                _area.CursorX.SetCursorPosition(_selectedPoint.XValue);
+                var val = (MonitorValue)_selectedPoint.Tag;
+                //Отображаем информацию курсора
+                if (_infoForm == null)
+                    _infoForm = new SelPointInfoForm(val, SelectedSeries.Name);
+                else
+                    _infoForm.SetInfo(val, SelectedSeries.Name);
+                _infoForm.Show();
+            }
+        }
 
         /// <summary>Количество графиков</summary>
         public int Count
@@ -45,14 +75,36 @@ namespace GraphMonitor
         public void AddNewSeries(string name)
         {
             if (chart.Series.FindByName(name) != null)
-            {
                 throw new ArgumentException("График с таким именем уже существует");
-            }
+
             var s = chart.Series.Add(name);
             chart.ApplyPaletteColors();
             s.ChartType = SeriesChartType.FastLine;
             s.XValueType = ChartValueType.Time;
-            chart.Legends[0].CustomItems.Add(new CheckboxLegend(s));
+            var cbl = new CheckboxLegend(s);
+            cbl.LegendSelected += LegendSelected;
+            chart.Legends[0].CustomItems.Add(cbl);
+        }
+
+        /// <summary>Обработчик события при выборе легенды</summary>
+        private void LegendSelected(object sender, LegendSelectedEventArgs e)
+        {
+            SelectedSeries = e.SelectedSeries;
+            AdjustCursorPosition();
+        }
+
+        /// <summary>Метод для установки курсора в точное положение на графике</summary>
+        private void AdjustCursorPosition()
+        {
+            if (SelectedSeries == null || !SelectedSeries.Enabled || _area.CursorX.Position.Equals(double.NaN))
+            {
+                SelectedPoint = null;
+                return;
+            }
+            //Среди точек графика ищем точку максимально близкую к положению курсора
+            var pos = SelectedSeries.Points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).FirstOrDefault();
+            //Выбираем эту точку
+            SelectedPoint = pos;
         }
 
         /// <summary>Добавление графика с именем по умолчанию</summary>
@@ -126,7 +178,7 @@ namespace GraphMonitor
         {
             _range = (double)rangeNumericUpDown.Value;
             _area.AxisX.ScaleView.MinSize = _range;
-            _area.AxisX.ScaleView.Zoom(_area.AxisX.ScaleView.Position, _range, _area.AxisX.ScaleView.MinSizeType, _saveState);
+            _area.AxisX.ScaleView.Zoom(_area.AxisX.ScaleView.Position, _range);
         }
 
         /// <summary>
@@ -138,12 +190,12 @@ namespace GraphMonitor
         public void AddValue(MonitorValue val, int seriesIndex, bool normalize = true)
         {
             //PerformanceMeter.Start($"Добавление значения. Всего {chart.Series[seriesIndex].Points.Count}.");
-            if (seriesIndex < 0 || seriesIndex > chart.Series.Count - 1)
-            {
-                return;
-            }
+            if (seriesIndex < 0 || seriesIndex > chart.Series.Count - 1) return;
             GetFrequency();
-            chart.Series[seriesIndex].Points.AddXY(val.TimeStamp.ToOADate(), normalize ? val.NValue : val.Value);
+            //Добавление точки на график
+            var index = chart.Series[seriesIndex].Points.AddXY(val.TimeStamp.ToOADate(), normalize ? val.NValue : val.Value);
+            //В свойство Tag записываем пришедшее значение.
+            chart.Series[seriesIndex].Points[index].Tag = val;
             //Удаление точек позже 10 минут
             var firstValue = DateTime.FromOADate(chart.Series[seriesIndex].Points[0].XValue);
             while ((val.TimeStamp - firstValue).TotalMinutes > MAX_MINUTES_DISPLAY)
@@ -153,17 +205,18 @@ namespace GraphMonitor
             }
             SetYLimits(normalize);
             _area.AxisX.ScaleView.MinSize = _range;
-            _area.AxisX.ScaleView.Zoom(val.TimeStamp.ToOADate(), _range, _area.AxisX.ScaleView.MinSizeType, _saveState);
+            _area.AxisX.ScaleView.Zoom(val.TimeStamp.AddSeconds(0.5).ToOADate(), _range);
             //PerformanceMeter.Stop();
         }
 
         /// <summary>Определение частоты изменения значений</summary>
         private void GetFrequency()
         {
+            var time = _stopwatch.Elapsed.TotalSeconds;
             _count++;
             if (!_stopwatch.IsRunning) _stopwatch.Start();
             if (_count < 10) return;
-            freqLabel.Text = string.Format("{0:f2} Гц", (double)_count / (_stopwatch.ElapsedMilliseconds / 1000));
+            freqLabel.Text = string.Format("{0:f1} Гц", 1 / (time / _count));
             _count = 0;
             _stopwatch.Restart();
         }
@@ -186,25 +239,26 @@ namespace GraphMonitor
             }
         }
 
-        private void chart_AxisScrollBarClicked(object sender, ScrollBarEventArgs e)
-        {
-            if (e.ButtonType == ScrollBarButtonType.ZoomReset)
-            {
-                e.IsHandled = true;
-                _saveState = false;
-                return;
-            }
-            _saveState = true;
-        }
-
         private void chart_MouseDown(object sender, MouseEventArgs e)
         {
             var result = chart.HitTest(e.X, e.Y);
             if (result == null || result.Object == null) return;
-            var legend = result.Object as CheckboxLegend;
-            if (legend == null) return;
-            var item = legend;
-            item.Click();
+            switch (result.ChartElementType)
+            {
+                case ChartElementType.PlottingArea:
+                case ChartElementType.DataPoint:
+                case ChartElementType.Gridlines:
+                    AdjustCursorPosition();
+                    break;
+                case ChartElementType.LegendItem:
+                    var legend = (CheckboxLegend)result.Object;
+                    if (legend == null) return;
+                    var item = legend;
+                    item.Click(result.SubObject as LegendCell);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

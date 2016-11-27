@@ -19,20 +19,21 @@ namespace GraphMonitor
         private static string _checkboxUncheckedPath;
         //Ассоциированный график
         private readonly Series _series;
+        /// <summary>Событие при выборе легенды в списке</summary>
+        public event EventHandler<LegendSelectedEventArgs> LegendSelected;
 
         public CheckboxLegend(Series series)
         {
             _series = series;
             _series.IsVisibleInLegend = false;
             ImageStyle = LegendImageStyle.Line;
+            Color = _series.Color;
             if (!File.Exists(_checkboxCheckedPath) || !File.Exists(_checkboxUncheckedPath))
                 DrawBitmaps();
             AddCells();
         }
 
-        /// <summary>
-        /// Добавление ячеек с нужными элементами
-        /// </summary>
+        /// <summary>Добавление ячеек с нужными элементами</summary>
         private void AddCells()
         {
             //Изображение чекбокса
@@ -40,7 +41,6 @@ namespace GraphMonitor
             {
                 CellType = LegendCellType.Image,
                 Image = _series.Enabled ? _checkboxCheckedPath : _checkboxUncheckedPath,
-                //Margins = new Margins(0, 50, 0, 0)
             };
             //Цвет графика
             var seriesCell = new LegendCell(LegendCellType.Text, _series.Name);
@@ -49,16 +49,13 @@ namespace GraphMonitor
             var typeCell = new LegendCell()
             {
                 CellType = LegendCellType.SeriesSymbol,
-                BackColor = _series.Color,
             };
             Cells.Add(imageCell);
             Cells.Add(typeCell);
             Cells.Add(seriesCell);
         }
 
-        /// <summary>
-        /// Рисование чекбоксов
-        /// </summary>
+        /// <summary>Рисование чекбоксов</summary>
         private static void DrawBitmaps()
         {
             //Пути к файлам во временной папке
@@ -85,10 +82,42 @@ namespace GraphMonitor
         }
 
         /// <summary> Клик по описанию графика </summary>
-        public void Click()
+        public void Click(LegendCell cell = null)
         {
-            _series.Enabled = !_series.Enabled;
-            Cells[0].Image = _series.Enabled ? _checkboxCheckedPath : _checkboxUncheckedPath;
+            if (cell == null) return;
+            switch (cell.CellType)
+            {
+                case LegendCellType.Text:
+                case LegendCellType.SeriesSymbol:
+                    //Прямоугольник выделения
+                    foreach (var item in Legend.CustomItems)
+                    {
+                        if (!(item is CheckboxLegend)) continue;
+
+                        item.Cells[1].BackColor = Color.Transparent;
+                        item.Cells[2].BackColor = Color.Transparent;
+                    }
+                    Cells[1].BackColor = Color.FromArgb(50, Color.Blue);
+                    Cells[2].BackColor = Color.FromArgb(50, Color.Blue);
+                    OnSelectedLegendChanged(new LegendSelectedEventArgs(_series));
+                    break;
+                case LegendCellType.Image:
+                    _series.Enabled = !_series.Enabled;
+                    Cells[0].Image = _series.Enabled ? _checkboxCheckedPath : _checkboxUncheckedPath;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        /// Метод вызова события <see cref="LegendSelected"/>
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnSelectedLegendChanged(LegendSelectedEventArgs e)
+        {
+            EventHandler<LegendSelectedEventArgs> handler = LegendSelected;
+            if (handler != null) handler(this, e);
         }
     }
 }

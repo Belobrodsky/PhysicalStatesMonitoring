@@ -52,11 +52,21 @@
     <Compile Include="MonitorValue.cs" />
     <Compile Include="PerformanceMeter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LegendSelectedEventArgs.cs" />
+    <Compile Include="SelPointInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelPointInfoForm.Designer.cs">
+      <DependentUpon>SelPointInfoForm.cs</DependentUpon>
+    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GraphChart.resx">
       <DependentUpon>GraphChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelPointInfoForm.resx">
+      <DependentUpon>SelPointInfoForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

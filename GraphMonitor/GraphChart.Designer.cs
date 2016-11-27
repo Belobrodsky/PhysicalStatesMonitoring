@@ -67,10 +67,9 @@
             this.chart.Series.Add(series1);
             this.chart.Series.Add(series2);
             this.chart.Series.Add(series3);
-            this.chart.Size = new System.Drawing.Size(546, 279);
+            this.chart.Size = new System.Drawing.Size(990, 279);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart1";
-            this.chart.AxisScrollBarClicked += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ScrollBarEventArgs>(this.chart_AxisScrollBarClicked);
             this.chart.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chart_MouseDown);
             // 
             // tableLayoutPanel1
@@ -85,11 +84,12 @@
             this.tableLayoutPanel1.Controls.Add(this.rangeNumericUpDown, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.rangeLabel, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(555, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(999, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(129, 279);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
@@ -168,7 +168,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(687, 285);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1131, 285);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // GraphChart
@@ -177,7 +177,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel2);
             this.Name = "GraphChart";
-            this.Size = new System.Drawing.Size(687, 285);
+            this.Size = new System.Drawing.Size(1131, 285);
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
