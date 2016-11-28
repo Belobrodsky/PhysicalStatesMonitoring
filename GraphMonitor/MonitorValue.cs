@@ -9,7 +9,7 @@ namespace GraphMonitor
     public struct MonitorValue
     {
         /// <summary>Время получения данных</summary>
-        [DisplayName("Время"), ReadOnly(true)]
+        [DisplayName("Время"), ReadOnly(true),TypeConverter(typeof(TimeStampConverter))]
         public DateTime TimeStamp { get; set; }
         /// <summary>Величина</summary>
         [DisplayName("Значение"), ReadOnly(true)]

@@ -59,6 +59,13 @@
     <Compile Include="SelPointInfoForm.Designer.cs">
       <DependentUpon>SelPointInfoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SetMaxMinForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetMaxMinForm.Designer.cs">
+      <DependentUpon>SetMaxMinForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeStampConverter.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +74,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SelPointInfoForm.resx">
       <DependentUpon>SelPointInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetMaxMinForm.resx">
+      <DependentUpon>SetMaxMinForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

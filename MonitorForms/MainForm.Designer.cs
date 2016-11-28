@@ -35,9 +35,9 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.normalizeButton = new System.Windows.Forms.ToolStripButton();
             this.startButton = new System.Windows.Forms.ToolStripButton();
-            this.removeSeriesButton = new System.Windows.Forms.ToolStripButton();
-            this.addSeriesButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.addSeriesButton = new System.Windows.Forms.ToolStripButton();
+            this.removeSeriesButton = new System.Windows.Forms.ToolStripButton();
             this.graphChart1 = new GraphMonitor.GraphChart();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -60,7 +60,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(611, 335);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1168, 335);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // toolStrip1
@@ -73,7 +73,7 @@
             this.removeSeriesButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(611, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1168, 27);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -98,17 +98,10 @@
             this.startButton.Text = "Начать";
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
-            // removeSeriesButton
+            // toolStripSeparator1
             // 
-            this.removeSeriesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.removeSeriesButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.removeSeriesButton.Image = ((System.Drawing.Image)(resources.GetObject("removeSeriesButton.Image")));
-            this.removeSeriesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.removeSeriesButton.Name = "removeSeriesButton";
-            this.removeSeriesButton.Size = new System.Drawing.Size(23, 24);
-            this.removeSeriesButton.Text = "-";
-            this.removeSeriesButton.ToolTipText = "Удалить параметр";
-            this.removeSeriesButton.Click += new System.EventHandler(this.removeSeriesButton_Click);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // addSeriesButton
             // 
@@ -122,10 +115,17 @@
             this.addSeriesButton.ToolTipText = "Добавить параметр";
             this.addSeriesButton.Click += new System.EventHandler(this.addSeriesButton_Click);
             // 
-            // toolStripSeparator1
+            // removeSeriesButton
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.removeSeriesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.removeSeriesButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.removeSeriesButton.Image = ((System.Drawing.Image)(resources.GetObject("removeSeriesButton.Image")));
+            this.removeSeriesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.removeSeriesButton.Name = "removeSeriesButton";
+            this.removeSeriesButton.Size = new System.Drawing.Size(23, 24);
+            this.removeSeriesButton.Text = "-";
+            this.removeSeriesButton.ToolTipText = "Удалить параметр";
+            this.removeSeriesButton.Click += new System.EventHandler(this.removeSeriesButton_Click);
             // 
             // graphChart1
             // 
@@ -134,17 +134,20 @@
             this.graphChart1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.graphChart1.Location = new System.Drawing.Point(3, 28);
             this.graphChart1.Name = "graphChart1";
-            this.graphChart1.Size = new System.Drawing.Size(605, 304);
+            this.graphChart1.SelectedPoint = null;
+            this.graphChart1.SelectedSeries = null;
+            this.graphChart1.Size = new System.Drawing.Size(1162, 304);
             this.graphChart1.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(611, 335);
+            this.ClientSize = new System.Drawing.Size(1168, 335);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);

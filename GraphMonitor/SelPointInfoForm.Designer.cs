@@ -38,7 +38,7 @@
             this.selInfoGrid.Location = new System.Drawing.Point(0, 0);
             this.selInfoGrid.Name = "selInfoGrid";
             this.selInfoGrid.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.selInfoGrid.Size = new System.Drawing.Size(158, 204);
+            this.selInfoGrid.Size = new System.Drawing.Size(424, 111);
             this.selInfoGrid.TabIndex = 0;
             this.selInfoGrid.ToolbarVisible = false;
             // 
@@ -46,7 +46,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(158, 204);
+            this.ClientSize = new System.Drawing.Size(424, 111);
             this.Controls.Add(this.selInfoGrid);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "SelPointInfoForm";

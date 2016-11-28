@@ -140,12 +140,18 @@ namespace GraphMonitor
                     IsUserEnabled = true,
                     IntervalType = DateTimeIntervalType.Milliseconds,
                     Interval = 5
-                }
+                },
+
             };
+
             //Ось Y
+            _area.AxisY.Enabled = AxisEnabled.True;
+            _area.AxisY.Name = "Ось значений";
             _area.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
             _area.AxisY.MajorGrid.LineColor = Color.Gray;
             //Ось X
+            _area.AxisX.Name = "Ось времени";
+            _area.AxisX.Enabled = AxisEnabled.True;
             //Основные линии сетки
             _area.AxisX.MajorTickMark.Enabled = false;
             _area.AxisX.MajorGrid.IntervalType = DateTimeIntervalType.Seconds;
@@ -255,6 +261,41 @@ namespace GraphMonitor
                     if (legend == null) return;
                     var item = legend;
                     item.Click(result.SubObject as LegendCell);
+                    break;
+                case ChartElementType.Axis:
+                case ChartElementType.AxisLabelImage:
+                case ChartElementType.AxisLabels:
+                case ChartElementType.AxisTitle:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>Двойной клик по графику</summary>
+        private void chart_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var result = chart.HitTest(e.X, e.Y);
+            if (result == null || result.Object == null) return;
+            switch (result.ChartElementType)
+            {
+                //Клик на оси
+                case ChartElementType.Axis:
+                case ChartElementType.AxisLabelImage:
+                case ChartElementType.AxisLabels:
+                case ChartElementType.AxisTitle:
+                    if (result.Axis.AxisName == AxisName.X) return;
+                    var maxMinForm = new SetMaxMinForm(result.Axis.Maximum, result.Axis.Minimum, result.Axis.Title, PointToScreen(e.Location));
+                    maxMinForm.FormClosing += (s, args) =>
+                    {
+                        result.Axis.Maximum = maxMinForm.Max;
+                        result.Axis.Minimum = maxMinForm.Min;
+                    };
+                    maxMinForm.Show(this);
+                    break;
+                case ChartElementType.ScrollBarThumbTracker:
+                    if (SelectedPoint != null)
+                        _area.AxisX.ScaleView.Position = SelectedPoint.XValue;
                     break;
                 default:
                     break;
