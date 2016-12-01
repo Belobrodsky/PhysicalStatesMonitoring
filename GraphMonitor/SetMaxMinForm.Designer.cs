@@ -30,13 +30,13 @@
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
+            this.minNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.maxNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.minNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.titleLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.minNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maxNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -71,6 +71,19 @@
             this.label1.Text = "Максимум:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // minNumericUpDown
+            // 
+            this.minNumericUpDown.DecimalPlaces = 3;
+            this.minNumericUpDown.Increment = new decimal(new int[] {
+            150,
+            0,
+            0,
+            196608});
+            this.minNumericUpDown.Location = new System.Drawing.Point(73, 42);
+            this.minNumericUpDown.Name = "minNumericUpDown";
+            this.minNumericUpDown.Size = new System.Drawing.Size(70, 20);
+            this.minNumericUpDown.TabIndex = 3;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -94,19 +107,6 @@
             this.maxNumericUpDown.Name = "maxNumericUpDown";
             this.maxNumericUpDown.Size = new System.Drawing.Size(70, 20);
             this.maxNumericUpDown.TabIndex = 2;
-            // 
-            // minNumericUpDown
-            // 
-            this.minNumericUpDown.DecimalPlaces = 3;
-            this.minNumericUpDown.Increment = new decimal(new int[] {
-            150,
-            0,
-            0,
-            196608});
-            this.minNumericUpDown.Location = new System.Drawing.Point(73, 42);
-            this.minNumericUpDown.Name = "minNumericUpDown";
-            this.minNumericUpDown.Size = new System.Drawing.Size(70, 20);
-            this.minNumericUpDown.TabIndex = 3;
             // 
             // titleLabel
             // 
@@ -139,8 +139,8 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SetMaxMinForm_KeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.minNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maxNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

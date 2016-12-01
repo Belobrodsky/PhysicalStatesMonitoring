@@ -267,8 +267,6 @@ namespace GraphMonitor
                 case ChartElementType.AxisLabels:
                 case ChartElementType.AxisTitle:
                     break;
-                default:
-                    break;
             }
         }
 
@@ -296,8 +294,6 @@ namespace GraphMonitor
                 case ChartElementType.ScrollBarThumbTracker:
                     if (SelectedPoint != null)
                         _area.AxisX.ScaleView.Position = SelectedPoint.XValue;
-                    break;
-                default:
                     break;
             }
         }
