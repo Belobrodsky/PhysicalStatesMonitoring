@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Itp
 {
+    /// <summary>
+    /// Структура для хранения данных с ИПТ-4
+    /// </summary>
     public struct Itp4
     {
         public byte MagistralFailure { get; set; }
