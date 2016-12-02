@@ -33,22 +33,19 @@ namespace GraphMonitor
             set
             {
                 _selectedPoint = value;
-                if (_selectedPoint == null || _selectedPoint.IsEmpty)
+                if (_selectedPoint != null)
                 {
-                    if (_infoForm != null) _infoForm.Hide();
-                    return;
+                    //Помещаем курсор в точное положение на графике
+                    _area.CursorX.SetCursorPosition(_selectedPoint.XValue);
                 }
-                //Помещаем курсор в точное положение на графике
-                _area.CursorX.SetCursorPosition(_selectedPoint.XValue);
-                var val = (MonitorValue)_selectedPoint.Tag;
-                //Отображаем информацию курсора
-                if (_infoForm == null)
-                    _infoForm = new SelPointInfoForm(val, SelectedSeries.Name);
-                else
-                    _infoForm.SetInfo(val, SelectedSeries.Name);
-                _infoForm.Show();
+                OnSelectedPointChanged();
             }
         }
+
+        /// <summary>
+        /// Значения графиков под курсором
+        /// </summary>
+        public IEnumerable<MonitorValue> MonitorValues { get; set; }
 
         /// <summary>Количество графиков</summary>
         public int Count
@@ -70,6 +67,9 @@ namespace GraphMonitor
                 chart.Series.ResumeUpdates();
             }
         }
+
+        /// <summary>Событие при выборе точки курсором</summary>
+        public event EventHandler SelectedPointChanged;
 
         /// <summary>Добавление графика с указанным именем</summary>
         /// <param name="name">Имя добавляемого графика</param>
@@ -97,15 +97,20 @@ namespace GraphMonitor
         /// <summary>Метод для установки курсора в точное положение на графике</summary>
         private void AdjustCursorPosition()
         {
-            if (SelectedSeries == null || !SelectedSeries.Enabled || _area.CursorX.Position.Equals(double.NaN))
+            if (_area.CursorX.Position.Equals(double.NaN))
             {
                 SelectedPoint = null;
                 return;
             }
-            //Среди точек графика ищем точку максимально близкую к положению курсора
-            var pos = SelectedSeries.Points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).FirstOrDefault();
-            //Выбираем эту точку
-            SelectedPoint = pos;
+            var x = _area.CursorX.Position;
+            //Отбор графиков, пересекаемых курсором
+            var series = chart.Series.Where(s => s.Points.First().XValue <= x && s.Points.Last().XValue >= x);
+            //из этих графиков выбираем точки, лежащие максимально близко к положению курсора
+            var points = series.Select(s => s.Points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).First()).ToList();
+            //
+            MonitorValues = points.Select(pt => (MonitorValue)pt.Tag);
+            //Точка графика ближайшая к курсору
+            SelectedPoint = points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).First();
         }
 
         /// <summary>Добавление графика с именем по умолчанию</summary>
@@ -297,6 +302,12 @@ namespace GraphMonitor
                         _area.AxisX.ScaleView.Position = SelectedPoint.XValue;
                     break;
             }
+        }
+
+        protected virtual void OnSelectedPointChanged()
+        {
+            var handler = SelectedPointChanged;
+            if (handler != null) handler(this, EventArgs.Empty);
         }
     }
 }

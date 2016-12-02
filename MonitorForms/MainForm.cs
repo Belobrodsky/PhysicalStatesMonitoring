@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using GraphMonitor;
 
@@ -11,6 +12,13 @@ namespace MonitorForms
             InitializeComponent();
             graphChart1.Count = 2;
             normalizeButton.Checked = _normalize;
+            dataGridView1.AutoGenerateColumns = true;
+            graphChart1.SelectedPointChanged += GraphChart1_SelectedPointChanged;
+        }
+
+        private void GraphChart1_SelectedPointChanged(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = graphChart1.MonitorValues.Select(mv => new { Время = mv.TimeStamp, Макс = mv.Max, Мин = mv.Min, Норм = mv.NValue, Значение = mv.Value }).ToList();
         }
 
         private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
