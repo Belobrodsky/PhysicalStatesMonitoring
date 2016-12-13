@@ -5,11 +5,16 @@ using System.Net;
 using System.Windows.Forms;
 using GraphMonitor;
 using Itp;
-
+//TODO: Чтение и сохранение настроек приложения: адрес, номер порта и т.п.
 namespace MonitorForms
 {
     public partial class MainForm : Form
     {
+        private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
+        private bool _normalize;
+        private int _port;
+        private IPAddress _ip;
+
         public MainForm()
         {
             InitializeComponent();
@@ -17,8 +22,10 @@ namespace MonitorForms
             normalizeButton.Checked = _normalize;
             dataGridView1.AutoGenerateColumns = true;
             graphChart1.SelectedPointChanged += GraphChart1_SelectedPointChanged;
+
             _ip = IPAddress.Parse("127.0.0.1");
             _port = 1952;
+
             MbCliWrapper.ErrorOccured += (s, e) =>
             {
                 MessageBox.Show(string.Format("Код ошибки: {0}\nСообщение об ошибке: {1}", e.ErrorCode, e.InternalMessage), "Ошибка в mbcli.dll", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -30,10 +37,6 @@ namespace MonitorForms
             dataGridView1.DataSource = graphChart1.MonitorValues.Select(mv => new { Время = mv.TimeStamp, Макс = mv.Max, Мин = mv.Min, Норм = mv.NValue, Значение = mv.Value }).ToList();
         }
 
-        private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
-        private bool _normalize;
-        private int _port;
-        private IPAddress _ip;
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -76,10 +79,12 @@ namespace MonitorForms
 
         private void settingsButton_Click(object sender, EventArgs e)
         {
-            var sf = _ip == null ? new SettingsForm() : new SettingsForm(_ip, _port);
-            if (sf.ShowDialog(this) == DialogResult.Cancel) return;
-            _ip = sf.IpAddress;
-            _port = sf.Port;
+            using (var sf = _ip == null ? new SettingsForm() : new SettingsForm(_ip, _port))
+            {
+                if (sf.ShowDialog(this) == DialogResult.Cancel) return;
+                _ip = sf.IpAddress;
+                _port = sf.Port;
+            }
         }
     }
 }

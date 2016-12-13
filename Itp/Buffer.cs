@@ -19,6 +19,7 @@
         public float[] Buff { get; set; }
 
         public Buffer(uint scudTimeSec, uint scudTimeMsec)
+            : this()
         {
             ScudTimeSec = scudTimeSec;
             ScudTimeMsec = scudTimeMsec;

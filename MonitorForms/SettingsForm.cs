@@ -42,7 +42,7 @@ namespace MonitorForms
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            IpAddress = IPAddress.Parse(ipAddressMaskTextBox.Text);
+            IpAddress = (IPAddress)ipAddressMaskTextBox.ValidateText();
             Port = (int)portNumericUpDown.Value;
             Close();
         }

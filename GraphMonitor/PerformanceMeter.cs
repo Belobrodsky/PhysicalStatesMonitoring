@@ -4,18 +4,18 @@ namespace GraphMonitor
 {
     public static class PerformanceMeter
     {
-        private static readonly Stopwatch Watch = new Stopwatch();
+        private static readonly Stopwatch _watch = new Stopwatch();
         private static string _message;
         public static void Start(string message)
         {
             _message = message;
-            Watch.Reset();
-            Watch.Start();
+            _watch.Reset();
+            _watch.Start();
         }
 
         public static void Stop()
         {
-            Debug.WriteLine("{2} Выполнено за {0}мс, {1} тиков.", Watch.ElapsedMilliseconds, Watch.ElapsedTicks, _message);
+            Debug.WriteLine("{2} Выполнено за {0}мс, {1} тиков.", _watch.ElapsedMilliseconds, _watch.ElapsedTicks, _message);
         }
     }
 }

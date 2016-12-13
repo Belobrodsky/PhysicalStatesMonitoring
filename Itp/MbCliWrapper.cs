@@ -65,9 +65,9 @@ namespace Itp
         {
             var result = mb_get_error();
             string intMessage = Marshal.PtrToStringAnsi(result);
-            //Здесь не понятно, кто отвечает за удаление указателя на массив.
+            //TODO: Здесь не понятно, кто отвечает за удаление указателя на массив.
             //Marshal.ZeroFreeGlobalAllocAnsi(result);
-            ErrorOccured?.Invoke(null, new ItpErrorEventArgs(errCode, intMessage));
+            if (ErrorOccured != null) ErrorOccured.Invoke(null, new ItpErrorEventArgs(errCode, intMessage));
         }
 
         public static string IpToString(IPAddress ipAddress)
