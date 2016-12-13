@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Itp
 {
@@ -17,7 +13,7 @@ namespace Itp
         /// <returns>Возвращает 0, если соединение удалось и код ошибки в противном случае.</returns>
         //function mb_connect(addr: PChar; outp: Integer): Integer; stdcall; external CWRAP;
         [DllImport("mbcli.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int mb_connect(char[] addr, int port);
+        internal static extern int mb_connect(IntPtr addr, int port);
 
         /// <summary>Версия релиза библиотеки mbcli.dll.</summary>
         /// <returns>Возвращает число, указывающее версию релиза.</returns>
@@ -55,7 +51,7 @@ namespace Itp
         /// <para>Для получения описания ошибки следует обрабатывать событие <see cref="ErrorOccured"/>.</para>.</returns>
         public static int Connect(IPAddress ip, int port)
         {
-            var result = mb_connect(ip.ToString().ToCharArray(), 32);
+            var result = mb_connect(Marshal.StringToHGlobalAnsi(IpToString(ip)), port);
             if (result != 0)
             {
                 OnErrorOccured(result);
@@ -72,6 +68,12 @@ namespace Itp
             //Здесь не понятно, кто отвечает за удаление указателя на массив.
             //Marshal.ZeroFreeGlobalAllocAnsi(result);
             ErrorOccured?.Invoke(null, new ItpErrorEventArgs(errCode, intMessage));
+        }
+
+        public static string IpToString(IPAddress ipAddress)
+        {
+            var b = ipAddress.GetAddressBytes();
+            return string.Format("{0:000}.{1:000}.{2:000}.{3:000}", b[0], b[1], b[2], b[3]);
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Itp
+﻿namespace Itp
 {
     /// <summary>
     /// итого 1000 байт, которые размещены на просторах СКУДа начиная с 0 и по 500-ю ячейку памяти (ячейка=2 байтам).

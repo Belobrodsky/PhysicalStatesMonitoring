@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Itp
+﻿namespace Itp
 {
     /// <summary>
     /// Структура для хранения скудовских переменных

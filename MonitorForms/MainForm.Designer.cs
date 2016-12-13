@@ -42,6 +42,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.mbcliVersionButton = new System.Windows.Forms.ToolStripButton();
             this.connectButton = new System.Windows.Forms.ToolStripButton();
+            this.settingsButton = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -64,7 +65,8 @@
             this.addSeriesButton,
             this.removeSeriesButton,
             this.connectButton,
-            this.mbcliVersionButton});
+            this.mbcliVersionButton,
+            this.settingsButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1168, 27);
@@ -185,6 +187,16 @@
             this.connectButton.Text = "Соединиться";
             this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
             // 
+            // settingsButton
+            // 
+            this.settingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("settingsButton.Image")));
+            this.settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.settingsButton.Name = "settingsButton";
+            this.settingsButton.Size = new System.Drawing.Size(80, 24);
+            this.settingsButton.Text = "Настройки...";
+            this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -221,6 +233,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ToolStripButton mbcliVersionButton;
         private System.Windows.Forms.ToolStripButton connectButton;
+        private System.Windows.Forms.ToolStripButton settingsButton;
     }
 }
 

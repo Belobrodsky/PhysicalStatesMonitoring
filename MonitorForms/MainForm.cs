@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Windows.Forms;
@@ -17,6 +17,8 @@ namespace MonitorForms
             normalizeButton.Checked = _normalize;
             dataGridView1.AutoGenerateColumns = true;
             graphChart1.SelectedPointChanged += GraphChart1_SelectedPointChanged;
+            _ip = IPAddress.Parse("127.0.0.1");
+            _port = 1952;
             MbCliWrapper.ErrorOccured += (s, e) =>
             {
                 MessageBox.Show(string.Format("Код ошибки: {0}\nСообщение об ошибке: {1}", e.ErrorCode, e.InternalMessage), "Ошибка в mbcli.dll", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -30,6 +32,8 @@ namespace MonitorForms
 
         private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
         private bool _normalize;
+        private int _port;
+        private IPAddress _ip;
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -62,12 +66,20 @@ namespace MonitorForms
 
         private void mbcliVersionButton_Click(object sender, EventArgs e)
         {
-            Text = MbCliWrapper.GetReleaseInfo().ToString();
+            MessageBox.Show(MbCliWrapper.GetReleaseInfo().ToString(CultureInfo.InvariantCulture), "Версия библиотеки", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void connectButton_Click(object sender, EventArgs e)
         {
-            MbCliWrapper.Connect(IPAddress.Parse("127.0.0.1"), 0);
+            MbCliWrapper.Connect(_ip, _port);
+        }
+
+        private void settingsButton_Click(object sender, EventArgs e)
+        {
+            var sf = _ip == null ? new SettingsForm() : new SettingsForm(_ip, _port);
+            if (sf.ShowDialog(this) == DialogResult.Cancel) return;
+            _ip = sf.IpAddress;
+            _port = sf.Port;
         }
     }
 }

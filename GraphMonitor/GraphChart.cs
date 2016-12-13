@@ -103,14 +103,19 @@ namespace GraphMonitor
                 return;
             }
             var x = _area.CursorX.Position;
-            //Отбор графиков, пересекаемых курсором
-            var series = chart.Series.Where(s => s.Points.First().XValue <= x && s.Points.Last().XValue >= x);
-            //из этих графиков выбираем точки, лежащие максимально близко к положению курсора
-            var points = series.Select(s => s.Points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).First()).ToList();
-            //
-            MonitorValues = points.Select(pt => (MonitorValue)pt.Tag);
-            //Точка графика ближайшая к курсору
-            SelectedPoint = points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).First();
+            //TODO: Избавиться от try. Правильно обрабатывать случай, когда в графиках нет точек
+            try
+            {
+                //Отбор графиков, пересекаемых курсором
+                var series = chart.Series.Where(s => s.Points.First().XValue <= x && s.Points.Last().XValue >= x);
+                //из этих графиков выбираем точки, лежащие максимально близко к положению курсора
+                var points = series.Select(s => s.Points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).First()).ToList();
+                //
+                MonitorValues = points.Select(pt => (MonitorValue)pt.Tag);
+                //Точка графика ближайшая к курсору
+                SelectedPoint = points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).First();
+            }
+            catch { }
         }
 
         /// <summary>Добавление графика с именем по умолчанию</summary>
