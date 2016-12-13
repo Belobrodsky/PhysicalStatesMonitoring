@@ -12,21 +12,35 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{23AEC3E1-86E2-41E6-9FF4-8E8134288525}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{23AEC3E1-86E2-41E6-9FF4-8E8134288525}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23AEC3E1-86E2-41E6-9FF4-8E8134288525}.Debug|x86.ActiveCfg = Debug|x86
+		{23AEC3E1-86E2-41E6-9FF4-8E8134288525}.Debug|x86.Build.0 = Debug|x86
 		{23AEC3E1-86E2-41E6-9FF4-8E8134288525}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23AEC3E1-86E2-41E6-9FF4-8E8134288525}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23AEC3E1-86E2-41E6-9FF4-8E8134288525}.Release|x86.ActiveCfg = Release|x86
+		{23AEC3E1-86E2-41E6-9FF4-8E8134288525}.Release|x86.Build.0 = Release|x86
 		{539F7010-E765-4E17-91E6-B886C005AFCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{539F7010-E765-4E17-91E6-B886C005AFCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{539F7010-E765-4E17-91E6-B886C005AFCD}.Debug|x86.ActiveCfg = Debug|x86
+		{539F7010-E765-4E17-91E6-B886C005AFCD}.Debug|x86.Build.0 = Debug|x86
 		{539F7010-E765-4E17-91E6-B886C005AFCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{539F7010-E765-4E17-91E6-B886C005AFCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{539F7010-E765-4E17-91E6-B886C005AFCD}.Release|x86.ActiveCfg = Release|x86
+		{539F7010-E765-4E17-91E6-B886C005AFCD}.Release|x86.Build.0 = Release|x86
 		{DB2E2838-7827-47E9-89E2-5534FA199150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DB2E2838-7827-47E9-89E2-5534FA199150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB2E2838-7827-47E9-89E2-5534FA199150}.Debug|x86.ActiveCfg = Debug|x86
+		{DB2E2838-7827-47E9-89E2-5534FA199150}.Debug|x86.Build.0 = Debug|x86
 		{DB2E2838-7827-47E9-89E2-5534FA199150}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB2E2838-7827-47E9-89E2-5534FA199150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB2E2838-7827-47E9-89E2-5534FA199150}.Release|x86.ActiveCfg = Release|x86
+		{DB2E2838-7827-47E9-89E2-5534FA199150}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

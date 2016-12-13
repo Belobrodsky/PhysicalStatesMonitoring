@@ -1,7 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 using GraphMonitor;
+using Itp;
 
 namespace MonitorForms
 {
@@ -14,6 +17,10 @@ namespace MonitorForms
             normalizeButton.Checked = _normalize;
             dataGridView1.AutoGenerateColumns = true;
             graphChart1.SelectedPointChanged += GraphChart1_SelectedPointChanged;
+            MbCliWrapper.ErrorOccured += (s, e) =>
+            {
+                MessageBox.Show(string.Format("Код ошибки: {0}\nСообщение об ошибке: {1}", e.ErrorCode, e.InternalMessage), "Ошибка в mbcli.dll", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
         }
 
         private void GraphChart1_SelectedPointChanged(object sender, EventArgs e)
@@ -51,6 +58,16 @@ namespace MonitorForms
         private void removeSeriesButton_Click(object sender, EventArgs e)
         {
             graphChart1.RemoveLastSeries();
+        }
+
+        private void mbcliVersionButton_Click(object sender, EventArgs e)
+        {
+            Text = MbCliWrapper.GetReleaseInfo().ToString();
+        }
+
+        private void connectButton_Click(object sender, EventArgs e)
+        {
+            MbCliWrapper.Connect(IPAddress.Parse("127.0.0.1"), 0);
         }
     }
 }

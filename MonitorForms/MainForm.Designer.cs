@@ -40,6 +40,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.graphChart1 = new GraphMonitor.GraphChart();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.mbcliVersionButton = new System.Windows.Forms.ToolStripButton();
+            this.connectButton = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -60,7 +62,9 @@
             this.startButton,
             this.toolStripSeparator1,
             this.addSeriesButton,
-            this.removeSeriesButton});
+            this.removeSeriesButton,
+            this.connectButton,
+            this.mbcliVersionButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1168, 27);
@@ -161,6 +165,26 @@
             this.splitContainer1.SplitterDistance = 184;
             this.splitContainer1.TabIndex = 4;
             // 
+            // mbcliVersionButton
+            // 
+            this.mbcliVersionButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.mbcliVersionButton.Image = ((System.Drawing.Image)(resources.GetObject("mbcliVersionButton.Image")));
+            this.mbcliVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mbcliVersionButton.Name = "mbcliVersionButton";
+            this.mbcliVersionButton.Size = new System.Drawing.Size(99, 24);
+            this.mbcliVersionButton.Text = "Версия mbcli.dll";
+            this.mbcliVersionButton.Click += new System.EventHandler(this.mbcliVersionButton_Click);
+            // 
+            // connectButton
+            // 
+            this.connectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.connectButton.Image = ((System.Drawing.Image)(resources.GetObject("connectButton.Image")));
+            this.connectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.connectButton.Name = "connectButton";
+            this.connectButton.Size = new System.Drawing.Size(82, 24);
+            this.connectButton.Text = "Соединиться";
+            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -195,6 +219,8 @@
         private System.Windows.Forms.ToolStripButton removeSeriesButton;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.ToolStripButton mbcliVersionButton;
+        private System.Windows.Forms.ToolStripButton connectButton;
     }
 }
 
