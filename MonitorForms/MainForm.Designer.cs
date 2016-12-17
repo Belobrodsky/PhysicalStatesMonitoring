@@ -40,15 +40,30 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.graphChart1 = new GraphMonitor.GraphChart();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.mbcliVersionButton = new System.Windows.Forms.ToolStripButton();
-            this.connectButton = new System.Windows.Forms.ToolStripButton();
-            this.settingsButton = new System.Windows.Forms.ToolStripButton();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.serverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.startReadingtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.runEmulatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.mbcliVersionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -63,13 +78,10 @@
             this.startButton,
             this.toolStripSeparator1,
             this.addSeriesButton,
-            this.removeSeriesButton,
-            this.connectButton,
-            this.mbcliVersionButton,
-            this.settingsButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.removeSeriesButton});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1168, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(795, 27);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -133,7 +145,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(1168, 180);
+            this.dataGridView1.Size = new System.Drawing.Size(680, 193);
             this.dataGridView1.TabIndex = 1;
             // 
             // graphChart1
@@ -146,13 +158,13 @@
             this.graphChart1.Name = "graphChart1";
             this.graphChart1.SelectedPoint = null;
             this.graphChart1.SelectedSeries = null;
-            this.graphChart1.Size = new System.Drawing.Size(1168, 184);
+            this.graphChart1.Size = new System.Drawing.Size(795, 197);
             this.graphChart1.TabIndex = 0;
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 27);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 51);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -162,48 +174,132 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer1.Size = new System.Drawing.Size(1168, 368);
-            this.splitContainer1.SplitterDistance = 184;
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Size = new System.Drawing.Size(795, 394);
+            this.splitContainer1.SplitterDistance = 197;
             this.splitContainer1.TabIndex = 4;
             // 
-            // mbcliVersionButton
+            // splitContainer2
             // 
-            this.mbcliVersionButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.mbcliVersionButton.Image = ((System.Drawing.Image)(resources.GetObject("mbcliVersionButton.Image")));
-            this.mbcliVersionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mbcliVersionButton.Name = "mbcliVersionButton";
-            this.mbcliVersionButton.Size = new System.Drawing.Size(99, 24);
-            this.mbcliVersionButton.Text = "Версия mbcli.dll";
-            this.mbcliVersionButton.Click += new System.EventHandler(this.mbcliVersionButton_Click);
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
             // 
-            // connectButton
+            // splitContainer2.Panel1
             // 
-            this.connectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.connectButton.Image = ((System.Drawing.Image)(resources.GetObject("connectButton.Image")));
-            this.connectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(82, 24);
-            this.connectButton.Text = "Соединиться";
-            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            this.splitContainer2.Panel1.Controls.Add(this.dataGridView1);
             // 
-            // settingsButton
+            // splitContainer2.Panel2
             // 
-            this.settingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("settingsButton.Image")));
-            this.settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(80, 24);
-            this.settingsButton.Text = "Настройки...";
-            this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+            this.splitContainer2.Panel2.Controls.Add(this.listBox1);
+            this.splitContainer2.Size = new System.Drawing.Size(795, 193);
+            this.splitContainer2.SplitterDistance = 680;
+            this.splitContainer2.TabIndex = 2;
+            // 
+            // listBox1
+            // 
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(0, 0);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(111, 193);
+            this.listBox1.TabIndex = 0;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.serverToolStripMenuItem,
+            this.settingsToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(795, 24);
+            this.menuStrip1.TabIndex = 5;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // serverToolStripMenuItem
+            // 
+            this.serverToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectToolStripMenuItem,
+            this.disconnectToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.startReadingtoolStripMenuItem,
+            this.toolStripSeparator4,
+            this.runEmulatorToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.mbcliVersionToolStripMenuItem});
+            this.serverToolStripMenuItem.Name = "serverToolStripMenuItem";
+            this.serverToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.serverToolStripMenuItem.Text = "Сервер";
+            this.serverToolStripMenuItem.DropDownOpening += new System.EventHandler(this.serverToolStripMenuItem_DropDownOpening);
+            // 
+            // connectToolStripMenuItem
+            // 
+            this.connectToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.connectToolStripMenuItem.Text = "Соединиться";
+            this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
+            // 
+            // disconnectToolStripMenuItem
+            // 
+            this.disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
+            this.disconnectToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.disconnectToolStripMenuItem.Text = "Отключиться";
+            this.disconnectToolStripMenuItem.Click += new System.EventHandler(this.disconnectToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(182, 6);
+            // 
+            // startReadingtoolStripMenuItem
+            // 
+            this.startReadingtoolStripMenuItem.Name = "startReadingtoolStripMenuItem";
+            this.startReadingtoolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.startReadingtoolStripMenuItem.Text = "Начать чтение данных";
+            this.startReadingtoolStripMenuItem.Click += new System.EventHandler(this.startReadingtoolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(182, 6);
+            // 
+            // runEmulatorToolStripMenuItem
+            // 
+            this.runEmulatorToolStripMenuItem.Name = "runEmulatorToolStripMenuItem";
+            this.runEmulatorToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.runEmulatorToolStripMenuItem.Text = "Запустить эмулятор";
+            this.runEmulatorToolStripMenuItem.Click += new System.EventHandler(this.runEmulatorToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(182, 6);
+            // 
+            // mbcliVersionToolStripMenuItem
+            // 
+            this.mbcliVersionToolStripMenuItem.Name = "mbcliVersionToolStripMenuItem";
+            this.mbcliVersionToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.mbcliVersionToolStripMenuItem.Text = "Версия mbcli.dll";
+            this.mbcliVersionToolStripMenuItem.Click += new System.EventHandler(this.mbcliVersionToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
+            this.settingsToolStripMenuItem.Text = "Настройки...";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1168, 395);
+            this.ClientSize = new System.Drawing.Size(795, 445);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
@@ -214,6 +310,12 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -231,9 +333,19 @@
         private System.Windows.Forms.ToolStripButton removeSeriesButton;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ToolStripButton mbcliVersionButton;
-        private System.Windows.Forms.ToolStripButton connectButton;
-        private System.Windows.Forms.ToolStripButton settingsButton;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem serverToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disconnectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runEmulatorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem mbcliVersionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem startReadingtoolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -12,8 +13,11 @@ namespace MonitorForms
     {
         private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
         private bool _normalize;
-        private int _port;
-        private IPAddress _ip;
+        private int _scudPort;
+        private IPAddress _scudIp;
+        private DataReader _dataReader;
+        private IPAddress _iptIp;
+        private int _iptPort;
 
         public MainForm()
         {
@@ -23,20 +27,42 @@ namespace MonitorForms
             dataGridView1.AutoGenerateColumns = true;
             graphChart1.SelectedPointChanged += GraphChart1_SelectedPointChanged;
 
-            _ip = IPAddress.Parse("127.0.0.1");
-            _port = 1952;
+            _scudIp = IPAddress.Parse("127.0.0.1");
+            _scudPort = 1952;
+            _iptIp = IPAddress.Parse("127.0.0.2");
+            _iptPort = 1953;
+        }
 
-            MbCliWrapper.ErrorOccured += (s, e) =>
+        public DataReader Reader
+        {
+            //TODO:Создавать ридер с адресом и номером порта
+            get
             {
-                MessageBox.Show(string.Format("Код ошибки: {0}\nСообщение об ошибке: {1}", e.ErrorCode, e.InternalMessage), "Ошибка в mbcli.dll", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            };
+                if (_dataReader == null)
+                {
+                    _dataReader = new DataReader();
+                    _dataReader.ErrorOccured += _dataReader_ErrorOccured;
+                }
+                return _dataReader;
+            }
+        }
+
+        private void _dataReader_ErrorOccured(object sender, DataReaderErrorEventArgs e)
+        {
+            MessageBox.Show(string.Format("Код ошибки: {0}\n{1}", e.ErrorCode, e.ErrorText), "Ошибка связи", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void GraphChart1_SelectedPointChanged(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = graphChart1.MonitorValues.Select(mv => new { Время = mv.TimeStamp, Макс = mv.Max, Мин = mv.Min, Норм = mv.NValue, Значение = mv.Value }).ToList();
+            dataGridView1.DataSource = graphChart1.MonitorValues.Select(mv => new
+            {
+                Время = mv.TimeStamp,
+                Макс = mv.Max,
+                Мин = mv.Min,
+                Норм = mv.NValue,
+                Значение = mv.Value
+            }).ToList();
         }
-
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -67,24 +93,59 @@ namespace MonitorForms
             graphChart1.RemoveLastSeries();
         }
 
-        private void mbcliVersionButton_Click(object sender, EventArgs e)
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Reader.Connect(_scudIp, _scudPort, _iptIp, _iptPort);
+        }
+
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Reader.Disconnect();
+        }
+
+        private void runEmulatorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("IptServer.exe");
+        }
+
+        private void mbcliVersionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show(MbCliWrapper.GetReleaseInfo().ToString(CultureInfo.InvariantCulture), "Версия библиотеки", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void connectButton_Click(object sender, EventArgs e)
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MbCliWrapper.Connect(_ip, _port);
-        }
-
-        private void settingsButton_Click(object sender, EventArgs e)
-        {
-            using (var sf = _ip == null ? new SettingsForm() : new SettingsForm(_ip, _port))
+            using (var sf = _scudIp == null ? new SettingsForm() : new SettingsForm(_scudIp, _scudPort, _iptIp, _iptPort))
             {
                 if (sf.ShowDialog(this) == DialogResult.Cancel) return;
-                _ip = sf.IpAddress;
-                _port = sf.Port;
+                _scudIp = sf.ScudIpAddress;
+                _scudPort = sf.ScudPort;
+                _iptIp = sf.IptIpAddress;
+                _iptPort = sf.IptPort;
             }
+        }
+
+        private void startReadingtoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Reader.DataRead += OnDataRead;
+            Reader.Start();
+        }
+
+        private void OnDataRead(object o, DataReadEventArgs args)
+        {
+            if (args.Buffer.Buff == null) return;
+            float[] ar = new float[15];
+            Array.Copy(args.Buffer.Buff, ar, ar.Length);
+            //Поскольку таймер опроса СКУД и ИПТ работает в отдельном потоке, то
+            //вывод данных на форму выполняется с проверкой
+            listBox1.InvokeEx(() => { listBox1.DataSource = ar; });
+            //Debug.WriteLine(string.Join(", ", args.Buffer.Buff));
+        }
+
+        private void serverToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            disconnectToolStripMenuItem.Enabled = Reader.ReaderState != ReaderStateEnum.Disconnected;
+            startReadingtoolStripMenuItem.Enabled = Reader.ReaderState == ReaderStateEnum.Connected;
         }
     }
 }
