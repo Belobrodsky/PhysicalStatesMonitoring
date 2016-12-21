@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows.Forms;
@@ -13,11 +14,12 @@ namespace MonitorForms
     {
         private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
         private bool _normalize;
-        private int _scudPort;
         private IPAddress _scudIp;
+        private int _scudPort;
         private DataReader _dataReader;
         private IPAddress _iptIp;
         private int _iptPort;
+        private string _path;
 
         public MainForm()
         {
@@ -35,14 +37,12 @@ namespace MonitorForms
 
         public DataReader Reader
         {
-            //TODO:Создавать ридер с адресом и номером порта
             get
             {
-                if (_dataReader == null)
-                {
-                    _dataReader = new DataReader();
-                    _dataReader.ErrorOccured += _dataReader_ErrorOccured;
-                }
+                if (_dataReader != null) return _dataReader;
+                if (_path == null) return null;
+                _dataReader = new DataReader(new DataWriter(_path, new[] { "Время", "J1", "J2", "R1", "R2", "Rc", "P1k", "Tcold", "Thot", "Ppg", "H10", "H9", "H8", "Lkd", "Lpg", "C", "Cp", "F", "N1", "Ntg", "AO" }));
+                _dataReader.ErrorOccured += _dataReader_ErrorOccured;
                 return _dataReader;
             }
         }
@@ -95,6 +95,9 @@ namespace MonitorForms
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(_path) || !File.Exists(_path))
+                SelectFile();
+            if (_path == null) return;
             Reader.Connect(_scudIp, _scudPort, _iptIp, _iptPort);
         }
 
@@ -103,9 +106,20 @@ namespace MonitorForms
             Reader.Disconnect();
         }
 
+        private void SelectFile()
+        {
+            using (var dialog = new SaveFileDialog())
+            {
+                if (dialog.ShowDialog(this) != DialogResult.OK)
+                    return;
+                _path = dialog.FileName;
+            }
+        }
+
         private void runEmulatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("IptServer.exe");
+            var p = Process.Start("IptServer.exe");
+            Closing += (o, args) => { if (p != null) p.Kill(); };
         }
 
         private void mbcliVersionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -128,6 +142,8 @@ namespace MonitorForms
         private void startReadingtoolStripMenuItem_Click(object sender, EventArgs e)
         {
             Reader.DataRead += OnDataRead;
+            //Reader.Read();
+            //Reader.DataRead -= OnDataRead;
             Reader.Start();
         }
 
@@ -144,8 +160,8 @@ namespace MonitorForms
 
         private void serverToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            disconnectToolStripMenuItem.Enabled = Reader.ReaderState != ReaderStateEnum.Disconnected;
-            startReadingtoolStripMenuItem.Enabled = Reader.ReaderState == ReaderStateEnum.Connected;
+            disconnectToolStripMenuItem.Enabled = Reader !=null && Reader.ReaderState != ReaderStateEnum.Disconnected;
+            startReadingtoolStripMenuItem.Enabled = Reader != null && Reader.ReaderState == ReaderStateEnum.Connected;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Itp
         private readonly Timer _timer;
         private ReaderStateEnum _readerState;
         private Socket _socket;
-
+        private DataWriter _dataWriter;
         //Интервал чтения данных
         public double Interval
         {
@@ -46,8 +46,10 @@ namespace Itp
             }
         }
 
-        public DataReader()
+        public DataReader(DataWriter dataWriter)
         {
+            _dataWriter = dataWriter;
+            _dataWriter.WriteHeaders();
             _readerState = ReaderStateEnum.Disconnected;
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
@@ -61,7 +63,7 @@ namespace Itp
             };
             MbCliWrapper.ErrorOccured += (s, e) =>
             {
-                OnErrorOccured(new DataReaderErrorEventArgs(e.ErrorCode, string.Format("Ошибка СКУД.\n{0}",e.InternalMessage)));
+                OnErrorOccured(new DataReaderErrorEventArgs(e.ErrorCode, string.Format("Ошибка СКУД.\n{0}", e.InternalMessage)));
             };
 
             //_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -95,7 +97,7 @@ namespace Itp
             DisconnectScud();
             DisconnectIpt();
         }
-
+        //TODO:Добавить реализацию соединения с ИПТ
         private void ConnectIpt(IPAddress address, int port)
         {
             Debug.WriteLine("ConnectIpt();");
@@ -112,6 +114,7 @@ namespace Itp
             MbCliWrapper.Disconnect();
         }
 
+        //TODO:Добавить реализацию отсоединения от ИПТ
         private void DisconnectIpt()
         {
             Debug.WriteLine("DisconnectIpt();");
@@ -123,7 +126,8 @@ namespace Itp
             Read();
         }
 
-        private void Read()
+        //TODO:Добавить чтение данных с ИПТ
+        public void Read()
         {
             var buff = new Buffer();
             var size = Marshal.SizeOf(buff);
@@ -131,13 +135,15 @@ namespace Itp
             //Выделение памяти под структуру
             var ptr = Marshal.AllocHGlobal(size);
             //Чтение данных
-            MbCliWrapper.HoldRegisters(0, 1000,ptr);
+            MbCliWrapper.HoldRegisters(0, 1000, ptr);
             //Запись данных из памяти в структуру
             buff = (Buffer)Marshal.PtrToStructure(ptr, typeof(Buffer));
             //Освобождение памяти
             Marshal.FreeHGlobal(ptr);
             //Вызов события
             OnDataRead(new DataReadEventArgs(buff));
+            //TODO:Добавить вычисление токов перед записью в файл
+            _dataWriter.WriteData(buff);
         }
 
         protected virtual void OnDataRead(DataReadEventArgs e)

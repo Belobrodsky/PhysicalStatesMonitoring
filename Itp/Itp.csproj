@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataReader.cs" />
+    <Compile Include="DataWriter.cs" />
     <Compile Include="EventArgs\DataReaderErrorEventArgs.cs" />
     <Compile Include="EventArgs\DataReadEventArgs.cs" />
     <Compile Include="EventArgs\ReaderStateChangedEventArgs.cs" />

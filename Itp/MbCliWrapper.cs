@@ -63,7 +63,7 @@ namespace Itp
         /// <summary>Выполнить соединение.</summary>
         /// <param name="ip">IP-адрес. Указатель на строку, содержащую адрес в формате ###.###.###.###.</param>
         /// <param name="port">Номер порта.</param>
-        /// <returns>Возвращает результат соединения. 0, если соединение удалось и код ошибки, если соединенеие удалось.
+        /// <returns>Возвращает результат соединения. 0, если соединение удалось и код ошибки, если соединенеие не удалось.
         /// <para>Для получения описания ошибки следует обрабатывать событие <see cref="ErrorOccured"/>.</para>.</returns>
         /// <remarks>Обёртка над библиотечной функцией <see cref="mb_connect"/></remarks>
         public static int Connect(IPAddress ip, int port)
@@ -100,7 +100,7 @@ namespace Itp
             var err = mb_get_error();
             var intMessage = Marshal.PtrToStringAnsi(err);
             if (!string.IsNullOrEmpty(intMessage))
-                Debug.WriteLine(intMessage);
+                Debug.WriteLine("Ошибка {0}. {1}", err, intMessage);
             //if (result != 0)
             //    OnErrorOccured(result);
             return result;
