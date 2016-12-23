@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Current.cs" />
     <Compile Include="DataReader.cs" />
     <Compile Include="DataWriter.cs" />
     <Compile Include="EventArgs\DataReaderErrorEventArgs.cs" />
