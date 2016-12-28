@@ -41,7 +41,12 @@
             this.graphChart1 = new GraphMonitor.GraphChart();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.scudListBox = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.serverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +58,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mbcliVersionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iptListBox = new System.Windows.Forms.ListBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -63,6 +69,12 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -145,7 +157,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(680, 193);
+            this.dataGridView1.Size = new System.Drawing.Size(499, 193);
             this.dataGridView1.TabIndex = 1;
             // 
             // graphChart1
@@ -191,19 +203,88 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.listBox1);
+            this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
             this.splitContainer2.Size = new System.Drawing.Size(795, 193);
-            this.splitContainer2.SplitterDistance = 680;
+            this.splitContainer2.SplitterDistance = 499;
             this.splitContainer2.TabIndex = 2;
             // 
-            // listBox1
+            // splitContainer3
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(0, 0);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(111, 193);
-            this.listBox1.TabIndex = 0;
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.tableLayoutPanel1);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.tableLayoutPanel2);
+            this.splitContainer3.Size = new System.Drawing.Size(292, 193);
+            this.splitContainer3.SplitterDistance = 135;
+            this.splitContainer3.TabIndex = 1;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.scudListBox, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(135, 193);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // scudListBox
+            // 
+            this.scudListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scudListBox.FormattingEnabled = true;
+            this.scudListBox.Location = new System.Drawing.Point(3, 16);
+            this.scudListBox.Name = "scudListBox";
+            this.scudListBox.Size = new System.Drawing.Size(129, 174);
+            this.scudListBox.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(129, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "СКУД";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.iptListBox, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(153, 193);
+            this.tableLayoutPanel2.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(147, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "ИПТ";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // menuStrip1
             // 
@@ -236,21 +317,21 @@
             // 
             this.connectToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            this.connectToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.connectToolStripMenuItem.Text = "Соединиться";
             this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
             // 
             // disconnectToolStripMenuItem
             // 
             this.disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
-            this.disconnectToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.disconnectToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.disconnectToolStripMenuItem.Text = "Отключиться";
             this.disconnectToolStripMenuItem.Click += new System.EventHandler(this.disconnectToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(182, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(194, 6);
             // 
             // startReadingtoolStripMenuItem
             // 
@@ -262,24 +343,24 @@
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(182, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(194, 6);
             // 
             // runEmulatorToolStripMenuItem
             // 
             this.runEmulatorToolStripMenuItem.Name = "runEmulatorToolStripMenuItem";
-            this.runEmulatorToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.runEmulatorToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.runEmulatorToolStripMenuItem.Text = "Запустить эмулятор";
             this.runEmulatorToolStripMenuItem.Click += new System.EventHandler(this.runEmulatorToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(182, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(194, 6);
             // 
             // mbcliVersionToolStripMenuItem
             // 
             this.mbcliVersionToolStripMenuItem.Name = "mbcliVersionToolStripMenuItem";
-            this.mbcliVersionToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.mbcliVersionToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.mbcliVersionToolStripMenuItem.Text = "Версия mbcli.dll";
             this.mbcliVersionToolStripMenuItem.Click += new System.EventHandler(this.mbcliVersionToolStripMenuItem_Click);
             // 
@@ -289,6 +370,15 @@
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
             this.settingsToolStripMenuItem.Text = "Настройки...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // iptListBox
+            // 
+            this.iptListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.iptListBox.FormattingEnabled = true;
+            this.iptListBox.Location = new System.Drawing.Point(3, 16);
+            this.iptListBox.Name = "iptListBox";
+            this.iptListBox.Size = new System.Drawing.Size(147, 174);
+            this.iptListBox.TabIndex = 2;
             // 
             // MainForm
             // 
@@ -314,6 +404,14 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -345,7 +443,13 @@
         private System.Windows.Forms.ToolStripMenuItem startReadingtoolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox scudListBox;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ListBox iptListBox;
     }
 }
 

@@ -63,8 +63,12 @@
     <Compile Include="EventArgs\DataReaderErrorEventArgs.cs" />
     <Compile Include="EventArgs\DataReadEventArgs.cs" />
     <Compile Include="EventArgs\ReaderStateChangedEventArgs.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="IptReader.cs" />
+    <Compile Include="IReader.cs" />
+    <Compile Include="ScudReader.cs" />
     <Compile Include="Types\Buffer.cs" />
-    <Compile Include="Types\Itp4.cs" />
+    <Compile Include="Types\Ipt4.cs" />
     <Compile Include="EventArgs\ItpErrorEventArgs.cs" />
     <Compile Include="MbCliWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

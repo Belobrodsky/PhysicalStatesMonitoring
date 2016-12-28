@@ -10,9 +10,9 @@ namespace Itp
         class MyConst
         {
             //параметры запаздывающих нейтронов (постоянные распада - лямбда, взятые из методик физических испытаний)
-            public static double[] l_metodiki = { 0.0127, 0.0317, 0.118, 0.317, 1.40, 3.92 };
+            public static double[] l_metodiki = { 0.0127, 0.0317, 0.1180, 0.3170, 1.4000, 3.9200 };
             //параметры запаздывающих нейтронов (относительные групповые доли - альфа)
-            public static double[] aAPIK =      { 0.034, 0.202, 0.184, 0.403, 0.143, 0.034 };
+            public static double[] aAPIK = { 0.0340, 0.2020, 0.1840, 0.4030, 0.1430, 0.0340 };
             //коэффициент перевода из процентов в бетта эффективность
             public static double Beff = 0.74;
         }
@@ -23,17 +23,12 @@ namespace Itp
         public double Reactivity1 { get; set; }
         public double Reactivity2 { get; set; }
 
-        public void SearchCurrent(Itp4 temp)
+        public void SearchCurrent(Ipt4 temp)
         {
-            string st1 = temp.Power1.ToString();
-            string st2 = temp.Power2.ToString();
-            //st это степень то есть 1e-st это допустим 1e-5 степени
-            string stlong1 ="1e-"+st1;
-            string stlong2 ="1e-"+st2;
-            double step1 = double.Parse(stlong1);
-            double step2 = double.Parse(stlong2);
-            Tok1 = (temp.FCurrent1/25000.0)*step1;
-            Tok2 = (temp.FCurrent2/25000.0)*step2;
+            double step1 = Math.Pow(10, -temp.Power1);
+            double step2 = Math.Pow(10, -temp.Power2);
+            Tok1 = (temp.FCurrent1 / 25000.0) * step1;
+            Tok2 = (temp.FCurrent2 / 25000.0) * step2;
         }
         //для расчета реактивностей необходимы следующие параметры
         //предыдущее значение времени
@@ -53,10 +48,10 @@ namespace Itp
         //это массив первых 6-ти значений, они все равны первому вычисленному току
         //так как нет предыдущего времени, а есть только первое значение
         double[] psi0 = new double[6];
-      //  List<double> MyPsi = new List<double>();
+        //  List<double> MyPsi = new List<double>();
 
 
-       //эти методы должны расчитывать реактивности из Ток1 и Ток2
+        //эти методы должны расчитывать реактивности из Ток1 и Ток2
         //так как предыдущего значения тока нет , то приравиваем все 6 значений массива одному току
         public void PSI0(double J_Old)
         {
@@ -83,6 +78,6 @@ namespace Itp
             }
             Reactivity = 1 - Reactivity / J_Now;
             return Reactivity;
-        }  
+        }
     }
 }

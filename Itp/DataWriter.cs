@@ -23,6 +23,7 @@ namespace Itp
         {
             Headers = headers;
             _writer = new StreamWriter(path);
+            WriteHeaders();
         }
 
         /// <summary>Запись строки заголовков.</summary>

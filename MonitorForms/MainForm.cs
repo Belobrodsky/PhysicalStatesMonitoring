@@ -16,10 +16,11 @@ namespace MonitorForms
         private bool _normalize;
         private IPAddress _scudIp;
         private int _scudPort;
-        private DataReader _dataReader;
         private IPAddress _iptIp;
         private int _iptPort;
         private string _path;
+        private DataReader _dataReader;
+        private DataWriter _dataWriter;
 
         public MainForm()
         {
@@ -31,19 +32,35 @@ namespace MonitorForms
 
             _scudIp = IPAddress.Parse("127.0.0.1");
             _scudPort = 1952;
-            _iptIp = IPAddress.Parse("127.0.0.2");
-            _iptPort = 1953;
+            _iptIp = IPAddress.Parse("127.0.0.1");
+            _iptPort = 1952;
         }
 
-        public DataReader Reader
+        private DataReader Reader
         {
             get
             {
                 if (_dataReader != null) return _dataReader;
                 if (_path == null) return null;
-                _dataReader = new DataReader(new DataWriter(_path, new[] { "Время", "J1", "J2", "R1", "R2", "Rc", "P1k", "Tcold", "Thot", "Ppg", "H10", "H9", "H8", "Lkd", "Lpg", "C", "Cp", "F", "N1", "Ntg", "AO" }));
-                _dataReader.ErrorOccured += _dataReader_ErrorOccured;
+                _dataReader = new DataReader();
                 return _dataReader;
+            }
+        }
+
+        private DataWriter Writer
+        {
+            get
+            {
+                if (_dataWriter != null) return _dataWriter;
+                if (_path.IsNullOrEmpty()) return null;
+                _dataWriter = new DataWriter(
+                    _path,
+                    new[]
+                    {
+                        "Время", "J1", "J2", "R1", "R2", "Rc", "P1k", "Tcold", "Thot", "Ppg", "H10", "H9", "H8", "Lkd",
+                        "Lpg", "C", "Cp", "F", "N1", "Ntg", "AO"
+                    });
+                return _dataWriter;
             }
         }
 
@@ -95,9 +112,9 @@ namespace MonitorForms
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_path) || !File.Exists(_path))
+            if (_path.IsNullOrEmpty() || !File.Exists(_path))
                 SelectFile();
-            if (_path == null) return;
+            if (_path.IsNullOrEmpty()) return;
             Reader.Connect(_scudIp, _scudPort, _iptIp, _iptPort);
         }
 
@@ -110,6 +127,8 @@ namespace MonitorForms
         {
             using (var dialog = new SaveFileDialog())
             {
+                dialog.Title = "Выберите файл для записи результата";
+                dialog.Filter = "Текстовые файлы|*.txt";
                 if (dialog.ShowDialog(this) != DialogResult.OK)
                     return;
                 _path = dialog.FileName;
@@ -141,9 +160,8 @@ namespace MonitorForms
 
         private void startReadingtoolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Reader.ErrorOccured += _dataReader_ErrorOccured;
             Reader.DataRead += OnDataRead;
-            //Reader.Read();
-            //Reader.DataRead -= OnDataRead;
             Reader.Start();
         }
 
@@ -154,13 +172,25 @@ namespace MonitorForms
             Array.Copy(args.Buffer.Buff, ar, ar.Length);
             //Поскольку таймер опроса СКУД и ИПТ работает в отдельном потоке, то
             //вывод данных на форму выполняется с проверкой
-            listBox1.InvokeEx(() => { listBox1.DataSource = ar; });
+            scudListBox.InvokeEx(
+                () =>
+                {
+                    scudListBox.DataSource = ar;
+                });
+            iptListBox.InvokeEx(
+                () =>
+                {
+                    iptListBox.DataSource = args.Ipt4.ToString().Split('\r');
+                });
+            //TODO:Добавить вычисление токов перед записью в файл
+            Writer.WriteData(args.Buffer);
             //Debug.WriteLine(string.Join(", ", args.Buffer.Buff));
         }
 
+        [DebuggerStepThrough]
         private void serverToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            disconnectToolStripMenuItem.Enabled = Reader !=null && Reader.ReaderState != ReaderStateEnum.Disconnected;
+            disconnectToolStripMenuItem.Enabled = Reader != null && Reader.ReaderState != ReaderStateEnum.Disconnected;
             startReadingtoolStripMenuItem.Enabled = Reader != null && Reader.ReaderState == ReaderStateEnum.Connected;
         }
     }

@@ -21,7 +21,7 @@ namespace Itp
         [MarshalAs(UnmanagedType.U4)]
         public uint ScudTimeMsec;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 248)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 248, ArraySubType = UnmanagedType.R4)]
         public float[] Buff;
     }
 }

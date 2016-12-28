@@ -20,8 +20,9 @@ namespace Itp
 
         private readonly Timer _timer;
         private ReaderStateEnum _readerState;
-        private Socket _socket;
-        private DataWriter _dataWriter;
+        private IptReader _iptReader;
+        private ScudReader _scudReader;
+
         //Интервал чтения данных
         public double Interval
         {
@@ -46,10 +47,8 @@ namespace Itp
             }
         }
 
-        public DataReader(DataWriter dataWriter)
+        public DataReader()
         {
-            _dataWriter = dataWriter;
-            _dataWriter.WriteHeaders();
             _readerState = ReaderStateEnum.Disconnected;
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
@@ -65,14 +64,16 @@ namespace Itp
             {
                 OnErrorOccured(new DataReaderErrorEventArgs(e.ErrorCode, string.Format("Ошибка СКУД.\n{0}", e.InternalMessage)));
             };
-
-            //_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            //_socket.Connect(address, port);
         }
 
         /// <summary>Начать чтение данных.</summary>
         public void Start()
         {
+            if (ReaderState == ReaderStateEnum.Disconnected)
+            {
+                Debug.WriteLine("Не подсоединён");
+                return;
+            }
             _timer.Start();
             ReaderState = ReaderStateEnum.DataReading;
         }
@@ -86,8 +87,10 @@ namespace Itp
         /// <summary>Соединение с ИПТ и СКУД.</summary>
         public void Connect(IPAddress scudAddress, int scudPort, IPAddress iptAddress, int iptPort)
         {
-            ConnectScud(scudAddress, scudPort);
+            //TODO: Состояние соединения должно зависеть от результат соединения с ИПТ и со СКУД. Сейчас зависит только от СКУД
             ConnectIpt(iptAddress, iptPort);
+            ReaderState = ReaderStateEnum.Connected;
+            ConnectScud(scudAddress, scudPort);
         }
 
         /// <summary>Отсоединение от ИПТ и СКУД.</summary>
@@ -97,26 +100,30 @@ namespace Itp
             DisconnectScud();
             DisconnectIpt();
         }
-        //TODO:Добавить реализацию соединения с ИПТ
+
         private void ConnectIpt(IPAddress address, int port)
         {
-            Debug.WriteLine("ConnectIpt();");
+            _iptReader = new IptReader(address, port);
+            _iptReader.Connect();
             //throw new NotImplementedException();
         }
 
         private void ConnectScud(IPAddress address, int port)
         {
-            MbCliWrapper.Connect(address, port);
+            _scudReader = new ScudReader(address, port);
         }
 
         private void DisconnectScud()
         {
-            MbCliWrapper.Disconnect();
+            _scudReader.Disconnect();
+            _scudReader = null;
         }
 
         //TODO:Добавить реализацию отсоединения от ИПТ
         private void DisconnectIpt()
         {
+            _iptReader.Disconnect();
+            _iptReader = null;
             Debug.WriteLine("DisconnectIpt();");
             //throw new NotImplementedException();
         }
@@ -126,24 +133,12 @@ namespace Itp
             Read();
         }
 
-        //TODO:Добавить чтение данных с ИПТ
         public void Read()
         {
-            var buff = new Buffer();
-            var size = Marshal.SizeOf(buff);
-            //Debug.WriteLine("Размер структуры: {0}", size);
-            //Выделение памяти под структуру
-            var ptr = Marshal.AllocHGlobal(size);
-            //Чтение данных
-            MbCliWrapper.HoldRegisters(0, 1000, ptr);
-            //Запись данных из памяти в структуру
-            buff = (Buffer)Marshal.PtrToStructure(ptr, typeof(Buffer));
-            //Освобождение памяти
-            Marshal.FreeHGlobal(ptr);
+            var buff = _scudReader.Read();
+            var ipt = _iptReader.Read();
             //Вызов события
-            OnDataRead(new DataReadEventArgs(buff));
-            //TODO:Добавить вычисление токов перед записью в файл
-            _dataWriter.WriteData(buff);
+            OnDataRead(new DataReadEventArgs(buff, ipt));
         }
 
         protected virtual void OnDataRead(DataReadEventArgs e)
