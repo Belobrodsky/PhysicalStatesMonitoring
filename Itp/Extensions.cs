@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Itp
 {
-    internal static class Helper
+    internal static class Extensions
     {
         /// <summary>
         /// Преобразование массива байт в струтуру

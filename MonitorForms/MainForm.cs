@@ -183,7 +183,7 @@ namespace MonitorForms
                     iptListBox.DataSource = args.Ipt4.ToString().Split('\r');
                 });
             //TODO:Добавить вычисление токов перед записью в файл
-            Writer.WriteData(args.Buffer);
+            Writer.WriteData(args.Buffer, args.Ipt4.FCurrent1, args.Ipt4.FCurrent2);
             //Debug.WriteLine(string.Join(", ", args.Buffer.Buff));
         }
 

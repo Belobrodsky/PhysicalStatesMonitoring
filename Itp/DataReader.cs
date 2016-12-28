@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using System.Timers;
 
 namespace Itp
 {
-    /// <summary>Класс для чтения данных со СКУД.</summary>
+    /// <summary>Класс для чтения данных.</summary>
     public class DataReader
     {
-        /// <summary>Событие при чтении данных со СКУД.</summary>
+        /// <summary>Событие при чтении данных.</summary>
         /// <remarks>Событие возникает каждый раз, когда данные читаются. Это не означает, что они изменились в СКУД.</remarks>
         public event EventHandler<DataReadEventArgs> DataRead;
-        /// <summary>Событие при изменении состояния ридера. <see cref="ReaderStateEnum"/>.</summary>
-        public event EventHandler<ReaderStateChangedEventArgs> StateChanged;
         /// <summary>Событие при любых ошибках ридера.</summary>
         public event EventHandler<DataReaderErrorEventArgs> ErrorOccured;
 
         private readonly Timer _timer;
-        private ReaderStateEnum _readerState;
-        private IptReader _iptReader;
-        private ScudReader _scudReader;
+        private IReader<Ipt4> _iptReader;
+        private IReader<Buffer> _scudReader;
+        private bool _isIptConnected;
+        private bool _isScudConnected;
 
         //Интервал чтения данных
         public double Interval
@@ -32,37 +29,36 @@ namespace Itp
 
         /// <summary>Состояние ридера. <see cref="ReaderStateEnum"/></summary>
         /// <remarks>Возможные состояния ридера:
-        /// <para><see cref="ReaderStateEnum.Connected"/> — ридер соединён со СКУД. Устанавливается извне.</para>
-        /// <para><see cref="ReaderStateEnum.Disconnected"/> — ридер отсоединён от СКУД. Устанавливается извне.</para>
-        /// <para><see cref="ReaderStateEnum.DataReading"/> — ридер читает данные со СКУД.</para>
+        /// <para><see cref="ReaderStateEnum.Connected"/> — ридер соединён со СКУД и ИПТ. Устанавливается извне.</para>
+        /// <para><see cref="ReaderStateEnum.Disconnected"/> — ридер отсоединён от СКУД и ИПТ. Устанавливается извне.</para>
+        /// <para><see cref="ReaderStateEnum.DataReading"/> — ридер читает данные со СКУД и ИПТ.</para>
         /// </remarks>
         public ReaderStateEnum ReaderState
         {
-            get { return _readerState; }
-            set
+            get
             {
-                if (_readerState == value) return;
-                _readerState = value;
-                OnStateChanged(new ReaderStateChangedEventArgs(_readerState));
+                return _isIptConnected && _isScudConnected
+                     ? ReaderStateEnum.Connected
+                     : ReaderStateEnum.Disconnected;
+
             }
         }
 
         public DataReader()
         {
-            _readerState = ReaderStateEnum.Disconnected;
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
             MbCliWrapper.Connected += (s, e) =>
             {
-                ReaderState = ReaderStateEnum.Connected;
+                _isScudConnected = true;
             };
             MbCliWrapper.Disconnected += (s, e) =>
             {
-                ReaderState = ReaderStateEnum.Disconnected;
+                _isScudConnected = false;
             };
             MbCliWrapper.ErrorOccured += (s, e) =>
             {
-                OnErrorOccured(new DataReaderErrorEventArgs(e.ErrorCode, string.Format("Ошибка СКУД.\n{0}", e.InternalMessage)));
+                OnErrorOccured(new DataReaderErrorEventArgs(e.ErrorCode, string.Format("Ошибка СКУД.\n{0}", e.ErrorText)));
             };
         }
 
@@ -75,7 +71,6 @@ namespace Itp
                 return;
             }
             _timer.Start();
-            ReaderState = ReaderStateEnum.DataReading;
         }
 
         /// <summary>Остановить чтение данных.</summary>
@@ -89,7 +84,6 @@ namespace Itp
         {
             //TODO: Состояние соединения должно зависеть от результат соединения с ИПТ и со СКУД. Сейчас зависит только от СКУД
             ConnectIpt(iptAddress, iptPort);
-            ReaderState = ReaderStateEnum.Connected;
             ConnectScud(scudAddress, scudPort);
         }
 
@@ -105,12 +99,14 @@ namespace Itp
         {
             _iptReader = new IptReader(address, port);
             _iptReader.Connect();
+            _isIptConnected = true;
             //throw new NotImplementedException();
         }
 
         private void ConnectScud(IPAddress address, int port)
         {
             _scudReader = new ScudReader(address, port);
+            _isScudConnected = true;
         }
 
         private void DisconnectScud()
@@ -124,6 +120,7 @@ namespace Itp
         {
             _iptReader.Disconnect();
             _iptReader = null;
+            _isIptConnected = false;
             Debug.WriteLine("DisconnectIpt();");
             //throw new NotImplementedException();
         }
@@ -144,12 +141,6 @@ namespace Itp
         protected virtual void OnDataRead(DataReadEventArgs e)
         {
             EventHandler<DataReadEventArgs> handler = DataRead;
-            if (handler != null) handler(this, e);
-        }
-
-        protected virtual void OnStateChanged(ReaderStateChangedEventArgs e)
-        {
-            EventHandler<ReaderStateChangedEventArgs> handler = StateChanged;
             if (handler != null) handler(this, e);
         }
 

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace MonitorForms
 {
-    public static class Helper
+    public static class Extensions
     {
         /// <summary>Вспомогательный метод для работы с контролом из другого потока.</summary>
         /// <param name="control">Контрол, к которому нужен доступ из другого потока.</param>

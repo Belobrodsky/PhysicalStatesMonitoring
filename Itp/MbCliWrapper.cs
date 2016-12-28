@@ -44,7 +44,7 @@ namespace Itp
         internal static extern IntPtr mb_get_error();
 
         /// <summary>Событие при возникновении ошибки в работе с библиотекой mbcli.dll.</summary>
-        public static event EventHandler<ItpErrorEventArgs> ErrorOccured;
+        public static event EventHandler<DataReaderErrorEventArgs> ErrorOccured;
 
         /// <summary>Событие после установки соединения.</summary>
         public static event EventHandler Connected;
@@ -100,7 +100,7 @@ namespace Itp
             var err = mb_get_error();
             var intMessage = Marshal.PtrToStringAnsi(err);
             if (!string.IsNullOrEmpty(intMessage))
-                Debug.WriteLine("Ошибка {0}. {1}", err, intMessage);
+                Debug.WriteLine("Ошибка СКУД {0}. {1}", err, intMessage);
             //if (result != 0)
             //    OnErrorOccured(result);
             return result;
@@ -115,7 +115,7 @@ namespace Itp
             var intMessage = Marshal.PtrToStringAnsi(result);
             //TODO: Здесь не понятно, кто отвечает за удаление указателя на массив.
             //Marshal.ZeroFreeGlobalAllocAnsi(result);
-            if (ErrorOccured != null) ErrorOccured.Invoke(null, new ItpErrorEventArgs(errCode, intMessage));
+            if (ErrorOccured != null) ErrorOccured.Invoke(null, new DataReaderErrorEventArgs(errCode, intMessage));
         }
 
         /// <summary>Преобразование экземпляра <see cref="IPAddress"/> в строку ###.###.###.###.</summary>
