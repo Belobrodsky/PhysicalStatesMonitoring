@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Windows.Forms;
-using Itp;
 
 namespace MonitorForms
 {
@@ -9,7 +8,7 @@ namespace MonitorForms
     public partial class SettingsForm : Form
     {
         /// <summary>Конструктор по умолчанию.</summary>
-        /// <remarks>Адрес 127.0.0.1, порт 1952.</remarks>
+        /// <remarks>Адрес СКУД 127.0.0.1, порт 1952, адрес ИПТ 127.0.0.1, порт 1952</remarks>
         public SettingsForm()
             : this(IPAddress.Parse("127.0.0.1"), 1952, IPAddress.Parse("127.0.0.1"), 1952)
         {
@@ -35,8 +34,10 @@ namespace MonitorForms
 
             scudIpAddressMaskTextBox.ValidatingType = typeof(IPAddress);
             iptIpAddressMaskTextBox.ValidatingType = typeof(IPAddress);
-            scudIpAddressMaskTextBox.Text = MbCliWrapper.IpToString(scudIpAddress);
-            iptIpAddressMaskTextBox.Text = MbCliWrapper.IpToString(iptIpAddress);
+
+            scudIpAddressMaskTextBox.Text = scudIpAddress.IpToString();
+            iptIpAddressMaskTextBox.Text = iptIpAddress.IpToString();
+
             scudPortNumericUpDown.Value = scudPort;
             iptPortNumericUpDown.Value = scudPort;
         }

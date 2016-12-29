@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Itp
+namespace Ipt
 {
     internal static class Extensions
     {
@@ -25,6 +23,15 @@ namespace Itp
         public static StringBuilder AppendFormatLine(this StringBuilder sb, string format, params object[] args)
         {
             return sb.AppendFormat(format, args).AppendLine();
+        }
+
+        /// <summary>Преобразование экземпляра <see cref="IPAddress"/> в строку ###.###.###.###.</summary>
+        /// <param name="address">Экземпляр <see cref="IPAddress"/></param>
+        /// <returns>Возвращает IP-адрес в виде строки ###.###.###.###.</returns>
+        public static string IpToString(this IPAddress address)
+        {
+            var b = address.GetAddressBytes();
+            return string.Format("{0:000}.{1:000}.{2:000}.{3:000}", b[0], b[1], b[2], b[3]);
         }
     }
 }

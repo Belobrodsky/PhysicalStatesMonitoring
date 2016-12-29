@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace Itp
+namespace Ipt
 {
     /// <summary>Реализация механизма чтения с ИПТ.</summary>
     public class IptReader : TcpClient, IReader<Ipt4>
     {
+        #region Свойства
+
         private readonly IPAddress _address;
         private readonly int _port;
 
+        #endregion
 
+        //TODO:Попробовать singleton. Через интерфейс
         public IptReader(IPAddress address, int port)
         {
             _address = address;
@@ -27,7 +27,7 @@ namespace Itp
         }
 
         /// <summary>Чтение данных с ИПТ.</summary>
-        /// <returns>Возвращает структуру типа <see cref="Ipt4"/></returns>
+        /// <returns>Возвращает структуру типа <see cref="Ipt4" /></returns>
         public Ipt4 Read()
         {
             NetworkStream stream = GetStream();

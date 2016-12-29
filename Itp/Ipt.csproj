@@ -7,8 +7,8 @@
     <ProjectGuid>{DB2E2838-7827-47E9-89E2-5534FA199150}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Itp</RootNamespace>
-    <AssemblyName>Itp</AssemblyName>
+    <RootNamespace>Ipt</RootNamespace>
+    <AssemblyName>Ipt</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

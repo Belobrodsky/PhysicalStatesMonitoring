@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphMonitor", "GraphMonito
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorForms", "MonitorForms\MonitorForms.csproj", "{539F7010-E765-4E17-91E6-B886C005AFCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itp", "Itp\Itp.csproj", "{DB2E2838-7827-47E9-89E2-5534FA199150}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ipt", "Itp\Ipt.csproj", "{DB2E2838-7827-47E9-89E2-5534FA199150}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

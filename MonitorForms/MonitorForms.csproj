@@ -113,9 +113,9 @@
       <Project>{23AEC3E1-86E2-41E6-9FF4-8E8134288525}</Project>
       <Name>GraphMonitor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Itp\Itp.csproj">
+    <ProjectReference Include="..\Itp\Ipt.csproj">
       <Project>{DB2E2838-7827-47E9-89E2-5534FA199150}</Project>
-      <Name>Itp</Name>
+      <Name>Ipt</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

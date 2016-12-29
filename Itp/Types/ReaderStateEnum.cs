@@ -1,4 +1,4 @@
-﻿namespace Itp
+﻿namespace Ipt
 {
     public enum ReaderStateEnum
     {

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Net;
 using System.Windows.Forms;
 
 namespace MonitorForms
@@ -19,10 +17,18 @@ namespace MonitorForms
                 action.Invoke();
         }
 
-
         public static bool IsNullOrEmpty(this string value)
         {
             return string.IsNullOrEmpty(value);
+        }
+
+        /// <summary>Преобразование экземпляра <see cref="IPAddress"/> в строку ###.###.###.###.</summary>
+        /// <param name="address">Экземпляр <see cref="IPAddress"/></param>
+        /// <returns>Возвращает IP-адрес в виде строки ###.###.###.###.</returns>
+        public static string IpToString(this IPAddress address)
+        {
+            var b = address.GetAddressBytes();
+            return string.Format("{0:000}.{1:000}.{2:000}.{3:000}", b[0], b[1], b[2], b[3]);
         }
     }
 

@@ -1,4 +1,4 @@
-﻿namespace Itp
+﻿namespace Ipt
 {
     /// <summary>
     /// Структура для хранения скудовских переменных

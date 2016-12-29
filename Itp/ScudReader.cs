@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace Itp
+namespace Ipt
 {
     /// <summary>Реализация чтения данных со СКУД.</summary>
     internal class ScudReader : IReader<Buffer>

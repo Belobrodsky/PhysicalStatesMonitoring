@@ -1,4 +1,4 @@
-﻿namespace Itp
+﻿namespace Ipt
 {
     internal interface IReader<T> where T : struct
     {

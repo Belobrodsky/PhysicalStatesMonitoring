@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Runtime.InteropServices;
 
-namespace Itp
+namespace Ipt
 {
     /// <summary>Класс для упрощения работы с функциями библиотеки mbcli.dll.</summary>
     public static class MbCliWrapper
@@ -68,7 +68,7 @@ namespace Itp
         /// <remarks>Обёртка над библиотечной функцией <see cref="mb_connect"/></remarks>
         public static int Connect(IPAddress ip, int port)
         {
-            var result = mb_connect(Marshal.StringToHGlobalAnsi(IpToString(ip)), port);
+            var result = mb_connect(Marshal.StringToHGlobalAnsi(ip.IpToString()), port);
             if (result != 0)
                 OnErrorOccured(result);
             else
@@ -117,16 +117,7 @@ namespace Itp
             //Marshal.ZeroFreeGlobalAllocAnsi(result);
             if (ErrorOccured != null) ErrorOccured.Invoke(null, new DataReaderErrorEventArgs(errCode, intMessage));
         }
-
-        /// <summary>Преобразование экземпляра <see cref="IPAddress"/> в строку ###.###.###.###.</summary>
-        /// <param name="ipAddress">Экземпляр <see cref="IPAddress"/></param>
-        /// <returns>Возвращает IP-адрес в виде строки ###.###.###.###.</returns>
-        public static string IpToString(IPAddress ipAddress)
-        {
-            var b = ipAddress.GetAddressBytes();
-            return string.Format("{0:000}.{1:000}.{2:000}.{3:000}", b[0], b[1], b[2], b[3]);
-        }
-
+        
         private static void OnDisconnected()
         {
             var handler = Disconnected;

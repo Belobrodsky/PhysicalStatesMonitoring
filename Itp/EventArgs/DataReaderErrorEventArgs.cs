@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Itp
+namespace Ipt
 {
     public class DataReaderErrorEventArgs : EventArgs
     {

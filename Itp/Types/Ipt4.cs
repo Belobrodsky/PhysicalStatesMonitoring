@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Itp
+namespace Ipt
 {
     /// <summary>Структура для хранения данных с ИПТ-4</summary>
     public struct Ipt4

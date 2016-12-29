@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Timers;
 
-namespace Itp
+namespace Ipt
 {
     /// <summary>Класс для чтения данных.</summary>
     public class DataReader
@@ -44,7 +44,22 @@ namespace Itp
             }
         }
 
-        public DataReader()
+        private static DataReader _instance;
+        private static readonly object _padlock = new object();
+        public static DataReader GetInstance()
+        {
+            lock (_padlock)
+            {
+                if (_instance != null)
+                {
+                    return _instance;
+                }
+                _instance = new DataReader();
+                return _instance; 
+            }
+        }
+
+        private DataReader()
         {
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
@@ -82,7 +97,6 @@ namespace Itp
         /// <summary>Соединение с ИПТ и СКУД.</summary>
         public void Connect(IPAddress scudAddress, int scudPort, IPAddress iptAddress, int iptPort)
         {
-            //TODO: Состояние соединения должно зависеть от результат соединения с ИПТ и со СКУД. Сейчас зависит только от СКУД
             ConnectIpt(iptAddress, iptPort);
             ConnectScud(scudAddress, scudPort);
         }
