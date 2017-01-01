@@ -44,6 +44,15 @@
             this.label4 = new System.Windows.Forms.Label();
             this.iptIpAddressMaskTextBox = new System.Windows.Forms.MaskedTextBox();
             this.iptPortNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.pathsTabPage = new System.Windows.Forms.TabPage();
+            this.connectionTabPage = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.dataTabPage = new System.Windows.Forms.TabPage();
+            this.logFilePathSelector = new MonitorForms.FilePathSelector();
+            this.emulFilePathSelector = new MonitorForms.FilePathSelector();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -52,6 +61,10 @@
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iptPortNumericUpDown)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.pathsTabPage.SuspendLayout();
+            this.connectionTabPage.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -59,25 +72,24 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.cancelButton, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.okButton, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(337, 123);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(398, 161);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // cancelButton
             // 
-            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.AutoSize = true;
             this.cancelButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(259, 97);
+            this.cancelButton.Location = new System.Drawing.Point(346, 205);
             this.cancelButton.MinimumSize = new System.Drawing.Size(75, 0);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
@@ -87,11 +99,10 @@
             // 
             // okButton
             // 
-            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.AutoSize = true;
             this.okButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(178, 97);
+            this.okButton.Location = new System.Drawing.Point(265, 205);
             this.okButton.MinimumSize = new System.Drawing.Size(75, 0);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
@@ -113,7 +124,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(331, 88);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(392, 155);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // groupBox1
@@ -122,7 +133,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(159, 82);
+            this.groupBox1.Size = new System.Drawing.Size(190, 149);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "СКУД";
@@ -143,7 +154,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(153, 63);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(184, 130);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // label1
@@ -200,9 +211,9 @@
             // 
             this.groupBox2.Controls.Add(this.tableLayoutPanel4);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(168, 3);
+            this.groupBox2.Location = new System.Drawing.Point(199, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(160, 82);
+            this.groupBox2.Size = new System.Drawing.Size(190, 149);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ИПТ";
@@ -223,7 +234,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(154, 63);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(184, 130);
             this.tableLayoutPanel4.TabIndex = 3;
             // 
             // label3
@@ -276,14 +287,120 @@
             0,
             0});
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.pathsTabPage);
+            this.tabControl1.Controls.Add(this.connectionTabPage);
+            this.tabControl1.Controls.Add(this.dataTabPage);
+            this.tabControl1.Location = new System.Drawing.Point(9, 9);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.Padding = new System.Drawing.Point(0, 0);
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(412, 193);
+            this.tabControl1.TabIndex = 1;
+            // 
+            // pathsTabPage
+            // 
+            this.pathsTabPage.Controls.Add(this.tableLayoutPanel5);
+            this.pathsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.pathsTabPage.Name = "pathsTabPage";
+            this.pathsTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.pathsTabPage.Size = new System.Drawing.Size(404, 167);
+            this.pathsTabPage.TabIndex = 0;
+            this.pathsTabPage.Text = "Файлы";
+            this.pathsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // connectionTabPage
+            // 
+            this.connectionTabPage.Controls.Add(this.tableLayoutPanel1);
+            this.connectionTabPage.Location = new System.Drawing.Point(4, 22);
+            this.connectionTabPage.Name = "connectionTabPage";
+            this.connectionTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.connectionTabPage.Size = new System.Drawing.Size(404, 167);
+            this.connectionTabPage.TabIndex = 1;
+            this.connectionTabPage.Text = "Соединение";
+            this.connectionTabPage.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 1;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Controls.Add(this.logFilePathSelector, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.emulFilePathSelector, 0, 1);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 2;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(398, 161);
+            this.tableLayoutPanel5.TabIndex = 0;
+            // 
+            // dataTabPage
+            // 
+            this.dataTabPage.Location = new System.Drawing.Point(4, 22);
+            this.dataTabPage.Name = "dataTabPage";
+            this.dataTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.dataTabPage.Size = new System.Drawing.Size(404, 167);
+            this.dataTabPage.TabIndex = 2;
+            this.dataTabPage.Text = "Данные";
+            this.dataTabPage.UseVisualStyleBackColor = true;
+            // 
+            // logFilePathSelector
+            // 
+            this.logFilePathSelector.AutoSize = true;
+            this.logFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.logFilePathSelector.Caption = "Файл результатов:";
+            this.logFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
+            this.logFilePathSelector.FileDialog = this.saveFileDialog1;
+            this.logFilePathSelector.FilePath = "";
+            this.logFilePathSelector.Location = new System.Drawing.Point(0, 0);
+            this.logFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
+            this.logFilePathSelector.Name = "logFilePathSelector";
+            this.logFilePathSelector.Size = new System.Drawing.Size(398, 49);
+            this.logFilePathSelector.TabIndex = 6;
+            // 
+            // emulFilePathSelector
+            // 
+            this.emulFilePathSelector.AutoSize = true;
+            this.emulFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.emulFilePathSelector.Caption = "Эмулятор ИПТ:";
+            this.emulFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
+            this.emulFilePathSelector.FileDialog = this.saveFileDialog2;
+            this.emulFilePathSelector.FilePath = "";
+            this.emulFilePathSelector.Location = new System.Drawing.Point(0, 49);
+            this.emulFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
+            this.emulFilePathSelector.Name = "emulFilePathSelector";
+            this.emulFilePathSelector.Size = new System.Drawing.Size(398, 49);
+            this.emulFilePathSelector.TabIndex = 7;
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "Текстовые файлы|*.txt";
+            this.saveFileDialog1.OverwritePrompt = false;
+            this.saveFileDialog1.SupportMultiDottedExtensions = true;
+            this.saveFileDialog1.Title = "Выберите файл для записи результата";
+            // 
+            // saveFileDialog2
+            // 
+            this.saveFileDialog2.Filter = "Исполняемые файлы|*.exe";
+            this.saveFileDialog2.OverwritePrompt = false;
+            this.saveFileDialog2.SupportMultiDottedExtensions = true;
+            this.saveFileDialog2.Title = "Эмулятор ИПТ";
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(337, 123);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(983, 438);
+            this.Controls.Add(this.cancelButton);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.okButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "SettingsForm";
@@ -291,7 +408,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Настройки";
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -301,7 +417,13 @@
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iptPortNumericUpDown)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.pathsTabPage.ResumeLayout(false);
+            this.connectionTabPage.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel5.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -323,5 +445,14 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.MaskedTextBox iptIpAddressMaskTextBox;
         private System.Windows.Forms.NumericUpDown iptPortNumericUpDown;
+        private FilePathSelector logFilePathSelector;
+        private FilePathSelector emulFilePathSelector;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage pathsTabPage;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.TabPage connectionTabPage;
+        private System.Windows.Forms.TabPage dataTabPage;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog2;
     }
 }

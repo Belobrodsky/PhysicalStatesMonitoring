@@ -6,7 +6,7 @@ using System.Text;
 namespace Ipt
 {
     /// <summary>Класс для записи данных в файл.</summary>
-    public class DataWriter
+    public class DataWriter : IDisposable
     {
         #region Свойства
 
@@ -20,7 +20,7 @@ namespace Ipt
         /// <summary>Время в формате Unix.</summary>
         private static long UnixTime
         {
-            get { return ( DateTime.Now.ToUniversalTime().Ticks - 621355968000000000 ) / 10000000; }
+            get { return (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000; }
         }
 
         #endregion
@@ -57,10 +57,10 @@ namespace Ipt
         {
             var sb = new StringBuilder();
             sb.AppendFormat("{0}", UnixTime);
-            sb.AppendFormat("\t{0:e15}\t{1:e15}\t{2:e15}\t{3:e15}\t{4:e15}", J1, J2, R1, R2, Rc);
+            sb.AppendFormat("\t{0:e7}\t{1:e7}\t{2:e15}\t{3:e15}\t{4:e15}", J1, J2, R1, R2, Rc);
             //Пятнадцать значений со СКУД
             for (var i = 0; i < 15; i++)
-                sb.AppendFormat("\t{0:e15}", buffer.Buff[i]);
+                sb.AppendFormat("\t{0:e7}", buffer.Buff[i]);
 
             _writer.WriteLine(sb.ToString());
             _writer.Flush();
@@ -72,5 +72,22 @@ namespace Ipt
             _writer.WriteLine(string.Join("\t", Headers));
             _writer.Flush();
         }
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+                return;
+            if (_writer != null) _writer.Dispose();
+        }
+
+        #endregion
     }
 }

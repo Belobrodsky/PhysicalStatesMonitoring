@@ -17,15 +17,15 @@ namespace Ipt
         public double Tok1 { get; set; }
         public double Tok2 { get; set; }
 
-        public double Reactivity1 { get; set; }
-        public double Reactivity2 { get; set; }
+        public double Reactivity1 { get; private set; }
+        public double Reactivity2 { get; private set; }
 
         public void SearchCurrent(Ipt4 temp)
         {
             var step1 = Math.Pow(10, -temp.Power1);
             var step2 = Math.Pow(10, -temp.Power2);
-            this.Tok1 = (temp.FCurrent1 / 25000.0) * step1;
-            this.Tok2 = (temp.FCurrent2 / 25000.0) * step2;
+            Tok1 = (temp.FCurrent1 / 25000.0) * step1;
+            Tok2 = (temp.FCurrent2 / 25000.0) * step2;
         }
         //для расчета реактивностей необходимы следующие параметры
         //предыдущее значение времени
@@ -57,14 +57,14 @@ namespace Ipt
             //TODO:ТАК КАК НЕТ ДВУХ ЗНАЧЕНИЙ ТОКОВ, А ЕСТЬ ТОЛЬКО ОДНО, А ЕСЛИ ЗАРЕГИСТРИРОВАЛОСЬ ВТОРОЕ ЗНАЧЕНИЕ 
             //TODO:ПРОПУСКАЕТСЯ ЭТОТ ЦИКЛ FOR
             for (int i = 0; i < 6; i++)
-                {
-                    _psi01[i] = j1Old;
-                    _psi02[i] = j2Old;
-                }
+            {
+                _psi01[i] = j1Old;
+                _psi02[i] = j2Old;
+            }
+
             
-        
-            this.Reactivity1 = 0;
-            this.Reactivity2 = 0;
+            Reactivity1 = 0;
+            Reactivity2 = 0;
 
             dT = timeNow - timeOld;
 
@@ -74,14 +74,12 @@ namespace Ipt
                 _one[i] = Math.Exp(-constTRaspada);
                 _two[i] = (1 - _one[i]) / constTRaspada;
                 _psi01[i] = _psi01[i] * _one[i] - (j1Now - j1Old) * (_two[i]) - j1Old * _one[i] + j1Now;
-              //изменить название дикое
-                var item1 = a[i] * _psi01[i];
-                var item2 = a[i] * _psi02[i];
-                this.Reactivity1 = this.Reactivity1 + item1;
-                this.Reactivity2 = this.Reactivity2 + item2;
+
+                Reactivity1 += a[i] * _psi01[i];
+                Reactivity2 += a[i] * _psi02[i];
             }
-            this.Reactivity1 = 1 - this.Reactivity1/j1Now;
-            this.Reactivity2 = 1 - this.Reactivity2/j2Now;
+            Reactivity1 = 1 - Reactivity1 / j1Now;
+            Reactivity2 = 1 - Reactivity2 / j2Now;
         }
     }
 }

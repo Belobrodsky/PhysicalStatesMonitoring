@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Mime;
 using System.Windows.Forms;
 using GraphMonitor;
 using Ipt;
@@ -17,18 +16,21 @@ namespace MonitorForms
         #region Свойства
 
         private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
-        private IPAddress _iptIp;
-        private int _iptPort;
         private bool _normalize;
-        private string _path;
-        private IPAddress _scudIp;
-        private int _scudPort;
-
+        private DataReader _dataReader;
         private DataReader Reader
         {
             get
             {
-                return _path == null ? null : DataReader.GetInstance();
+                if (_dataReader == null)
+                {
+                    _dataReader = DataReader.GetInstance();
+                    _dataReader.ErrorOccured -= _dataReader_ErrorOccured;
+                    _dataReader.ErrorOccured += _dataReader_ErrorOccured;
+                    _dataReader.DataRead -= _dataReader_DataRead;
+                    _dataReader.DataRead += _dataReader_DataRead;
+                }
+                return _dataReader;
             }
         }
 
@@ -36,10 +38,12 @@ namespace MonitorForms
         {
             get
             {
-                if (_path.IsNullOrEmpty())
+                if (Program.Settings.LogFile.IsNullOrEmpty())
+                {
                     return null;
+                }
                 return DataWriter.GetInstance(
-                    _path,
+                    Program.Settings.LogFile,
                     new[]
                     {
                         "Время", "J1", "J2", "R1", "R2", "Rc", "P1k", "Tcold", "Thot", "Ppg", "H10", "H9", "H8", "Lkd",
@@ -57,18 +61,17 @@ namespace MonitorForms
             normalizeButton.Checked = _normalize;
             dataGridView1.AutoGenerateColumns = true;
             graphChart1.SelectedPointChanged += GraphChart1_SelectedPointChanged;
-
-            _scudIp = IPAddress.Parse("127.0.0.1");
-            _scudPort = 1952;
-            _iptIp = IPAddress.Parse("127.0.0.1");
-            _iptPort = 1952;
         }
 
         private void _dataReader_ErrorOccured(object sender, DataReaderErrorEventArgs e)
         {
-            MessageBox.Show(
-                string.Format("Код ошибки: {0}\n{1}", e.ErrorCode, e.ErrorText), "Ошибка связи", MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
+            var message = string.Format(
+                "{0:T}\tКод ошибки: {1}{3}\t{2}{3}", DateTime.Now, e.ErrorCode, e.ErrorText, Environment.NewLine);
+            if (logTextBox.Text.Length + message.Length > logTextBox.MaxLength)
+            {
+                logTextBox.InvokeEx(() => logTextBox.Clear());
+            }
+            logTextBox.InvokeEx(() => logTextBox.AppendText(message)); 
         }
 
         private void addSeriesButton_Click(object sender, EventArgs e)
@@ -78,10 +81,10 @@ namespace MonitorForms
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_path.IsNullOrEmpty() || !File.Exists(_path))
+            if (Program.Settings.LogFile.IsNullOrEmpty())
                 SelectFile();
-            if (_path.IsNullOrEmpty()) return;
-            Reader.Connect(_scudIp, _scudPort, _iptIp, _iptPort);
+            if (Program.Settings.LogFile.IsNullOrEmpty()) return;
+            Reader.Connect(Program.Settings.ScudIpAddress, Program.Settings.ScudPort, Program.Settings.IptIpAddress, Program.Settings.IptPort);
         }
 
         private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -114,21 +117,23 @@ namespace MonitorForms
             _normalize = !_normalize;
         }
 
-        private void OnDataRead(object o, DataReadEventArgs args)
+        private void _dataReader_DataRead(object sender, DataReadEventArgs e)
         {
-            if (args.Buffer.Buff == null) return;
-            float[] ar = new float[15];
-            Array.Copy(args.Buffer.Buff, ar, ar.Length);
-            //Поскольку таймер опроса СКУД и ИПТ работает в отдельном потоке, то
-            //вывод данных на форму выполняется с проверкой
-            scudListBox.InvokeEx(
-                () => { scudListBox.DataSource = ar; });
+            if (e.Buffer.Buff != null)
+            {
+                float[] ar = new float[15];
+                Array.Copy(e.Buffer.Buff, ar, ar.Length);
+                //Поскольку таймер опроса СКУД и ИПТ работает в отдельном потоке, то
+                //вывод данных на форму выполняется с проверкой
+                scudListBox.InvokeEx(
+                    () => { scudListBox.DataSource = ar; });
+            }
             iptListBox.InvokeEx(
-                () => { iptListBox.DataSource = args.Ipt4.ToString().Split('\r'); });
+                () => { iptListBox.DataSource = e.Ipt4.ToString().Split('\r'); });
             //TODO:Добавить вычисление токов перед записью в файл
             //NOTE:Writer создаётся в потоке формы, а файл пишется в потоке таймера. Выяснить возможные уязвимости
-            Writer.WriteData(args.Buffer, args.Ipt4.FCurrent1, args.Ipt4.FCurrent2);
-            //Debug.WriteLine(string.Join(", ", args.Buffer.Buff));
+            Writer.WriteData(e.Buffer, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2);
+            //Debug.WriteLine(string.Join(", ", e.Buffer.Buff));
         }
 
         private void removeSeriesButton_Click(object sender, EventArgs e)
@@ -138,10 +143,11 @@ namespace MonitorForms
 
         private void runEmulatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var p = Process.Start("IptServer.exe");
+
+            var p = Process.Start(Program.Settings.EmulPath);
             Closing += (o, args) =>
             {
-                if (p != null) p.Kill();
+                if (p != null && !p.HasExited) p.Kill();
             };
         }
 
@@ -153,7 +159,7 @@ namespace MonitorForms
                 dialog.Filter = "Текстовые файлы|*.txt";
                 if (dialog.ShowDialog(this) != DialogResult.OK)
                     return;
-                _path = dialog.FileName;
+                Program.Settings.LogFile = dialog.FileName;
             }
         }
 
@@ -162,19 +168,12 @@ namespace MonitorForms
         {
             disconnectToolStripMenuItem.Enabled = Reader != null && Reader.ReaderState != ReaderStateEnum.Disconnected;
             startReadingtoolStripMenuItem.Enabled = Reader != null && Reader.ReaderState == ReaderStateEnum.Connected;
+            runEmulatorToolStripMenuItem.Enabled = !Program.Settings.EmulPath.IsNullOrEmpty();
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (
-                var sf = _scudIp == null ? new SettingsForm() : new SettingsForm(_scudIp, _scudPort, _iptIp, _iptPort))
-            {
-                if (sf.ShowDialog(this) == DialogResult.Cancel) return;
-                _scudIp = sf.ScudIpAddress;
-                _scudPort = sf.ScudPort;
-                _iptIp = sf.IptIpAddress;
-                _iptPort = sf.IptPort;
-            }
+            new SettingsForm().ShowDialog(this);
         }
 
         private void startButton_Click(object sender, EventArgs e)
@@ -185,9 +184,8 @@ namespace MonitorForms
 
         private void startReadingtoolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Reader.ErrorOccured += _dataReader_ErrorOccured;
-            Reader.DataRead += OnDataRead;
             Reader.Start();
+            //Reader.Read();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -196,6 +194,11 @@ namespace MonitorForms
             for (int i = 0; i < graphChart1.Count; i++)
                 graphChart1.AddValue(new MonitorValue(DateTime.Now, _rnd.Next(-10, 11), 10, -10), i, _normalize);
             PerformanceMeter.Stop();
+        }
+
+        private void logVisibleButton_Click(object sender, EventArgs e)
+        {
+            splitContainer4.Panel2Collapsed = !logVisibleButton.Checked;
         }
     }
 }

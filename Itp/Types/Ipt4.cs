@@ -65,8 +65,9 @@ namespace Ipt
         {
             var sb = new StringBuilder();
             sb.AppendFormatLine("MagistralFailure = {0}", MagistralFailure);
-            sb.AppendFormatLine("FCurrent1 = {0:E15}", FCurrent1);
-            sb.AppendFormatLine("Freactivity1 = {0:E15}", Freactivity1);
+
+            sb.AppendFormatLine("FCurrent1 = {0:E7}", FCurrent1);
+            sb.AppendFormatLine("Freactivity1 = {0:E7}", Freactivity1);
             sb.AppendFormatLine("Power1 = {0}", Power1);
             sb.AppendFormatLine("Filter1 = {0}", Filter1);
             sb.AppendFormatLine("Lcounter1 = {0}", Lcounter1);
@@ -74,8 +75,8 @@ namespace Ipt
             sb.AppendFormatLine("GotHVP1 = {0}", GotHVP1);
             sb.AppendFormatLine("GotHVN1 = {0}", GotHVN1);
 
-            sb.AppendFormatLine("FCurrent2 = {0:E15}", FCurrent2);
-            sb.AppendFormatLine("Freactivity2 = {0:E15}", Freactivity2);
+            sb.AppendFormatLine("FCurrent2 = {0:E7}", FCurrent2);
+            sb.AppendFormatLine("Freactivity2 = {0:E7}", Freactivity2);
             sb.AppendFormatLine("Power2 = {0}", Power2);
             sb.AppendFormatLine("Filter2 = {0}", Filter2);
             sb.AppendFormatLine("Lcounter2 = {0}", Lcounter2);
@@ -83,8 +84,8 @@ namespace Ipt
             sb.AppendFormatLine("GotHVP2 = {0}", GotHVP2);
             sb.AppendFormatLine("GotHVN2 = {0}", GotHVN2);
 
-            sb.AppendFormatLine("FCurrent3 = {0:E15}", FCurrent3);
-            sb.AppendFormatLine("Freactivity3 = {0:E15}", Freactivity3);
+            sb.AppendFormatLine("FCurrent3 = {0:E7}", FCurrent3);
+            sb.AppendFormatLine("Freactivity3 = {0:E7}", Freactivity3);
             sb.AppendFormatLine("Power3 = {0}", Power3);
             sb.AppendFormatLine("Filter3 = {0}", Filter3);
             sb.AppendFormatLine("Lcounter3 = {0}", Lcounter3);

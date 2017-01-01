@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Sockets;
 using System.Timers;
 
 namespace Ipt
 {
     /// <summary>Класс для чтения данных.</summary>
-    public class DataReader
+    public class DataReader : IDisposable
     {
         /// <summary>Событие при чтении данных.</summary>
-        /// <remarks>Событие возникает каждый раз, когда данные читаются. Это не означает, что они изменились в СКУД.</remarks>
+        /// <remarks>Событие возникает каждый раз, когда данные читаются. Это не означает, что они изменились в СКУД или ИПТ.</remarks>
         public event EventHandler<DataReadEventArgs> DataRead;
         /// <summary>Событие при любых ошибках ридера.</summary>
         public event EventHandler<DataReaderErrorEventArgs> ErrorOccured;
@@ -37,10 +38,9 @@ namespace Ipt
         {
             get
             {
-                return _isIptConnected && _isScudConnected
+                return _isIptConnected || _isScudConnected
                      ? ReaderStateEnum.Connected
                      : ReaderStateEnum.Disconnected;
-
             }
         }
 
@@ -55,7 +55,7 @@ namespace Ipt
                     return _instance;
                 }
                 _instance = new DataReader();
-                return _instance; 
+                return _instance;
             }
         }
 
@@ -63,6 +63,7 @@ namespace Ipt
         {
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
+
             MbCliWrapper.Connected += (s, e) =>
             {
                 _isScudConnected = true;
@@ -111,32 +112,37 @@ namespace Ipt
 
         private void ConnectIpt(IPAddress address, int port)
         {
-            _iptReader = new IptReader(address, port);
-            _iptReader.Connect();
+            _isIptConnected = false;
+            try
+            {
+                _iptReader = IptReader.GetInstance(address, port);
+            }
+            catch (SocketException ex)
+            {
+                OnErrorOccured(new DataReaderErrorEventArgs(ex.ErrorCode, ex.Message));
+                return;
+            }
             _isIptConnected = true;
-            //throw new NotImplementedException();
         }
 
         private void ConnectScud(IPAddress address, int port)
         {
-            _scudReader = new ScudReader(address, port);
-            _isScudConnected = true;
+            _scudReader = ScudReader.GetInstance(address, port);
+            _scudReader.Connect();
         }
 
         private void DisconnectScud()
         {
+            //TODO:Сделать работу СКУД и ИПТ независимыми.
+            //Сейчас каким-то образом подключённый СКУД мешает повторному соединению с эмулятором ИПТ
             _scudReader.Disconnect();
-            _scudReader = null;
+            _scudReader.Dispose();
         }
 
-        //TODO:Добавить реализацию отсоединения от ИПТ
         private void DisconnectIpt()
         {
-            _iptReader.Disconnect();
-            _iptReader = null;
+            _iptReader.Dispose();
             _isIptConnected = false;
-            Debug.WriteLine("DisconnectIpt();");
-            //throw new NotImplementedException();
         }
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -144,11 +150,23 @@ namespace Ipt
             Read();
         }
 
+        /// <summary>Чтение данных.</summary>
         public void Read()
         {
             var buff = _scudReader.Read();
-            var ipt = _iptReader.Read();
-            //Вызов события
+            Ipt4 ipt;
+            try
+            {
+                ipt = _iptReader.Read();
+            }
+            catch (SocketException ex)
+            {
+                Disconnect();
+                Debug.WriteLine(ex.Message);
+                OnErrorOccured(new DataReaderErrorEventArgs(ex.ErrorCode, ex.Message));
+                return;
+            }
+            //Вызов события DataRead
             OnDataRead(new DataReadEventArgs(buff, ipt));
         }
 
@@ -163,5 +181,21 @@ namespace Ipt
             EventHandler<DataReaderErrorEventArgs> handler = ErrorOccured;
             if (handler != null) handler(this, e);
         }
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+
+            if (_timer != null) _timer.Dispose();
+        }
+
+        #endregion
     }
 }

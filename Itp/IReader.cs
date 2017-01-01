@@ -1,6 +1,8 @@
-﻿namespace Ipt
+﻿using System;
+
+namespace Ipt
 {
-    internal interface IReader<T> where T : struct
+    internal interface IReader<out T> : IDisposable where T : struct
     {
         void Connect();
         void Disconnect();

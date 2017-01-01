@@ -1,10 +1,11 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Ipt
 {
-    internal static class Extensions
+    public static class Extensions
     {
         /// <summary>
         /// Преобразование массива байт в струтуру
@@ -19,7 +20,25 @@ namespace Ipt
             handle.Free();
             return stuff;
         }
-        
+
+        /// <summary>
+        /// Преобразование структуры в массив байт.
+        /// </summary>
+        /// <typeparam name="T">Тип структуры, в которую нужно преобразовать.</typeparam>
+        /// <param name="value">Объект типа <typeparamref name="T"/></param>
+        /// <returns>Возвращает массив байт.</returns>
+        public static byte[] ToBytes<T>(this T value) where T : struct
+        {
+            int size = Marshal.SizeOf(value);
+            byte[] arr = new byte[size];
+
+            IntPtr ptr = Marshal.AllocHGlobal(size);
+            Marshal.StructureToPtr(value, ptr, true);
+            Marshal.Copy(ptr, arr, 0, size);
+            Marshal.FreeHGlobal(ptr);
+            return arr;
+        }
+
         public static StringBuilder AppendFormatLine(this StringBuilder sb, string format, params object[] args)
         {
             return sb.AppendFormat(format, args).AppendLine();
