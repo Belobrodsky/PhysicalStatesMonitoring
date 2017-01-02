@@ -14,6 +14,9 @@ namespace MonitorForms
         public int IptPort { get; set; }
         public string LogFile { get; set; }
         public string EmulPath { get; set; }
+        public bool ErrorLogVisible { get; set; }
+        public bool ScudListVisible { get; set; }
+        public bool IptListVisible { get; set; }
 
         [XmlIgnore]
         public IPAddress IptIpAddress
@@ -63,7 +66,6 @@ namespace MonitorForms
                 try
                 {
                     return (Settings)Serializer.Deserialize(reader);
-
                 }
                 catch (Exception)
                 {
@@ -80,7 +82,10 @@ namespace MonitorForms
                 IptPort = 1952,
                 ScudIp = "127.000.000.001",
                 ScudPort = 1952,
-                LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.txt")
+                LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.txt"),
+                ErrorLogVisible = false,
+                ScudListVisible = true,
+                IptListVisible = true
             };
         }
     }

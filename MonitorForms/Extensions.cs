@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Windows.Forms;
 
 namespace MonitorForms
 {
+    [DebuggerStepThrough]
     public static class Extensions
     {
         /// <summary>Вспомогательный метод для работы с контролом из другого потока.</summary>
@@ -17,6 +19,8 @@ namespace MonitorForms
                 action.Invoke();
         }
 
+        /// <summary>Проверка, что строка не пустая.</summary>
+        /// <param name="value">Строковая переменная</param>
         public static bool IsNullOrEmpty(this string value)
         {
             return string.IsNullOrEmpty(value);

@@ -41,6 +41,7 @@ namespace MonitorForms
             toolTip1.Active = w > pathTextBox.ClientSize.Width;
         }
 
+        //Вызов диалога выбора файла. Если диалог не назначен, то создаётся по умолчанию.
         private void browseButton_Click(object sender, EventArgs e)
         {
             if (FileDialog == null)

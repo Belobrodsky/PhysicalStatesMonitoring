@@ -14,10 +14,12 @@ namespace MonitorForms
     public partial class MainForm : Form
     {
         #region Свойства
-
+        //Генератор случайных чисел для эмуляции графика
         private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
-        private bool _normalize;
         private DataReader _dataReader;
+        private bool _normalize;
+
+        //DataReader для чтения данных с устройств
         private DataReader Reader
         {
             get
@@ -25,15 +27,16 @@ namespace MonitorForms
                 if (_dataReader == null)
                 {
                     _dataReader = DataReader.GetInstance();
-                    _dataReader.ErrorOccured -= _dataReader_ErrorOccured;
-                    _dataReader.ErrorOccured += _dataReader_ErrorOccured;
-                    _dataReader.DataRead -= _dataReader_DataRead;
-                    _dataReader.DataRead += _dataReader_DataRead;
+                    _dataReader.Error -= _dataReader_Error;
+                    _dataReader.Error += _dataReader_Error;
+                    _dataReader.IptDataRead -= _dataReader_IptDataRead;
+                    _dataReader.IptDataRead += _dataReader_IptDataRead;
                 }
                 return _dataReader;
             }
         }
 
+        //DataWriter для записи данных в файл
         private DataWriter Writer
         {
             get
@@ -52,18 +55,72 @@ namespace MonitorForms
             }
         }
 
+        protected override bool DoubleBuffered
+        {
+            get { return true; }
+            set { }
+        }
+
         #endregion
 
         public MainForm()
         {
             InitializeComponent();
-            graphChart1.Count = 2;
-            normalizeButton.Checked = _normalize;
-            dataGridView1.AutoGenerateColumns = true;
-            graphChart1.SelectedPointChanged += GraphChart1_SelectedPointChanged;
         }
 
-        private void _dataReader_ErrorOccured(object sender, DataReaderErrorEventArgs e)
+        private void _dataReader_IptDataRead(object sender, DataReadEventArgs e)
+        {
+            if (e.Buffer.Buff != null)
+            {
+                float[] ar = new float[15];
+                Array.Copy(e.Buffer.Buff, ar, ar.Length);
+                //Поскольку таймер опроса СКУД и ИПТ работает в отдельном потоке, то
+                //вывод данных на форму выполняется с проверкой
+                if (Program.Settings.ScudListVisible)
+                {
+                    scudListBox.InvokeEx(
+                        () =>
+                        {
+                            scudListBox.BeginUpdate();
+                            scudListBox.DataSource = ar;
+                            scudListBox.EndUpdate();
+                        });
+                }
+            }
+            if (Program.Settings.ScudListVisible)
+            {
+                iptListBox.InvokeEx(
+                    () =>
+                    {
+                        iptListBox.BeginUpdate();
+                        iptListBox.DataSource = e.Ipt4.ToString().Split('\r');
+                        iptListBox.EndUpdate();
+                    });
+            }
+            //TODO:Добавить вычисление токов перед записью в файл
+            //NOTE:Writer создаётся в потоке формы, а файл пишется в потоке таймера. Выяснить возможные уязвимости
+            Writer.WriteData(e.Buffer, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2);
+        }
+
+        //Добавить график
+        private void addSeriesButton_Click(object sender, EventArgs e)
+        {
+            graphChart1.AddNewSeries();
+        }
+
+        //Меню «Подключиться»
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Program.Settings.LogFile.IsNullOrEmpty())
+                SelectFile();
+            if (Program.Settings.LogFile.IsNullOrEmpty()) return;
+            Reader.Connect(
+                Program.Settings.ScudIpAddress, Program.Settings.ScudPort, Program.Settings.IptIpAddress,
+                Program.Settings.IptPort);
+        }
+
+        //Ошибка при чтении данных
+        private void _dataReader_Error(object sender, DataReaderErrorEventArgs e)
         {
             var message = string.Format(
                 "{0:T}\tКод ошибки: {1}{3}\t{2}{3}", DateTime.Now, e.ErrorCode, e.ErrorText, Environment.NewLine);
@@ -71,27 +128,16 @@ namespace MonitorForms
             {
                 logTextBox.InvokeEx(() => logTextBox.Clear());
             }
-            logTextBox.InvokeEx(() => logTextBox.AppendText(message)); 
+            logTextBox.InvokeEx(() => logTextBox.AppendText(message));
         }
 
-        private void addSeriesButton_Click(object sender, EventArgs e)
-        {
-            graphChart1.AddNewSeries();
-        }
-
-        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Program.Settings.LogFile.IsNullOrEmpty())
-                SelectFile();
-            if (Program.Settings.LogFile.IsNullOrEmpty()) return;
-            Reader.Connect(Program.Settings.ScudIpAddress, Program.Settings.ScudPort, Program.Settings.IptIpAddress, Program.Settings.IptPort);
-        }
-
+        //Меню «Отключиться»
         private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Reader.Disconnect();
         }
 
+        //На графике выбрана точка
         private void GraphChart1_SelectedPointChanged(object sender, EventArgs e)
         {
             dataGridView1.DataSource = graphChart1.MonitorValues.Select(
@@ -105,6 +151,38 @@ namespace MonitorForms
                 }).ToList();
         }
 
+        //Изменение видимости панелей
+        private void changeVisible_Click(object sender, EventArgs e)
+        {
+            if (sender.Equals(errorLogToolStripMenuItem))
+            {
+                Program.Settings.ErrorLogVisible = !Program.Settings.ErrorLogVisible;
+            }
+            else if (sender.Equals(scudToolStripMenuItem))
+            {
+                Program.Settings.ScudListVisible = !Program.Settings.ScudListVisible;
+            }
+            else if (sender.Equals(iptToolStripMenuItem))
+            {
+                Program.Settings.IptListVisible = !Program.Settings.IptListVisible;
+            }
+            UpdateView();
+        }
+
+        //Обновление вида
+        private void UpdateView()
+        {
+            scudToolStripMenuItem.Checked = Program.Settings.ScudListVisible;
+            iptToolStripMenuItem.Checked = Program.Settings.IptListVisible;
+            errorLogToolStripMenuItem.Checked = Program.Settings.ErrorLogVisible;
+
+            splitContainer2.Panel2Collapsed = !(Program.Settings.IptListVisible || Program.Settings.ScudListVisible);
+            scudIptSplitContainer.Panel1Collapsed = !Program.Settings.ScudListVisible;
+            scudIptSplitContainer.Panel2Collapsed = !Program.Settings.IptListVisible;
+            splitContainer4.Panel2Collapsed = !Program.Settings.ErrorLogVisible;
+        }
+
+        //Меню «Версия библиотеки»
         private void mbcliVersionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
@@ -112,38 +190,21 @@ namespace MonitorForms
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        //Кнопка «Нормализовать»
         private void normalizeButton_CheckedChanged(object sender, EventArgs e)
         {
             _normalize = !_normalize;
         }
 
-        private void _dataReader_DataRead(object sender, DataReadEventArgs e)
-        {
-            if (e.Buffer.Buff != null)
-            {
-                float[] ar = new float[15];
-                Array.Copy(e.Buffer.Buff, ar, ar.Length);
-                //Поскольку таймер опроса СКУД и ИПТ работает в отдельном потоке, то
-                //вывод данных на форму выполняется с проверкой
-                scudListBox.InvokeEx(
-                    () => { scudListBox.DataSource = ar; });
-            }
-            iptListBox.InvokeEx(
-                () => { iptListBox.DataSource = e.Ipt4.ToString().Split('\r'); });
-            //TODO:Добавить вычисление токов перед записью в файл
-            //NOTE:Writer создаётся в потоке формы, а файл пишется в потоке таймера. Выяснить возможные уязвимости
-            Writer.WriteData(e.Buffer, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2);
-            //Debug.WriteLine(string.Join(", ", e.Buffer.Buff));
-        }
-
+        //Кнопка «Удалить график»
         private void removeSeriesButton_Click(object sender, EventArgs e)
         {
             graphChart1.RemoveLastSeries();
         }
 
+        //Меню «Запустить эмулятор»
         private void runEmulatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             var p = Process.Start(Program.Settings.EmulPath);
             Closing += (o, args) =>
             {
@@ -151,6 +212,7 @@ namespace MonitorForms
             };
         }
 
+        //Диалог выбора файла
         private void SelectFile()
         {
             using (var dialog = new SaveFileDialog())
@@ -163,6 +225,7 @@ namespace MonitorForms
             }
         }
 
+        //Открытие меню «Сервер»
         [DebuggerStepThrough]
         private void serverToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
@@ -171,23 +234,28 @@ namespace MonitorForms
             runEmulatorToolStripMenuItem.Enabled = !Program.Settings.EmulPath.IsNullOrEmpty();
         }
 
+        //Меню настроек
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new SettingsForm().ShowDialog(this);
         }
 
+        //Кнопка «Остановить/Начать» показ графика
         private void startButton_Click(object sender, EventArgs e)
         {
             timer1.Enabled = !timer1.Enabled;
             startButton.Text = timer1.Enabled ? "Остановить" : "Начать";
         }
 
+        //Меню «Начать чтение данных»
         private void startReadingtoolStripMenuItem_Click(object sender, EventArgs e)
         {
             Reader.Start();
-            //Reader.Read();
+            //Reader.ReadScud();
+            //Reader.ReadIpt();
         }
 
+        //Таймер для анимации данных на графике
         private void timer1_Tick(object sender, EventArgs e)
         {
             PerformanceMeter.Start(string.Format("Графиков {0}.", graphChart1.Count));
@@ -196,9 +264,21 @@ namespace MonitorForms
             PerformanceMeter.Stop();
         }
 
-        private void logVisibleButton_Click(object sender, EventArgs e)
+        //Загрузка формы
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            splitContainer4.Panel2Collapsed = !logVisibleButton.Checked;
+            graphChart1.Count = 2;
+            normalizeButton.Checked = _normalize;
+            dataGridView1.AutoGenerateColumns = true;
+            graphChart1.SelectedPointChanged += GraphChart1_SelectedPointChanged;
+            scudListBox.FormatString = "E7";
+            UpdateView();
+        }
+
+        //Открытие меню «Вид»
+        private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            UpdateView();
         }
     }
 }

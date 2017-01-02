@@ -8,7 +8,7 @@ namespace Ipt
     public static class MbCliWrapper
     {
         /// <summary>Событие при возникновении ошибки в работе с библиотекой mbcli.dll.</summary>
-        public static event EventHandler<DataReaderErrorEventArgs> ErrorOccured;
+        public static event EventHandler<DataReaderErrorEventArgs> Error;
 
         /// <summary>Событие после установки соединения.</summary>
         public static event EventHandler Connected;
@@ -28,7 +28,7 @@ namespace Ipt
         /// <param name="ip">IP-адрес. Указатель на строку, содержащую адрес в формате ###.###.###.###.</param>
         /// <param name="port">Номер порта.</param>
         /// <returns>Возвращает результат соединения. 0, если соединение удалось и код ошибки, если соединенеие не удалось.
-        /// <para>Для получения описания ошибки следует обрабатывать событие <see cref="ErrorOccured"/>.</para>.</returns>
+        /// <para>Для получения описания ошибки следует обрабатывать событие <see cref="Error"/>.</para>.</returns>
         /// <remarks>Обёртка над библиотечной функцией <see cref="UnsafeNativeMethods.mb_connect"/></remarks>
         public static int Connect(IPAddress ip, int port)
         {
@@ -68,7 +68,7 @@ namespace Ipt
             return result;
         }
 
-        /// <summary>Вызов события <see cref="ErrorOccured"/>.</summary>
+        /// <summary>Вызов события <see cref="Error"/>.</summary>
         /// <param name="errCode">Код ошибки, возвращённый функцией библиотеки.</param>
         /// <remarks>Обёртка над библиотечной функцией <see cref="UnsafeNativeMethods.mb_get_error"/></remarks>
         private static void OnErrorOccured(int errCode)
@@ -77,9 +77,9 @@ namespace Ipt
             var message = Marshal.PtrToStringAnsi(result);
             //TODO: Здесь не понятно, кто отвечает за удаление указателя на массив.
             //Marshal.ZeroFreeGlobalAllocAnsi(result);
-            if (ErrorOccured != null)
+            if (Error != null)
             {
-                ErrorOccured.Invoke(null, new DataReaderErrorEventArgs(errCode, message));
+                Error.Invoke(null, new DataReaderErrorEventArgs(errCode, message));
             }
         }
 
