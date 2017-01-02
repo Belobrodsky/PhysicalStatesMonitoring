@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Net.Mime;
 using System.Windows.Forms;
 using GraphMonitor;
 using Ipt;
@@ -19,6 +19,8 @@ namespace MonitorForms
         private DataReader _dataReader;
         private bool _normalize;
 
+        private List<int> _freqs = new List<int>(new[] { 1, 10, 20, 30, 40 });
+
         //DataReader для чтения данных с устройств
         private DataReader Reader
         {
@@ -27,6 +29,7 @@ namespace MonitorForms
                 if (_dataReader == null)
                 {
                     _dataReader = DataReader.GetInstance();
+                    _dataReader.IptInterval = 1000d / _freqs[Program.Settings.IptFreqIndex];
                     _dataReader.Error -= _dataReader_Error;
                     _dataReader.Error += _dataReader_Error;
                     _dataReader.IptDataRead -= _dataReader_IptDataRead;
@@ -124,11 +127,11 @@ namespace MonitorForms
         {
             var message = string.Format(
                 "{0:T}\tКод ошибки: {1}{3}\t{2}{3}", DateTime.Now, e.ErrorCode, e.ErrorText, Environment.NewLine);
-            if (logTextBox.Text.Length + message.Length > logTextBox.MaxLength)
+            if (errorLogTextBox.Text.Length + message.Length > errorLogTextBox.MaxLength)
             {
-                logTextBox.InvokeEx(() => logTextBox.Clear());
+                errorLogTextBox.InvokeEx(() => errorLogTextBox.Clear());
             }
-            logTextBox.InvokeEx(() => logTextBox.AppendText(message));
+            errorLogTextBox.InvokeEx(() => errorLogTextBox.AppendText(message));
         }
 
         //Меню «Отключиться»
@@ -154,15 +157,15 @@ namespace MonitorForms
         //Изменение видимости панелей
         private void changeVisible_Click(object sender, EventArgs e)
         {
-            if (sender.Equals(errorLogToolStripMenuItem))
+            if (sender.Equals(errorLogMenuItem))
             {
                 Program.Settings.ErrorLogVisible = !Program.Settings.ErrorLogVisible;
             }
-            else if (sender.Equals(scudToolStripMenuItem))
+            else if (sender.Equals(scudMenuItem))
             {
                 Program.Settings.ScudListVisible = !Program.Settings.ScudListVisible;
             }
-            else if (sender.Equals(iptToolStripMenuItem))
+            else if (sender.Equals(iptMenuItem))
             {
                 Program.Settings.IptListVisible = !Program.Settings.IptListVisible;
             }
@@ -172,14 +175,16 @@ namespace MonitorForms
         //Обновление вида
         private void UpdateView()
         {
-            scudToolStripMenuItem.Checked = Program.Settings.ScudListVisible;
-            iptToolStripMenuItem.Checked = Program.Settings.IptListVisible;
-            errorLogToolStripMenuItem.Checked = Program.Settings.ErrorLogVisible;
+            scudMenuItem.Checked = Program.Settings.ScudListVisible;
+            iptMenuItem.Checked = Program.Settings.IptListVisible;
+            errorLogMenuItem.Checked = Program.Settings.ErrorLogVisible;
 
             splitContainer2.Panel2Collapsed = !(Program.Settings.IptListVisible || Program.Settings.ScudListVisible);
             scudIptSplitContainer.Panel1Collapsed = !Program.Settings.ScudListVisible;
             scudIptSplitContainer.Panel2Collapsed = !Program.Settings.IptListVisible;
             splitContainer4.Panel2Collapsed = !Program.Settings.ErrorLogVisible;
+
+            iptFreqComboBox.SelectedIndex = Program.Settings.IptFreqIndex;
         }
 
         //Меню «Версия библиотеки»
@@ -205,7 +210,10 @@ namespace MonitorForms
         //Меню «Запустить эмулятор»
         private void runEmulatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var p = Process.Start(Program.Settings.EmulPath);
+            var psi = new ProcessStartInfo(Program.Settings.EmulPath);
+            psi.Arguments = string.Format("-emul -ip {0} -p {1}", Program.Settings.IptIp, Program.Settings.IptPort);
+            psi.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var p = Process.Start(psi);
             Closing += (o, args) =>
             {
                 if (p != null && !p.HasExited) p.Kill();
@@ -230,8 +238,8 @@ namespace MonitorForms
         private void serverToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             disconnectToolStripMenuItem.Enabled = Reader != null && Reader.ReaderState != ReaderStateEnum.Disconnected;
-            startReadingtoolStripMenuItem.Enabled = Reader != null && Reader.ReaderState == ReaderStateEnum.Connected;
-            runEmulatorToolStripMenuItem.Enabled = !Program.Settings.EmulPath.IsNullOrEmpty();
+            startReadingMenuItem.Enabled = Reader != null && Reader.ReaderState == ReaderStateEnum.Connected;
+            runEmulatorMenuItem.Enabled = !Program.Settings.EmulPath.IsNullOrEmpty();
         }
 
         //Меню настроек
@@ -270,7 +278,6 @@ namespace MonitorForms
             graphChart1.Count = 2;
             normalizeButton.Checked = _normalize;
             dataGridView1.AutoGenerateColumns = true;
-            graphChart1.SelectedPointChanged += GraphChart1_SelectedPointChanged;
             scudListBox.FormatString = "E7";
             UpdateView();
         }
@@ -279,6 +286,27 @@ namespace MonitorForms
         private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             UpdateView();
+        }
+
+        //Смена частоты
+        private void iptFreqComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_dataReader != null)
+            {
+                _dataReader.IptInterval = 1000d / _freqs[iptFreqComboBox.SelectedIndex];
+            }
+            Program.Settings.IptFreqIndex = iptFreqComboBox.SelectedIndex;
+        }
+
+        //Очистка лога ошибок
+        private void clearMenuItem_Click(object sender, EventArgs e)
+        {
+            errorLogTextBox.Clear();
+        }
+
+        private void errorLogcontextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            clearMenuItem.Enabled = errorLogTextBox.Lines.Length > 0;
         }
     }
 }

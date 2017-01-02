@@ -17,6 +17,7 @@ namespace MonitorForms
         public bool ErrorLogVisible { get; set; }
         public bool ScudListVisible { get; set; }
         public bool IptListVisible { get; set; }
+        public int IptFreqIndex { get; set; }
 
         [XmlIgnore]
         public IPAddress IptIpAddress
@@ -85,7 +86,8 @@ namespace MonitorForms
                 LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.txt"),
                 ErrorLogVisible = false,
                 ScudListVisible = true,
-                IptListVisible = true
+                IptListVisible = true,
+                IptFreqIndex = 0
             };
         }
     }

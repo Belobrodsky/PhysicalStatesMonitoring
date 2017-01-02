@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Diagnostics;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace GraphMonitor
 {
+    [DefaultEvent("SelectedPointChanged")]
     public partial class GraphChart : UserControl
     {
         /// <summary>Количество минут для хранения данных</summary>
@@ -27,6 +29,7 @@ namespace GraphMonitor
         private DataPoint _selectedPoint;
 
         /// <summary>Выбранная точка графика</summary>
+        [Browsable(false)]
         public DataPoint SelectedPoint
         {
             get { return _selectedPoint; }
@@ -45,9 +48,11 @@ namespace GraphMonitor
         /// <summary>
         /// Значения графиков под курсором
         /// </summary>
+        [Browsable(false)]
         public IEnumerable<MonitorValue> MonitorValues { get; set; }
 
         /// <summary>Количество графиков</summary>
+        [Description("Количество отображаемых графиков")]
         public int Count
         {
             get
@@ -69,6 +74,7 @@ namespace GraphMonitor
         }
 
         /// <summary>Событие при выборе точки курсором</summary>
+        [Description("Событие при выборе точки курсором")]
         public event EventHandler SelectedPointChanged;
 
         /// <summary>Добавление графика с указанным именем</summary>

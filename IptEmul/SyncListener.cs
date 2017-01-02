@@ -6,13 +6,20 @@ using Ipt;
 namespace IptEmul
 {
     /// <summary>Синхронный сокет-сервер.</summary>
-    public class SyncListener
+    internal class SyncListener
     {
         private static byte[] _buffer;
 
         public static void StartListening()
         {
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1952);
+            if (Program.EndPoint == null)
+            {
+                if (Program.GetIpEndPoint())
+                {
+                    localEndPoint = Program.EndPoint;
+                }
+            }
 
             var listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -53,7 +60,9 @@ namespace IptEmul
             }
             catch (Exception e)
             {
+                Console.ForegroundColor=ConsoleColor.Red;
                 Console.WriteLine(e.ToString());
+                Console.ResetColor();
             }
             Console.Read();
         }

@@ -32,11 +32,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.normalizeButton = new System.Windows.Forms.ToolStripButton();
-            this.startButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.addSeriesButton = new System.Windows.Forms.ToolStripButton();
-            this.removeSeriesButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.iptFreqLabel = new System.Windows.Forms.ToolStripLabel();
+            this.iptFreqComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.graphChart1 = new GraphMonitor.GraphChart();
@@ -48,23 +47,29 @@
             this.iptTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.iptListBox = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.serverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainMenu = new System.Windows.Forms.MenuStrip();
+            this.serverMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.startReadingtoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.runEmulatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.mbcliVersionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.errorLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scudToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.iptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbcliVersionItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scudMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iptMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.logTextBox = new System.Windows.Forms.TextBox();
+            this.errorLogTextBox = new System.Windows.Forms.TextBox();
+            this.errorLogcontextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.normalizeButton = new System.Windows.Forms.ToolStripButton();
+            this.startButton = new System.Windows.Forms.ToolStripButton();
+            this.addSeriesButton = new System.Windows.Forms.ToolStripButton();
+            this.removeSeriesButton = new System.Windows.Forms.ToolStripButton();
+            this.clearMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startReadingMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runEmulatorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.errorLogMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -81,11 +86,12 @@
             this.scudIptSplitContainer.SuspendLayout();
             this.scudTableLayoutPanel.SuspendLayout();
             this.iptTableLayoutPanel.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.mainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
+            this.errorLogcontextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -100,7 +106,10 @@
             this.startButton,
             this.toolStripSeparator1,
             this.addSeriesButton,
-            this.removeSeriesButton});
+            this.removeSeriesButton,
+            this.toolStripSeparator5,
+            this.iptFreqLabel,
+            this.iptFreqComboBox});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -108,55 +117,35 @@
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // normalizeButton
-            // 
-            this.normalizeButton.CheckOnClick = true;
-            this.normalizeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.normalizeButton.Image = ((System.Drawing.Image)(resources.GetObject("normalizeButton.Image")));
-            this.normalizeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.normalizeButton.Name = "normalizeButton";
-            this.normalizeButton.Size = new System.Drawing.Size(98, 24);
-            this.normalizeButton.Text = "Нормализовать";
-            this.normalizeButton.CheckedChanged += new System.EventHandler(this.normalizeButton_CheckedChanged);
-            // 
-            // startButton
-            // 
-            this.startButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.startButton.Image = ((System.Drawing.Image)(resources.GetObject("startButton.Image")));
-            this.startButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(50, 24);
-            this.startButton.Text = "Начать";
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
-            // addSeriesButton
+            // toolStripSeparator5
             // 
-            this.addSeriesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.addSeriesButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addSeriesButton.Image = ((System.Drawing.Image)(resources.GetObject("addSeriesButton.Image")));
-            this.addSeriesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.addSeriesButton.Name = "addSeriesButton";
-            this.addSeriesButton.Size = new System.Drawing.Size(23, 24);
-            this.addSeriesButton.Text = "+";
-            this.addSeriesButton.ToolTipText = "Добавить параметр";
-            this.addSeriesButton.Click += new System.EventHandler(this.addSeriesButton_Click);
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
             // 
-            // removeSeriesButton
+            // iptFreqLabel
             // 
-            this.removeSeriesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.removeSeriesButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.removeSeriesButton.Image = ((System.Drawing.Image)(resources.GetObject("removeSeriesButton.Image")));
-            this.removeSeriesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.removeSeriesButton.Name = "removeSeriesButton";
-            this.removeSeriesButton.Size = new System.Drawing.Size(23, 24);
-            this.removeSeriesButton.Text = "-";
-            this.removeSeriesButton.ToolTipText = "Удалить параметр";
-            this.removeSeriesButton.Click += new System.EventHandler(this.removeSeriesButton_Click);
+            this.iptFreqLabel.Name = "iptFreqLabel";
+            this.iptFreqLabel.Size = new System.Drawing.Size(124, 24);
+            this.iptFreqLabel.Text = "Частота опроса ИПТ:";
+            // 
+            // iptFreqComboBox
+            // 
+            this.iptFreqComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.iptFreqComboBox.DropDownWidth = 75;
+            this.iptFreqComboBox.Items.AddRange(new object[] {
+            "1 Гц",
+            "10 Гц",
+            "20 Гц",
+            "30 Гц",
+            "40 Гц"});
+            this.iptFreqComboBox.Name = "iptFreqComboBox";
+            this.iptFreqComboBox.Size = new System.Drawing.Size(75, 27);
+            this.iptFreqComboBox.SelectedIndexChanged += new System.EventHandler(this.iptFreqComboBox_SelectedIndexChanged);
             // 
             // dataGridView1
             // 
@@ -202,6 +191,7 @@
             this.graphChart1.SelectedSeries = null;
             this.graphChart1.Size = new System.Drawing.Size(1083, 218);
             this.graphChart1.TabIndex = 0;
+            this.graphChart1.SelectedPointChanged += new System.EventHandler(this.GraphChart1_SelectedPointChanged);
             // 
             // splitContainer2
             // 
@@ -314,126 +304,94 @@
             this.label2.Text = "ИПТ";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // menuStrip1
+            // mainMenu
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.serverToolStripMenuItem,
-            this.viewToolStripMenuItem,
-            this.settingsToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1083, 24);
-            this.menuStrip1.TabIndex = 5;
-            this.menuStrip1.Text = "menuStrip1";
+            this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.serverMenuItem,
+            this.viewMenuItem,
+            this.settingsMenuItem});
+            this.mainMenu.Location = new System.Drawing.Point(0, 0);
+            this.mainMenu.Name = "mainMenu";
+            this.mainMenu.Size = new System.Drawing.Size(1083, 24);
+            this.mainMenu.TabIndex = 5;
+            this.mainMenu.Text = "menuStrip1";
             // 
-            // serverToolStripMenuItem
+            // serverMenuItem
             // 
-            this.serverToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.connectToolStripMenuItem,
+            this.serverMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectMenuItem,
             this.disconnectToolStripMenuItem,
             this.toolStripSeparator3,
-            this.startReadingtoolStripMenuItem,
+            this.startReadingMenuItem,
             this.toolStripSeparator4,
-            this.runEmulatorToolStripMenuItem,
+            this.runEmulatorMenuItem,
             this.toolStripSeparator2,
-            this.mbcliVersionToolStripMenuItem});
-            this.serverToolStripMenuItem.Name = "serverToolStripMenuItem";
-            this.serverToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
-            this.serverToolStripMenuItem.Text = "Сервер";
-            this.serverToolStripMenuItem.DropDownOpening += new System.EventHandler(this.serverToolStripMenuItem_DropDownOpening);
-            // 
-            // connectToolStripMenuItem
-            // 
-            this.connectToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            this.connectToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.connectToolStripMenuItem.Text = "Подключиться";
-            this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
-            // 
-            // disconnectToolStripMenuItem
-            // 
-            this.disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
-            this.disconnectToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.disconnectToolStripMenuItem.Text = "Отключиться";
-            this.disconnectToolStripMenuItem.Click += new System.EventHandler(this.disconnectToolStripMenuItem_Click);
+            this.mbcliVersionItem});
+            this.serverMenuItem.Name = "serverMenuItem";
+            this.serverMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.serverMenuItem.Text = "Сервер";
+            this.serverMenuItem.DropDownOpening += new System.EventHandler(this.serverToolStripMenuItem_DropDownOpening);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(194, 6);
-            // 
-            // startReadingtoolStripMenuItem
-            // 
-            this.startReadingtoolStripMenuItem.Name = "startReadingtoolStripMenuItem";
-            this.startReadingtoolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.startReadingtoolStripMenuItem.Text = "Начать чтение данных";
-            this.startReadingtoolStripMenuItem.Click += new System.EventHandler(this.startReadingtoolStripMenuItem_Click);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(213, 6);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(194, 6);
-            // 
-            // runEmulatorToolStripMenuItem
-            // 
-            this.runEmulatorToolStripMenuItem.Name = "runEmulatorToolStripMenuItem";
-            this.runEmulatorToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.runEmulatorToolStripMenuItem.Text = "Эмулятор";
-            this.runEmulatorToolStripMenuItem.Click += new System.EventHandler(this.runEmulatorToolStripMenuItem_Click);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(213, 6);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(194, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(213, 6);
             // 
-            // mbcliVersionToolStripMenuItem
+            // mbcliVersionItem
             // 
-            this.mbcliVersionToolStripMenuItem.Name = "mbcliVersionToolStripMenuItem";
-            this.mbcliVersionToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.mbcliVersionToolStripMenuItem.Text = "Версия mbcli.dll";
-            this.mbcliVersionToolStripMenuItem.Click += new System.EventHandler(this.mbcliVersionToolStripMenuItem_Click);
+            this.mbcliVersionItem.Name = "mbcliVersionItem";
+            this.mbcliVersionItem.Size = new System.Drawing.Size(216, 22);
+            this.mbcliVersionItem.Text = "Версия mbcli.dll";
+            this.mbcliVersionItem.Click += new System.EventHandler(this.mbcliVersionToolStripMenuItem_Click);
             // 
-            // settingsToolStripMenuItem
+            // viewMenuItem
             // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
-            this.settingsToolStripMenuItem.Text = "Настройки...";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            this.viewMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.errorLogMenuItem,
+            this.scudMenuItem,
+            this.iptMenuItem});
+            this.viewMenuItem.Name = "viewMenuItem";
+            this.viewMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.viewMenuItem.Text = "Вид";
+            this.viewMenuItem.DropDownOpening += new System.EventHandler(this.viewToolStripMenuItem_DropDownOpening);
             // 
-            // viewToolStripMenuItem
+            // scudMenuItem
             // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.errorLogToolStripMenuItem,
-            this.scudToolStripMenuItem,
-            this.iptToolStripMenuItem});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.viewToolStripMenuItem.Text = "Вид";
-            this.viewToolStripMenuItem.DropDownOpening += new System.EventHandler(this.viewToolStripMenuItem_DropDownOpening);
+            this.scudMenuItem.CheckOnClick = true;
+            this.scudMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("scudMenuItem.Image")));
+            this.scudMenuItem.Name = "scudMenuItem";
+            this.scudMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
+            this.scudMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.scudMenuItem.Text = "СКУД";
+            this.scudMenuItem.Click += new System.EventHandler(this.changeVisible_Click);
             // 
-            // errorLogToolStripMenuItem
+            // iptMenuItem
             // 
-            this.errorLogToolStripMenuItem.CheckOnClick = true;
-            this.errorLogToolStripMenuItem.Name = "errorLogToolStripMenuItem";
-            this.errorLogToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.errorLogToolStripMenuItem.Text = "Лог ошибок";
-            this.errorLogToolStripMenuItem.Click += new System.EventHandler(this.changeVisible_Click);
+            this.iptMenuItem.CheckOnClick = true;
+            this.iptMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("iptMenuItem.Image")));
+            this.iptMenuItem.Name = "iptMenuItem";
+            this.iptMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
+            this.iptMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.iptMenuItem.Text = "ИПТ";
+            this.iptMenuItem.Click += new System.EventHandler(this.changeVisible_Click);
             // 
-            // scudToolStripMenuItem
+            // settingsMenuItem
             // 
-            this.scudToolStripMenuItem.CheckOnClick = true;
-            this.scudToolStripMenuItem.Name = "scudToolStripMenuItem";
-            this.scudToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.scudToolStripMenuItem.Text = "СКУД";
-            this.scudToolStripMenuItem.Click += new System.EventHandler(this.changeVisible_Click);
-            // 
-            // iptToolStripMenuItem
-            // 
-            this.iptToolStripMenuItem.CheckOnClick = true;
-            this.iptToolStripMenuItem.Name = "iptToolStripMenuItem";
-            this.iptToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.iptToolStripMenuItem.Text = "ИПТ";
-            this.iptToolStripMenuItem.Click += new System.EventHandler(this.changeVisible_Click);
+            this.settingsMenuItem.Name = "settingsMenuItem";
+            this.settingsMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.settingsMenuItem.Size = new System.Drawing.Size(88, 20);
+            this.settingsMenuItem.Text = "Настройки...";
+            this.settingsMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // splitContainer4
             // 
@@ -448,22 +406,132 @@
             // 
             // splitContainer4.Panel2
             // 
-            this.splitContainer4.Panel2.Controls.Add(this.logTextBox);
+            this.splitContainer4.Panel2.Controls.Add(this.errorLogTextBox);
             this.splitContainer4.Size = new System.Drawing.Size(1083, 673);
             this.splitContainer4.SplitterDistance = 491;
             this.splitContainer4.TabIndex = 6;
             // 
-            // logTextBox
+            // errorLogTextBox
             // 
-            this.logTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logTextBox.HideSelection = false;
-            this.logTextBox.Location = new System.Drawing.Point(0, 0);
-            this.logTextBox.Multiline = true;
-            this.logTextBox.Name = "logTextBox";
-            this.logTextBox.ReadOnly = true;
-            this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logTextBox.Size = new System.Drawing.Size(1083, 178);
-            this.logTextBox.TabIndex = 0;
+            this.errorLogTextBox.ContextMenuStrip = this.errorLogcontextMenu;
+            this.errorLogTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorLogTextBox.HideSelection = false;
+            this.errorLogTextBox.Location = new System.Drawing.Point(0, 0);
+            this.errorLogTextBox.Multiline = true;
+            this.errorLogTextBox.Name = "errorLogTextBox";
+            this.errorLogTextBox.ReadOnly = true;
+            this.errorLogTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.errorLogTextBox.ShortcutsEnabled = false;
+            this.errorLogTextBox.Size = new System.Drawing.Size(1083, 178);
+            this.errorLogTextBox.TabIndex = 0;
+            // 
+            // errorLogcontextMenu
+            // 
+            this.errorLogcontextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearMenuItem});
+            this.errorLogcontextMenu.Name = "errorLogcontextMenu";
+            this.errorLogcontextMenu.Size = new System.Drawing.Size(151, 26);
+            this.errorLogcontextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.errorLogcontextMenu_Opening);
+            // 
+            // normalizeButton
+            // 
+            this.normalizeButton.CheckOnClick = true;
+            this.normalizeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.normalizeButton.Image = ((System.Drawing.Image)(resources.GetObject("normalizeButton.Image")));
+            this.normalizeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.normalizeButton.Name = "normalizeButton";
+            this.normalizeButton.Size = new System.Drawing.Size(98, 24);
+            this.normalizeButton.Text = "Нормализовать";
+            this.normalizeButton.CheckedChanged += new System.EventHandler(this.normalizeButton_CheckedChanged);
+            // 
+            // startButton
+            // 
+            this.startButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.startButton.Image = ((System.Drawing.Image)(resources.GetObject("startButton.Image")));
+            this.startButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(50, 24);
+            this.startButton.Text = "Начать";
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            // 
+            // addSeriesButton
+            // 
+            this.addSeriesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.addSeriesButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.addSeriesButton.Image = ((System.Drawing.Image)(resources.GetObject("addSeriesButton.Image")));
+            this.addSeriesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addSeriesButton.Name = "addSeriesButton";
+            this.addSeriesButton.Size = new System.Drawing.Size(23, 24);
+            this.addSeriesButton.Text = "+";
+            this.addSeriesButton.ToolTipText = "Добавить параметр";
+            this.addSeriesButton.Click += new System.EventHandler(this.addSeriesButton_Click);
+            // 
+            // removeSeriesButton
+            // 
+            this.removeSeriesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.removeSeriesButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.removeSeriesButton.Image = ((System.Drawing.Image)(resources.GetObject("removeSeriesButton.Image")));
+            this.removeSeriesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.removeSeriesButton.Name = "removeSeriesButton";
+            this.removeSeriesButton.Size = new System.Drawing.Size(23, 24);
+            this.removeSeriesButton.Text = "-";
+            this.removeSeriesButton.ToolTipText = "Удалить параметр";
+            this.removeSeriesButton.Click += new System.EventHandler(this.removeSeriesButton_Click);
+            // 
+            // clearMenuItem
+            // 
+            this.clearMenuItem.Image = global::MonitorForms.Properties.Resources.ClearContent;
+            this.clearMenuItem.Name = "clearMenuItem";
+            this.clearMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.clearMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.clearMenuItem.Text = "Очистить";
+            this.clearMenuItem.Click += new System.EventHandler(this.clearMenuItem_Click);
+            // 
+            // connectMenuItem
+            // 
+            this.connectMenuItem.Image = global::MonitorForms.Properties.Resources.Connect;
+            this.connectMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.connectMenuItem.Name = "connectMenuItem";
+            this.connectMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.connectMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.connectMenuItem.Text = "Подключиться";
+            this.connectMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
+            // 
+            // disconnectToolStripMenuItem
+            // 
+            this.disconnectToolStripMenuItem.Image = global::MonitorForms.Properties.Resources.Disconnect;
+            this.disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
+            this.disconnectToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.disconnectToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.disconnectToolStripMenuItem.Text = "Отключиться";
+            this.disconnectToolStripMenuItem.Click += new System.EventHandler(this.disconnectToolStripMenuItem_Click);
+            // 
+            // startReadingMenuItem
+            // 
+            this.startReadingMenuItem.Image = global::MonitorForms.Properties.Resources.Run;
+            this.startReadingMenuItem.Name = "startReadingMenuItem";
+            this.startReadingMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.startReadingMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.startReadingMenuItem.Text = "Начать чтение данных";
+            this.startReadingMenuItem.Click += new System.EventHandler(this.startReadingtoolStripMenuItem_Click);
+            // 
+            // runEmulatorMenuItem
+            // 
+            this.runEmulatorMenuItem.Image = global::MonitorForms.Properties.Resources.Console;
+            this.runEmulatorMenuItem.Name = "runEmulatorMenuItem";
+            this.runEmulatorMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.runEmulatorMenuItem.Text = "Эмулятор ИПТ";
+            this.runEmulatorMenuItem.Click += new System.EventHandler(this.runEmulatorToolStripMenuItem_Click);
+            // 
+            // errorLogMenuItem
+            // 
+            this.errorLogMenuItem.CheckOnClick = true;
+            this.errorLogMenuItem.Image = global::MonitorForms.Properties.Resources.ErrorLog;
+            this.errorLogMenuItem.Name = "errorLogMenuItem";
+            this.errorLogMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.errorLogMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.errorLogMenuItem.Text = "Лог ошибок";
+            this.errorLogMenuItem.Click += new System.EventHandler(this.changeVisible_Click);
             // 
             // MainForm
             // 
@@ -471,9 +539,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1083, 697);
             this.Controls.Add(this.splitContainer4);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.mainMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.mainMenu;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
@@ -498,13 +566,14 @@
             this.scudTableLayoutPanel.PerformLayout();
             this.iptTableLayoutPanel.ResumeLayout(false);
             this.iptTableLayoutPanel.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
             this.splitContainer4.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
+            this.errorLogcontextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -522,16 +591,16 @@
         private System.Windows.Forms.ToolStripButton removeSeriesButton;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem serverToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip mainMenu;
+        private System.Windows.Forms.ToolStripMenuItem serverMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem connectMenuItem;
         private System.Windows.Forms.ToolStripMenuItem disconnectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem runEmulatorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runEmulatorMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem mbcliVersionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mbcliVersionItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem startReadingtoolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startReadingMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.ListBox scudListBox;
@@ -542,11 +611,16 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ListBox iptListBox;
         private System.Windows.Forms.SplitContainer splitContainer4;
-        private System.Windows.Forms.TextBox logTextBox;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem errorLogToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scudToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem iptToolStripMenuItem;
+        private System.Windows.Forms.TextBox errorLogTextBox;
+        private System.Windows.Forms.ToolStripMenuItem viewMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem errorLogMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scudMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem iptMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripLabel iptFreqLabel;
+        private System.Windows.Forms.ToolStripComboBox iptFreqComboBox;
+        private System.Windows.Forms.ContextMenuStrip errorLogcontextMenu;
+        private System.Windows.Forms.ToolStripMenuItem clearMenuItem;
     }
 }
 

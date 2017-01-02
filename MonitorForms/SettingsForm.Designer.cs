@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.cancelButton = new System.Windows.Forms.Button();
-            this.okButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -44,15 +43,17 @@
             this.label4 = new System.Windows.Forms.Label();
             this.iptIpAddressMaskTextBox = new System.Windows.Forms.MaskedTextBox();
             this.iptPortNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.okButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.pathsTabPage = new System.Windows.Forms.TabPage();
-            this.connectionTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.dataTabPage = new System.Windows.Forms.TabPage();
             this.logFilePathSelector = new MonitorForms.FilePathSelector();
-            this.emulFilePathSelector = new MonitorForms.FilePathSelector();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.emulFilePathSelector = new MonitorForms.FilePathSelector();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
+            this.connectionTabPage = new System.Windows.Forms.TabPage();
+            this.dataTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -63,8 +64,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.iptPortNumericUpDown)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.pathsTabPage.SuspendLayout();
-            this.connectionTabPage.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            this.connectionTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -83,33 +84,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(398, 161);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // cancelButton
-            // 
-            this.cancelButton.AutoSize = true;
-            this.cancelButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(346, 205);
-            this.cancelButton.MinimumSize = new System.Drawing.Size(75, 0);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 1;
-            this.cancelButton.Text = "Отмена";
-            this.cancelButton.UseVisualStyleBackColor = true;
-            // 
-            // okButton
-            // 
-            this.okButton.AutoSize = true;
-            this.okButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(265, 205);
-            this.okButton.MinimumSize = new System.Drawing.Size(75, 0);
-            this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 0;
-            this.okButton.Text = "ОК";
-            this.okButton.UseVisualStyleBackColor = true;
-            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -287,6 +261,33 @@
             0,
             0});
             // 
+            // cancelButton
+            // 
+            this.cancelButton.AutoSize = true;
+            this.cancelButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.Location = new System.Drawing.Point(346, 205);
+            this.cancelButton.MinimumSize = new System.Drawing.Size(75, 0);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 1;
+            this.cancelButton.Text = "Отмена";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            // 
+            // okButton
+            // 
+            this.okButton.AutoSize = true;
+            this.okButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.okButton.Location = new System.Drawing.Point(265, 205);
+            this.okButton.MinimumSize = new System.Drawing.Size(75, 0);
+            this.okButton.Name = "okButton";
+            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.TabIndex = 0;
+            this.okButton.Text = "ОК";
+            this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.pathsTabPage);
@@ -311,17 +312,6 @@
             this.pathsTabPage.Text = "Файлы";
             this.pathsTabPage.UseVisualStyleBackColor = true;
             // 
-            // connectionTabPage
-            // 
-            this.connectionTabPage.Controls.Add(this.tableLayoutPanel1);
-            this.connectionTabPage.Location = new System.Drawing.Point(4, 22);
-            this.connectionTabPage.Name = "connectionTabPage";
-            this.connectionTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.connectionTabPage.Size = new System.Drawing.Size(404, 167);
-            this.connectionTabPage.TabIndex = 1;
-            this.connectionTabPage.Text = "Соединение";
-            this.connectionTabPage.UseVisualStyleBackColor = true;
-            // 
             // tableLayoutPanel5
             // 
             this.tableLayoutPanel5.ColumnCount = 1;
@@ -337,16 +327,6 @@
             this.tableLayoutPanel5.Size = new System.Drawing.Size(398, 161);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
-            // dataTabPage
-            // 
-            this.dataTabPage.Location = new System.Drawing.Point(4, 22);
-            this.dataTabPage.Name = "dataTabPage";
-            this.dataTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.dataTabPage.Size = new System.Drawing.Size(404, 167);
-            this.dataTabPage.TabIndex = 2;
-            this.dataTabPage.Text = "Данные";
-            this.dataTabPage.UseVisualStyleBackColor = true;
-            // 
             // logFilePathSelector
             // 
             this.logFilePathSelector.AutoSize = true;
@@ -360,6 +340,13 @@
             this.logFilePathSelector.Name = "logFilePathSelector";
             this.logFilePathSelector.Size = new System.Drawing.Size(398, 49);
             this.logFilePathSelector.TabIndex = 6;
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "Текстовые файлы|*.txt";
+            this.saveFileDialog1.OverwritePrompt = false;
+            this.saveFileDialog1.SupportMultiDottedExtensions = true;
+            this.saveFileDialog1.Title = "Выберите файл для записи результата";
             // 
             // emulFilePathSelector
             // 
@@ -375,19 +362,33 @@
             this.emulFilePathSelector.Size = new System.Drawing.Size(398, 49);
             this.emulFilePathSelector.TabIndex = 7;
             // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.Filter = "Текстовые файлы|*.txt";
-            this.saveFileDialog1.OverwritePrompt = false;
-            this.saveFileDialog1.SupportMultiDottedExtensions = true;
-            this.saveFileDialog1.Title = "Выберите файл для записи результата";
-            // 
             // saveFileDialog2
             // 
             this.saveFileDialog2.Filter = "Исполняемые файлы|*.exe";
             this.saveFileDialog2.OverwritePrompt = false;
             this.saveFileDialog2.SupportMultiDottedExtensions = true;
             this.saveFileDialog2.Title = "Эмулятор ИПТ";
+            // 
+            // connectionTabPage
+            // 
+            this.connectionTabPage.Controls.Add(this.tableLayoutPanel1);
+            this.connectionTabPage.Location = new System.Drawing.Point(4, 22);
+            this.connectionTabPage.Name = "connectionTabPage";
+            this.connectionTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.connectionTabPage.Size = new System.Drawing.Size(404, 167);
+            this.connectionTabPage.TabIndex = 1;
+            this.connectionTabPage.Text = "Соединение";
+            this.connectionTabPage.UseVisualStyleBackColor = true;
+            // 
+            // dataTabPage
+            // 
+            this.dataTabPage.Location = new System.Drawing.Point(4, 22);
+            this.dataTabPage.Name = "dataTabPage";
+            this.dataTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.dataTabPage.Size = new System.Drawing.Size(404, 167);
+            this.dataTabPage.TabIndex = 2;
+            this.dataTabPage.Text = "Данные";
+            this.dataTabPage.UseVisualStyleBackColor = true;
             // 
             // SettingsForm
             // 
@@ -401,7 +402,8 @@
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.okButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "SettingsForm";
             this.ShowInTaskbar = false;
@@ -419,9 +421,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.iptPortNumericUpDown)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.pathsTabPage.ResumeLayout(false);
-            this.connectionTabPage.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
+            this.connectionTabPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

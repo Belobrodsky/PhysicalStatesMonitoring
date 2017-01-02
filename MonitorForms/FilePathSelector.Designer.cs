@@ -59,11 +59,14 @@
             // browseButton
             // 
             this.browseButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.browseButton.Image = global::MonitorForms.Properties.Resources.OpenFolder;
+            this.browseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.browseButton.Location = new System.Drawing.Point(209, 23);
             this.browseButton.Name = "browseButton";
             this.browseButton.Size = new System.Drawing.Size(75, 23);
             this.browseButton.TabIndex = 0;
             this.browseButton.Text = "Обзор...";
+            this.browseButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.browseButton.UseVisualStyleBackColor = true;
             this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
             // 

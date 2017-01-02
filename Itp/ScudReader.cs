@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace Ipt
 {
     /// <summary>Реализация чтения данных со СКУД.</summary>
-    internal class ScudReader : IReader<Buffer>
+    public class ScudReader : IReader<Buffer>
     {
         private readonly IPAddress _address;
         private readonly int _port;

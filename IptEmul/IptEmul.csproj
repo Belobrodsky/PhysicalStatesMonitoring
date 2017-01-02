@@ -59,6 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleMenu.cs" />
+    <Compile Include="ConsoleMenuItem.cs" />
+    <Compile Include="IptConnection.cs" />
+    <Compile Include="ScudConnection.cs" />
     <Compile Include="SyncListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

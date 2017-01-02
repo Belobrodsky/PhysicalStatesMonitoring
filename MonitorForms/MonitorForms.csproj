@@ -109,6 +109,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
@@ -141,6 +142,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <None Include="Resources\folder_Open_16xLG.png" />
+    <None Include="Resources\ListDefinition_16x_32.bmp" />
+    <None Include="Resources\ErrorSummary_16x.png" />
+    <None Include="Resources\Console_16x.png" />
+    <None Include="Resources\arrow_run_16xLG.png" />
+    <None Include="Resources\Connect_grey_16x.png" />
+    <None Include="Resources\Connect_16x.png" />
+    <None Include="Resources\ConnectTestPlan_16x.png" />
+    <None Include="Resources\Disconnect_16x.png" />
+    <None Include="Resources\ConnectTestPlan_16x_32.bmp" />
+    <None Include="Resources\ClearWindowContent_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
