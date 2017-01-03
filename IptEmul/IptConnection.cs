@@ -19,7 +19,8 @@ namespace IptEmul
             {
                 ipt = IptReader.GetInstance(Program.EndPoint.Address, Program.EndPoint.Port);
                 ipt.Connect();
-                ipt.Read();
+                Console.WriteLine(ipt.Read());
+                
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Соединение с ИПТ установлено ({0}).", Program.EndPoint);
                 Console.ResetColor();

@@ -31,6 +31,7 @@ namespace IptEmul
                 while (true)
                 {
                     Console.WriteLine("Ожидание запроса: {0}", localEndPoint);
+
                     var handler = listener.Accept();
                     DateTime time;
                     // Ждём от клиента запрос на данные. Запрос должне быть 0xE0

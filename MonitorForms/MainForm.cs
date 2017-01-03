@@ -90,7 +90,7 @@ namespace MonitorForms
                         });
                 }
             }
-            if (Program.Settings.ScudListVisible)
+            if (Program.Settings.IptListVisible)
             {
                 iptListBox.InvokeEx(
                     () =>
@@ -240,6 +240,7 @@ namespace MonitorForms
             disconnectToolStripMenuItem.Enabled = Reader != null && Reader.ReaderState != ReaderStateEnum.Disconnected;
             startReadingMenuItem.Enabled = Reader != null && Reader.ReaderState == ReaderStateEnum.Connected;
             runEmulatorMenuItem.Enabled = !Program.Settings.EmulPath.IsNullOrEmpty();
+            connectMenuItem.Enabled = !Program.Settings.IptIp.Equals(Program.Settings.ScudIp);
         }
 
         //Меню настроек
