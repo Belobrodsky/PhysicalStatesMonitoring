@@ -14,12 +14,13 @@ namespace MonitorForms
     public partial class MainForm : Form
     {
         #region Свойства
+
         //Генератор случайных чисел для эмуляции графика
         private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
         private DataReader _dataReader;
-        private bool _normalize;
 
-        private List<int> _freqs = new List<int>(new[] { 1, 10, 20, 30, 40 });
+        private List<int> _freqs = new List<int>(new[] {1, 10, 20, 30, 40});
+        private bool _normalize;
 
         //DataReader для чтения данных с устройств
         private DataReader Reader
@@ -71,23 +72,29 @@ namespace MonitorForms
             InitializeComponent();
         }
 
+        //Ошибка при чтении данных
+        private void _dataReader_Error(object sender, DataReaderErrorEventArgs e)
+        {
+            var message = string.Format(
+                "{0:T}\tКод ошибки: {1}{3}\t{2}{3}", DateTime.Now, e.ErrorCode, e.ErrorText, Environment.NewLine);
+            if (errorLogTextBox.Text.Length + message.Length > errorLogTextBox.MaxLength)
+            {
+                errorLogTextBox.InvokeEx(() => errorLogTextBox.Clear());
+            }
+            errorLogTextBox.InvokeEx(() => errorLogTextBox.AppendText(message));
+        }
+
         private void _dataReader_IptDataRead(object sender, DataReadEventArgs e)
         {
             if (e.Buffer.Buff != null)
             {
-                float[] ar = new float[15];
-                Array.Copy(e.Buffer.Buff, ar, ar.Length);
+                //TODO: Извлекать значения по индексам из Kks
                 //Поскольку таймер опроса СКУД и ИПТ работает в отдельном потоке, то
                 //вывод данных на форму выполняется с проверкой
                 if (Program.Settings.ScudListVisible)
                 {
-                    scudListBox.InvokeEx(
-                        () =>
-                        {
-                            scudListBox.BeginUpdate();
-                            scudListBox.DataSource = ar;
-                            scudListBox.EndUpdate();
-                        });
+                    scudValuesGrid.InvokeEx(
+                        () => { scudValuesGrid.SelectedObject = new KksValues(e.Buffer, Program.Settings.Kks); });
                 }
             }
             if (Program.Settings.IptListVisible)
@@ -111,49 +118,6 @@ namespace MonitorForms
             graphChart1.AddNewSeries();
         }
 
-        //Меню «Подключиться»
-        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Program.Settings.LogFile.IsNullOrEmpty())
-                SelectFile();
-            if (Program.Settings.LogFile.IsNullOrEmpty()) return;
-            Reader.Connect(
-                Program.Settings.ScudIpAddress, Program.Settings.ScudPort, Program.Settings.IptIpAddress,
-                Program.Settings.IptPort);
-        }
-
-        //Ошибка при чтении данных
-        private void _dataReader_Error(object sender, DataReaderErrorEventArgs e)
-        {
-            var message = string.Format(
-                "{0:T}\tКод ошибки: {1}{3}\t{2}{3}", DateTime.Now, e.ErrorCode, e.ErrorText, Environment.NewLine);
-            if (errorLogTextBox.Text.Length + message.Length > errorLogTextBox.MaxLength)
-            {
-                errorLogTextBox.InvokeEx(() => errorLogTextBox.Clear());
-            }
-            errorLogTextBox.InvokeEx(() => errorLogTextBox.AppendText(message));
-        }
-
-        //Меню «Отключиться»
-        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Reader.Disconnect();
-        }
-
-        //На графике выбрана точка
-        private void GraphChart1_SelectedPointChanged(object sender, EventArgs e)
-        {
-            dataGridView1.DataSource = graphChart1.MonitorValues.Select(
-                mv => new
-                {
-                    Время = mv.TimeStamp,
-                    Макс = mv.Max,
-                    Мин = mv.Min,
-                    Норм = mv.NValue,
-                    Значение = mv.Value
-                }).ToList();
-        }
-
         //Изменение видимости панелей
         private void changeVisible_Click(object sender, EventArgs e)
         {
@@ -172,19 +136,66 @@ namespace MonitorForms
             UpdateView();
         }
 
-        //Обновление вида
-        private void UpdateView()
+        //Очистка лога ошибок
+        private void clearMenuItem_Click(object sender, EventArgs e)
         {
-            scudMenuItem.Checked = Program.Settings.ScudListVisible;
-            iptMenuItem.Checked = Program.Settings.IptListVisible;
-            errorLogMenuItem.Checked = Program.Settings.ErrorLogVisible;
+            errorLogTextBox.Clear();
+        }
 
-            splitContainer2.Panel2Collapsed = !(Program.Settings.IptListVisible || Program.Settings.ScudListVisible);
-            scudIptSplitContainer.Panel1Collapsed = !Program.Settings.ScudListVisible;
-            scudIptSplitContainer.Panel2Collapsed = !Program.Settings.IptListVisible;
-            splitContainer4.Panel2Collapsed = !Program.Settings.ErrorLogVisible;
+        //Меню «Подключиться»
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Program.Settings.LogFile.IsNullOrEmpty())
+                SelectFile();
+            if (Program.Settings.LogFile.IsNullOrEmpty()) return;
+            Reader.Connect(
+                Program.Settings.ScudIpAddress, Program.Settings.ScudPort, Program.Settings.IptIpAddress,
+                Program.Settings.IptPort);
+        }
 
-            iptFreqComboBox.SelectedIndex = Program.Settings.IptFreqIndex;
+        //Меню «Отключиться»
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Reader.Disconnect();
+        }
+
+        private void errorLogcontextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            clearMenuItem.Enabled = errorLogTextBox.Lines.Length > 0;
+        }
+
+        //На графике выбрана точка
+        private void GraphChart1_SelectedPointChanged(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = graphChart1.MonitorValues.Select(
+                mv => new
+                      {
+                          Время = mv.TimeStamp,
+                          Макс = mv.Max,
+                          Мин = mv.Min,
+                          Норм = mv.NValue,
+                          Значение = mv.Value
+                      }).ToList();
+        }
+
+        //Смена частоты
+        private void iptFreqComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_dataReader != null)
+            {
+                _dataReader.IptInterval = 1000d / _freqs[iptFreqComboBox.SelectedIndex];
+            }
+            Program.Settings.IptFreqIndex = iptFreqComboBox.SelectedIndex;
+        }
+
+        //Загрузка формы
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            graphChart1.Count = 2;
+            normalizeButton.Checked = _normalize;
+            dataGridView1.AutoGenerateColumns = true;
+            //scudValuesGrid= "E7";
+            UpdateView();
         }
 
         //Меню «Версия библиотеки»
@@ -210,9 +221,14 @@ namespace MonitorForms
         //Меню «Запустить эмулятор»
         private void runEmulatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var psi = new ProcessStartInfo(Program.Settings.EmulPath);
-            psi.Arguments = string.Format("-emul -ip {0} -p {1}", Program.Settings.IptIp, Program.Settings.IptPort);
-            psi.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var psi = new ProcessStartInfo(Program.Settings.EmulPath)
+                      {
+                          Arguments = string.Format(
+                              "-emul -ip {0} -p {1}",
+                              Program.Settings.IptIp,
+                              Program.Settings.IptPort),
+                          WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
+                      };
             var p = Process.Start(psi);
             Closing += (o, args) =>
             {
@@ -240,7 +256,8 @@ namespace MonitorForms
             disconnectToolStripMenuItem.Enabled = Reader != null && Reader.ReaderState != ReaderStateEnum.Disconnected;
             startReadingMenuItem.Enabled = Reader != null && Reader.ReaderState == ReaderStateEnum.Connected;
             runEmulatorMenuItem.Enabled = !Program.Settings.EmulPath.IsNullOrEmpty();
-            connectMenuItem.Enabled = !Program.Settings.IptIp.Equals(Program.Settings.ScudIp);
+            connectMenuItem.Enabled = !Program.Settings.IptIp.Equals(Program.Settings.ScudIp)
+                                      || !Program.Settings.IptPort.Equals(Program.Settings.ScudPort);
         }
 
         //Меню настроек
@@ -273,41 +290,25 @@ namespace MonitorForms
             PerformanceMeter.Stop();
         }
 
-        //Загрузка формы
-        private void MainForm_Load(object sender, EventArgs e)
+        //Обновление вида
+        private void UpdateView()
         {
-            graphChart1.Count = 2;
-            normalizeButton.Checked = _normalize;
-            dataGridView1.AutoGenerateColumns = true;
-            scudListBox.FormatString = "E7";
-            UpdateView();
+            scudMenuItem.Checked = Program.Settings.ScudListVisible;
+            iptMenuItem.Checked = Program.Settings.IptListVisible;
+            errorLogMenuItem.Checked = Program.Settings.ErrorLogVisible;
+
+            splitContainer2.Panel2Collapsed = !( Program.Settings.IptListVisible || Program.Settings.ScudListVisible );
+            scudIptSplitContainer.Panel1Collapsed = !Program.Settings.ScudListVisible;
+            scudIptSplitContainer.Panel2Collapsed = !Program.Settings.IptListVisible;
+            splitContainer4.Panel2Collapsed = !Program.Settings.ErrorLogVisible;
+
+            iptFreqComboBox.SelectedIndex = Program.Settings.IptFreqIndex;
         }
 
         //Открытие меню «Вид»
         private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             UpdateView();
-        }
-
-        //Смена частоты
-        private void iptFreqComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_dataReader != null)
-            {
-                _dataReader.IptInterval = 1000d / _freqs[iptFreqComboBox.SelectedIndex];
-            }
-            Program.Settings.IptFreqIndex = iptFreqComboBox.SelectedIndex;
-        }
-
-        //Очистка лога ошибок
-        private void clearMenuItem_Click(object sender, EventArgs e)
-        {
-            errorLogTextBox.Clear();
-        }
-
-        private void errorLogcontextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            clearMenuItem.Enabled = errorLogTextBox.Lines.Length > 0;
         }
     }
 }

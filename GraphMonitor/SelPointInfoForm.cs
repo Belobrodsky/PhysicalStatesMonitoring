@@ -16,8 +16,16 @@ namespace GraphMonitor
             SetInfo(val, title);
         }
 
+        /// <summary>Скрытие формы при её закрытии пользователем</summary>
+        private void SelPointInfoForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason != CloseReason.UserClosing) return;
+            e.Cancel = true;
+            Hide();
+        }
+
         /// <summary>
-        /// Передача объекта с информацией в форму
+        ///     Передача объекта с информацией в форму
         /// </summary>
         /// <param name="val">Значение</param>
         /// <param name="title">Заголовок</param>
@@ -26,14 +34,6 @@ namespace GraphMonitor
             selInfoGrid.SelectedObject = val;
             Text = title;
             WindowState = FormWindowState.Normal;
-        }
-
-        /// <summary>Скрытие формы при её закрытии пользователем</summary>
-        private void SelPointInfoForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason != CloseReason.UserClosing) return;
-            e.Cancel = true;
-            Hide();
         }
     }
 }

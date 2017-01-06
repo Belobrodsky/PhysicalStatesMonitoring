@@ -2,6 +2,8 @@
 {
     public enum ReaderStateEnum
     {
-        Connected, Disconnected, DataReading
+        Connected,
+        Disconnected,
+        DataReading
     }
 }

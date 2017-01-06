@@ -1,13 +1,31 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net;
 using System.Windows.Forms;
 
 namespace MonitorForms
 {
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public static class Extensions
     {
+        /// <summary>Удаление из IP-адреса незначащих нулей.</summary>
+        /// <param name="address">Строка с IP-адресом.</param>
+        /// <returns>Возвращает строку с IP-адресом.</returns>
+        /// <remarks>
+        ///     Некоторые адреса вида 192.168.000.001, где есть незначащие нули в триадах,
+        ///     <see cref="IPAddress.Parse" /> обрабатывает неверно. Поэтому такой адрес будет преобразован в 192.168.0.1
+        /// </remarks>
+        public static string CleanIp(this string address)
+        {
+            if (address.IsNullOrEmpty()) return address;
+            if (address.IndexOf(".0.", StringComparison.Ordinal) != -1) return address;
+            while (address.IndexOf(".0", StringComparison.Ordinal) != -1
+                   && address.IndexOf(".0.", StringComparison.Ordinal) == -1)
+            {
+                address = address.Replace(".0", ".");
+            }
+            return address;
+        }
+
         /// <summary>Вспомогательный метод для работы с контролом из другого потока.</summary>
         /// <param name="control">Контрол, к которому нужен доступ из другого потока.</param>
         /// <param name="action">Метод, который будет работать с контролом.</param>
@@ -25,15 +43,5 @@ namespace MonitorForms
         {
             return string.IsNullOrEmpty(value);
         }
-
-        /// <summary>Преобразование экземпляра <see cref="IPAddress"/> в строку ###.###.###.###.</summary>
-        /// <param name="address">Экземпляр <see cref="IPAddress"/></param>
-        /// <returns>Возвращает IP-адрес в виде строки ###.###.###.###.</returns>
-        public static string IpToString(this IPAddress address)
-        {
-            var b = address.GetAddressBytes();
-            return string.Format("{0:000}.{1:000}.{2:000}.{3:000}", b[0], b[1], b[2], b[3]);
-        }
     }
-
 }

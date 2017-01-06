@@ -17,13 +17,13 @@ namespace Ipt
         private readonly Timer _iptTimer;
         private readonly Timer _scudTimer;
 
+        private Buffer _buffer;
+
         private IReader<Ipt4> _iptReader;
-        private IReader<Buffer> _scudReader;
 
         private bool _isIptConnected;
         private bool _isScudConnected;
-
-        private Buffer _buffer;
+        private IReader<Buffer> _scudReader;
 
         //Интервал чтения данных со СКУД
         public double ScudInterval
@@ -71,7 +71,8 @@ namespace Ipt
             MbCliWrapper.Error +=
                 (s, e) =>
                 {
-                    OnScudError(new DataReaderErrorEventArgs(e.ErrorCode, string.Format("Ошибка СКУД.\n{0}", e.ErrorText)));
+                    OnScudError(
+                        new DataReaderErrorEventArgs(e.ErrorCode, string.Format("Ошибка СКУД.\n{0}", e.ErrorText)));
                 };
         }
 
@@ -99,6 +100,7 @@ namespace Ipt
             try
             {
                 _iptReader = IptReader.GetInstance(address, port);
+                _iptReader.Connect();
             }
             catch (SocketException ex)
             {
@@ -125,6 +127,7 @@ namespace Ipt
         private void DisconnectIpt()
         {
             _iptTimer.Stop();
+            _iptReader.Disconnect();
             _iptReader.Dispose();
             _isIptConnected = false;
         }
@@ -151,20 +154,21 @@ namespace Ipt
             }
         }
 
+        protected virtual void OnIptDataRead(DataReadEventArgs e)
+        {
+            EventHandler<DataReadEventArgs> handler = IptDataRead;
+            if (handler != null) handler(this, e);
+        }
+
         protected virtual void OnIptError(DataReaderErrorEventArgs e)
         {
             EventHandler<DataReaderErrorEventArgs> handler = Error;
             if (handler != null) handler(this, e);
         }
+
         protected virtual void OnScudError(DataReaderErrorEventArgs e)
         {
             EventHandler<DataReaderErrorEventArgs> handler = Error;
-            if (handler != null) handler(this, e);
-        }
-
-        protected virtual void OnIptDataRead(DataReadEventArgs e)
-        {
-            EventHandler<DataReadEventArgs> handler = IptDataRead;
             if (handler != null) handler(this, e);
         }
 
@@ -180,6 +184,12 @@ namespace Ipt
             {
                 DisconnectIpt();
                 OnIptError(new DataReaderErrorEventArgs(ex.ErrorCode, ex.Message));
+                return;
+            }
+            catch (Exception ex)
+            {
+                DisconnectIpt();
+                OnIptError(new DataReaderErrorEventArgs(0, ex.Message));
                 return;
             }
             OnIptDataRead(new DataReadEventArgs(_buffer, ipt));

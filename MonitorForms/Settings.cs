@@ -2,12 +2,15 @@
 using System.IO;
 using System.Net;
 using System.Xml.Serialization;
+using Ipt;
 
 namespace MonitorForms
 {
     /// <summary>Настройки приложения.</summary>
     public class Settings
     {
+        #region Свойства
+
         public string ScudIp { get; set; }
         public int ScudPort { get; set; }
         public string IptIp { get; set; }
@@ -18,42 +21,49 @@ namespace MonitorForms
         public bool ScudListVisible { get; set; }
         public bool IptListVisible { get; set; }
         public int IptFreqIndex { get; set; }
+        public Kks Kks { get; set; }
 
         [XmlIgnore]
         public IPAddress IptIpAddress
         {
-            get { return IPAddress.Parse(IptIp); }
+            get { return IPAddress.Parse(IptIp.CleanIp()); }
         }
 
         [XmlIgnore]
         public IPAddress ScudIpAddress
         {
-            get { return IPAddress.Parse(ScudIp); }
-        }
-
-        static Settings()
-        {
-            Serializer = new XmlSerializer(typeof(Settings));
+            get { return IPAddress.Parse(ScudIp.CleanIp()); }
         }
 
         private static XmlSerializer Serializer { get; set; }
 
         private static string SettingsPath
         {
-            get
-            {
-                return "settings.xml";
-            }
+            get { return "settings.xml"; }
         }
 
-        public static void Save(Settings settings)
+        #endregion
+
+        static Settings()
         {
-            using (var writer = new StreamWriter(SettingsPath))
-            {
-                XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-                ns.Add("", "");
-                Serializer.Serialize(writer, settings, ns);
-            }
+            Serializer = new XmlSerializer(typeof(Settings));
+        }
+
+        private static Settings GetDefaultSettings()
+        {
+            return new Settings
+                   {
+                       IptIp = "192.168.008.002",
+                       IptPort = 2040,
+                       ScudIp = "192.168.008.001",
+                       ScudPort = 1024,
+                       LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.txt"),
+                       ErrorLogVisible = false,
+                       ScudListVisible = true,
+                       IptListVisible = true,
+                       IptFreqIndex = 0,
+                       Kks = new Kks()
+                   };
         }
 
         public static Settings Read()
@@ -66,7 +76,7 @@ namespace MonitorForms
             {
                 try
                 {
-                    return (Settings)Serializer.Deserialize(reader);
+                    return (Settings) Serializer.Deserialize(reader);
                 }
                 catch (Exception)
                 {
@@ -75,20 +85,14 @@ namespace MonitorForms
             }
         }
 
-        private static Settings GetDefaultSettings()
+        public static void Save(Settings settings)
         {
-            return new Settings()
+            using (var writer = new StreamWriter(SettingsPath))
             {
-                IptIp = "127.000.000.001",
-                IptPort = 1952,
-                ScudIp = "127.000.000.001",
-                ScudPort = 1952,
-                LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.txt"),
-                ErrorLogVisible = false,
-                ScudListVisible = true,
-                IptListVisible = true,
-                IptFreqIndex = 0
-            };
+                XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                ns.Add("", "");
+                Serializer.Serialize(writer, settings, ns);
+            }
         }
     }
 }

@@ -5,16 +5,21 @@ using System.Windows.Forms;
 namespace GraphMonitor
 {
     /// <summary>
-    /// Форма для установки максимального и минимального значений на осях
+    ///     Форма для установки максимального и минимального значений на осях
     /// </summary>
     public partial class SetMaxMinForm : Form
     {
+        #region Свойства
+
+        private Point _location;
+
         /// <summary>Максимальное значение</summary>
         public double Max { get; set; }
+
         /// <summary>Минимальное значение</summary>
         public double Min { get; set; }
 
-        private Point _location;
+        #endregion
 
         public SetMaxMinForm()
         {
@@ -31,11 +36,16 @@ namespace GraphMonitor
             Max = max;
             Min = min;
             if (!double.IsNaN(Max))
-                maxNumericUpDown.Value = (decimal)Max;
+                maxNumericUpDown.Value = (decimal) Max;
             if (!double.IsNaN(Min))
-                minNumericUpDown.Value = (decimal)Min;
+                minNumericUpDown.Value = (decimal) Min;
             titleLabel.Text = axisName;
             _location = location;
+        }
+
+        private void SetMaxMinForm_Deactivate(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void SetMaxMinForm_KeyDown(object sender, KeyEventArgs e)
@@ -43,8 +53,8 @@ namespace GraphMonitor
             switch (e.KeyCode)
             {
                 case Keys.Enter:
-                    Max = (double)maxNumericUpDown.Value;
-                    Min = (double)minNumericUpDown.Value;
+                    Max = (double) maxNumericUpDown.Value;
+                    Min = (double) minNumericUpDown.Value;
                     Close();
                     break;
             }
@@ -54,11 +64,6 @@ namespace GraphMonitor
         {
             Top = _location.Y - Height / 2;
             Left = _location.X - Width / 2;
-        }
-
-        private void SetMaxMinForm_Deactivate(object sender, EventArgs e)
-        {
-            Close();
         }
     }
 }

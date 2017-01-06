@@ -10,17 +10,15 @@ namespace IptEmul
         public static void Check()
         {
             Console.WriteLine("Проверка связи со СКУД.");
-            if (Program.EndPoint == null)
-                if (!Program.GetIpEndPoint()) return;
-
-            ScudReader scud = null;
             try
             {
                 MbCliWrapper.Error += MbCliWrapper_Error;
                 MbCliWrapper.Connected += MbCliWrapper_Connected;
-                scud = ScudReader.GetInstance(Program.EndPoint.Address, Program.EndPoint.Port);
-                scud.Connect();
-                scud.Disconnect();
+                using (var scud = ScudReader.GetInstance(Program.Address, Program.Port))
+                {
+                    scud.Connect();
+                    scud.Disconnect();
+                }
             }
             catch (DllNotFoundException ex)
             {
@@ -29,16 +27,12 @@ namespace IptEmul
                 Console.WriteLine(ex.Message);
                 Console.ResetColor();
             }
-            finally
-            {
-                if (scud != null) scud.Dispose();
-            }
         }
 
         private static void MbCliWrapper_Connected(object sender, EventArgs e)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Соединение со СКУД установлено ({0}).", Program.EndPoint);
+            Console.WriteLine("Соединение со СКУД установлено ({0}).", Program.Address);
             Console.ResetColor();
         }
 

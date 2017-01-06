@@ -8,11 +8,7 @@ namespace MonitorForms
     [Description("Контрол для выбора и отображения пути к файлу.")]
     public partial class FilePathSelector : UserControl
     {
-        public FilePathSelector()
-        {
-            InitializeComponent();
-            Caption = Name;
-        }
+        #region Свойства
 
         /// <summary>Путь к файлу</summary>
         [Description("Путь к файлу.")]
@@ -33,12 +29,12 @@ namespace MonitorForms
             set { label1.Text = value; }
         }
 
-        private void pathTextBox_TextChanged(object sender, EventArgs e)
+        #endregion
+
+        public FilePathSelector()
         {
-            toolTip1.SetToolTip(pathTextBox, pathTextBox.Text);
-            var w = TextRenderer.MeasureText(FilePath, Font).Width;
-            //Показывать подсказку только если текст выходит за рамки поля
-            toolTip1.Active = w > pathTextBox.ClientSize.Width;
+            InitializeComponent();
+            Caption = Name;
         }
 
         //Вызов диалога выбора файла. Если диалог не назначен, то создаётся по умолчанию.
@@ -71,6 +67,14 @@ namespace MonitorForms
                 FileDialog.OverwritePrompt = op;
                 pathTextBox.Text = FileDialog.FileName;
             }
+        }
+
+        private void pathTextBox_TextChanged(object sender, EventArgs e)
+        {
+            toolTip1.SetToolTip(pathTextBox, pathTextBox.Text);
+            var w = TextRenderer.MeasureText(FilePath, Font).Width;
+            //Показывать подсказку только если текст выходит за рамки поля
+            toolTip1.Active = w > pathTextBox.ClientSize.Width;
         }
     }
 }

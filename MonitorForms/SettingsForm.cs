@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Net;
 using System.Windows.Forms;
+using Ipt;
 
 namespace MonitorForms
 {
@@ -11,31 +11,31 @@ namespace MonitorForms
         {
             InitializeComponent();
 
-            scudIpAddressMaskTextBox.ValidatingType = typeof(IPAddress);
-            iptIpAddressMaskTextBox.ValidatingType = typeof(IPAddress);
-
-            scudIpAddressMaskTextBox.Text = Program.Settings.ScudIp;
-            scudPortNumericUpDown.Value = Program.Settings.ScudPort;
-            iptIpAddressMaskTextBox.Text = Program.Settings.IptIp;
-            iptPortNumericUpDown.Value = Program.Settings.IptPort;
+            scudIpEndPoint.Address = Program.Settings.ScudIp;
+            scudIpEndPoint.Port = Program.Settings.ScudPort;
+            iptIpEndPoint.Address = Program.Settings.IptIp;
+            iptIpEndPoint.Port = Program.Settings.IptPort;
             logFilePathSelector.FilePath = Program.Settings.LogFile;
             emulFilePathSelector.FilePath = Program.Settings.EmulPath;
+            propertyGrid1.SelectedObject = Program.Settings.Kks.Clone();
+        }
+
+        private void ipEndPointEditor_IsAddressValidChanged(object sender, EventArgs e)
+        {
+            okButton.Enabled = ( (IpEndPointEditor) sender ).IsAddressValid;
         }
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            Program.Settings.ScudIp = scudIpAddressMaskTextBox.Text;
-            Program.Settings.ScudPort = (int)scudPortNumericUpDown.Value;
-            Program.Settings.IptIp = iptIpAddressMaskTextBox.Text;
-            Program.Settings.IptPort = (int)iptPortNumericUpDown.Value;
+            Program.Settings.ScudIp = scudIpEndPoint.Address;
+            Program.Settings.ScudPort = scudIpEndPoint.Port;
+            Program.Settings.IptIp = iptIpEndPoint.Address;
+            Program.Settings.IptPort = iptIpEndPoint.Port;
             Program.Settings.LogFile = logFilePathSelector.FilePath;
             Program.Settings.EmulPath = emulFilePathSelector.FilePath;
+            Program.Settings.Kks = (Kks) propertyGrid1.SelectedObject;
+            Settings.Save(Program.Settings);
             Close();
-        }
-
-        private void MaskTextBox_TypeValidationCompleted(object sender, TypeValidationEventArgs e)
-        {
-            okButton.Enabled = e.IsValidInput;
         }
     }
 }

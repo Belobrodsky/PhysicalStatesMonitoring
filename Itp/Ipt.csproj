@@ -70,6 +70,8 @@
     <Compile Include="Types\Ipt4.cs" />
     <Compile Include="MbCliWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\Kks.cs" />
+    <Compile Include="Types\KksValues.cs" />
     <Compile Include="Types\ReaderStateEnum.cs" />
     <Compile Include="Types\ScudSignal.cs" />
     <Compile Include="UnsafeNativeMethods.cs" />

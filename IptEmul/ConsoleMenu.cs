@@ -6,13 +6,17 @@ namespace IptEmul
     /// <summary>Меню в консоли.</summary>
     internal class ConsoleMenu
     {
-        private readonly List<ConsoleMenuItem> _items;
+        #region Свойства
+
         private readonly ConsoleColor _itemColor;
+        private readonly List<ConsoleMenuItem> _items;
         private readonly ConsoleColor _selectionColor;
+
+        private int _top; //Положение первой строки меню
 
         private int SelectedIndex { get; set; }
 
-        private int _top;//Положение первой строки меню
+        #endregion
 
         public ConsoleMenu(params ConsoleMenuItem[] items)
         {
@@ -20,6 +24,20 @@ namespace IptEmul
             _items.AddRange(items);
             _itemColor = ConsoleColor.White;
             _selectionColor = ConsoleColor.Blue;
+        }
+
+        private void MoveDown()
+        {
+            SelectedIndex = SelectedIndex == _items.Count - 1 ? 0 : SelectedIndex + 1;
+            Console.SetCursorPosition(0, _top);
+            Show(false);
+        }
+
+        private void MoveUp()
+        {
+            SelectedIndex = SelectedIndex == 0 ? _items.Count - 1 : SelectedIndex - 1;
+            Console.SetCursorPosition(0, _top);
+            Show(false);
         }
 
         /// <summary>Показать меню.</summary>
@@ -70,20 +88,5 @@ namespace IptEmul
                     break;
             }
         }
-
-        private void MoveDown()
-        {
-            SelectedIndex = SelectedIndex == _items.Count - 1 ? 0 : SelectedIndex + 1;
-            Console.SetCursorPosition(0, _top);
-            Show(false);
-        }
-
-        private void MoveUp()
-        {
-            SelectedIndex = SelectedIndex == 0 ? _items.Count - 1 : SelectedIndex - 1;
-            Console.SetCursorPosition(0, _top);
-            Show(false);
-        }
     }
 }
-

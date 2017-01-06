@@ -20,7 +20,7 @@ namespace Ipt
         /// <summary>Время в формате Unix.</summary>
         private static long UnixTime
         {
-            get { return (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000; }
+            get { return ( DateTime.Now.ToUniversalTime().Ticks - 621355968000000000 ) / 10000000; }
         }
 
         #endregion

@@ -1,27 +1,92 @@
 ﻿using System;
 using System.Net;
+using Ipt;
 
 namespace IptEmul
 {
     class Program
     {
-        public static IPEndPoint EndPoint { get; set; }
-            //Меню программы
+        #region Свойства
+
+        //Меню программы
         private static ConsoleMenu _menu;
+        public static IPAddress Address { get; set; }
+        public static int Port { get; set; }
+
+        #endregion
+
+        /// <summary>Диалог для получения ip-адреса и номера порта.</summary>
+        /// <returns>Возвращает true, если удалось получить ip-адрес и порт.</returns>
+        public static bool GetIpEndPoint()
+        {
+            if (Address == null)
+            {
+                //Запрос адреса
+                Console.Write("Адрес: ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                var address = Console.ReadLine();
+                Console.ResetColor();
+                if (!IsValidIpAddress(address))
+                {
+                    return false;
+                }
+                Address = IPAddress.Parse(address.CleanIp());
+            }
+            if (Port == -1)
+            {
+                //Запрос порта
+                Console.Write("Порт: ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                var portInput = Console.ReadLine();
+                Console.ResetColor();
+                int port;
+                if (!int.TryParse(portInput, out port))
+                {
+                    return false;
+                }
+                Port = port;
+            }
+            return true;
+        }
+
+        /// <summary>Проверка валидности строки для ip-адреса.</summary>
+        private static bool IsValidIpAddress(string address)
+        {
+            try
+            {
+                IPAddress.Parse(address.CleanIp());
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Ошибка при вводе адреса [{0}].", address);
+                Console.WriteLine(ex);
+                Console.ResetColor();
+                return false;
+            }
+            return true;
+        }
 
         static void Main(string[] args)
         {
-            //Из командной строки берём адрес и порт
-            var param = ParseArgs(args);
-            if (EndPoint != null)
+            Port = -1;
+            if (args.Length == 0)
             {
-                Console.WriteLine(EndPoint);
+                ShowMenu();
+                return;
+            }
+            //Получаем адрес и порт из командной строки и возвращаем идентификатор операции.
+            var param = ParseArgs(args);
+            if (Address == null)
+            {
+                ShowMenu();
+                return;
             }
             //Что запускать
             switch (param)
             {
                 case "-emul":
-                    SyncListener.StartListening();
+                    IptServer.StartListening();
                     break;
                 case "-ipt":
                     IptConnection.Check();
@@ -29,26 +94,11 @@ namespace IptEmul
                 case "-scud":
                     ScudConnection.Check();
                     break;
+                default:
+                    ShowMenu();
+                    return;
             }
-            _menu = new ConsoleMenu(
-                new ConsoleMenuItem("Эмулятор ИПТ", SyncListener.StartListening),
-                new ConsoleMenuItem("Проверка связи с ИПТ", IptConnection.Check),
-                new ConsoleMenuItem("Проверка связи со СКУД", ScudConnection.Check),
-                new ConsoleMenuItem("Справка", ShowHelp)
-            );
-            _menu.Show(false);
-        }
-
-        private static void ShowHelp()
-        {
-            Console.WriteLine(
-                "Использование: iptemul [-ip IP] [-p PORT] [-emul|-ipt|-scud]\r\n" +
-                "Ключи:\r\n\t-ip IP\tIp-адрес, по которому соединяться с заданным устройством.\r\n\t" +
-                "\tРаботает в паре с -p.\r\n\t" +
-                "-p PORT\tНомер порта. Работает в паре с -ip.\r\n\t" +
-                "-emul\tЗапуск в режиме эмулятора сокет-сервера.\r\n\t" +
-                "-ipt\tЗапуск для проверки соединения с ИПТ.\r\n\t" +
-                "-scud\tЗапуск для проверки соединения со СКУД.\r\n\t");
+            Console.Read();
         }
 
         private static string ParseArgs(string[] args)
@@ -75,57 +125,69 @@ namespace IptEmul
                         break;
                 }
             }
-            if (address.Length > 0 && port.Length > 0)
+            if (IsValidIpAddress(address.CleanIp()))
             {
-                EndPoint = new IPEndPoint(IPAddress.Parse(address), int.Parse(port));
+                Address = IPAddress.Parse(address.CleanIp());
+            }
+            int p;
+            if (int.TryParse(port, out p))
+            {
+                Port = p;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Неправильно указан порт.");
+                Console.ResetColor();
             }
             return param;
         }
 
-        /// <summary>Проверка валидности строки для ip-адреса.</summary>
-        private static bool IsValidIpAddress(string address)
+        private static void ShowHelp()
         {
-            try
-            {
-                IPAddress.Parse(address);
-            }
-            catch (Exception)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Ошибка при вводе адреса {0}.", address);
-                Console.ResetColor();
-                return false;
-            }
-            return true;
+            Console.WriteLine(
+                "Использование: iptemul [-ip IP] [-p PORT] [-emul|-ipt|-scud]\r\n" +
+                "Ключи:\r\n\t-ip IP\tIp-адрес, по которому соединяться с заданным устройством.\r\n\t" +
+                "\tРаботает в паре с -p.\r\n\t" +
+                "-p PORT\tНомер порта. Работает в паре с -ip.\r\n\t" +
+                "-emul\tЗапуск в режиме эмулятора сокет-сервера.\r\n\t" +
+                "-ipt\tЗапуск для проверки соединения с ИПТ.\r\n\t" +
+                "-scud\tЗапуск для проверки соединения со СКУД.\r\n\t");
         }
 
-        /// <summary>Диалог для получения ip-адреса и номера порта.</summary>
-        /// <returns>Возвращает true, если удалось получить ip-адрес и порт.</returns>
-        public static bool GetIpEndPoint()
+        private static void ShowMenu()
         {
-            //Запрос адреса
-            Console.Write("Адрес: ");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            var address = Console.ReadLine();
-            Console.ResetColor();
-            if (!IsValidIpAddress(address))
-                return false;
-
-            //Запрос порта
-            Console.Write("Порт: ");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            var portInput = Console.ReadLine();
-            Console.ResetColor();
-            int port;
-            if (int.TryParse(portInput, out port))
-            {
-                EndPoint = new IPEndPoint(IPAddress.Parse(address), port);
-            }
-            else
-            {
-                return false;
-            }
-            return true;
+            _menu = new ConsoleMenu(
+                new ConsoleMenuItem(
+                    "Эмулятор ИПТ", () =>
+                    {
+                        if (GetIpEndPoint())
+                        {
+                            Console.Title = string.Format("{0}:{1}", Address, Port);
+                            IptServer.StartListening();
+                        }
+                    }),
+                new ConsoleMenuItem(
+                    "Проверка связи с ИПТ", () =>
+                    {
+                        if (GetIpEndPoint())
+                        {
+                            Console.Title = string.Format("{0}:{1}", Address, Port);
+                            IptConnection.Check();
+                        }
+                    }),
+                new ConsoleMenuItem(
+                    "Проверка связи со СКУД", () =>
+                    {
+                        if (GetIpEndPoint())
+                        {
+                            Console.Title = string.Format("{0}:{1}", Address, Port);
+                            ScudConnection.Check();
+                        }
+                    }),
+                new ConsoleMenuItem("Справка", ShowHelp)
+            );
+            _menu.Show(false);
         }
     }
 }

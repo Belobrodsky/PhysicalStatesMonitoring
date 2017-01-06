@@ -5,9 +5,14 @@ namespace MonitorForms
 {
     static class Program
     {
+        #region Свойства
+
         internal static Settings Settings { get; private set; }
+
+        #endregion
+
         /// <summary>
-        /// The main entry point for the application.
+        ///     The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()

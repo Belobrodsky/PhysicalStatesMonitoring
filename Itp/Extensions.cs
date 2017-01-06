@@ -7,25 +7,48 @@ namespace Ipt
 {
     public static class Extensions
     {
-        /// <summary>
-        /// Преобразование массива байт в струтуру
-        /// </summary>
-        /// <typeparam name="T">Тип структуры, в которую нужно преобразовать.</typeparam>
-        /// <param name="bytes">Массив <see cref="byte"/>.</param>
-        /// <returns>Возвращает структуру, заполненную из переданного массива <see cref="byte"/></returns>
-        public static T ToStruct<T>(this byte[] bytes) where T : struct
+        public static StringBuilder AppendFormatLine(this StringBuilder sb, string format, params object[] args)
         {
-            GCHandle handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
-            T stuff = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
-            handle.Free();
-            return stuff;
+            return sb.AppendFormat(format, args).AppendLine();
+        }
+
+        /// <summary>Удаление из IP-адреса незначащих нулей.</summary>
+        /// <param name="address">Строка с IP-адресом.</param>
+        /// <returns>Возвращает строку с IP-адресом без лишних нулей.</returns>
+        /// <remarks>
+        ///     Некоторые адреса вида 192.168.000.001, где есть незначащие нули в триадах,
+        ///     <see cref="IPAddress.Parse" /> обрабатывает неверно. Поэтому такой адрес будет преобразован в 192.168.0.1
+        /// </remarks>
+        public static string CleanIp(this string address)
+        {
+            if (address.IsNullOrEmpty())
+            {
+                return address;
+            }
+            if (address.IndexOf(".0.", StringComparison.Ordinal) != -1)
+            {
+                return address;
+            }
+            while (address.IndexOf(".0", StringComparison.Ordinal) != -1
+                   && address.IndexOf(".0.", StringComparison.Ordinal) == -1)
+            {
+                address = address.Replace(".0", ".");
+            }
+            return address;
+        }
+
+        /// <summary>Проверка, что строка не пустая.</summary>
+        /// <param name="value">Строковая переменная</param>
+        public static bool IsNullOrEmpty(this string value)
+        {
+            return string.IsNullOrEmpty(value);
         }
 
         /// <summary>
-        /// Преобразование структуры в массив байт.
+        ///     Преобразование структуры в массив байт.
         /// </summary>
         /// <typeparam name="T">Тип структуры, в которую нужно преобразовать.</typeparam>
-        /// <param name="value">Объект типа <typeparamref name="T"/></param>
+        /// <param name="value">Объект типа <typeparamref name="T" /></param>
         /// <returns>Возвращает массив байт.</returns>
         public static byte[] ToBytes<T>(this T value) where T : struct
         {
@@ -39,18 +62,18 @@ namespace Ipt
             return arr;
         }
 
-        public static StringBuilder AppendFormatLine(this StringBuilder sb, string format, params object[] args)
+        /// <summary>
+        ///     Преобразование массива байт в струтуру
+        /// </summary>
+        /// <typeparam name="T">Тип структуры, в которую нужно преобразовать.</typeparam>
+        /// <param name="bytes">Массив <see cref="byte" />.</param>
+        /// <returns>Возвращает структуру, заполненную из переданного массива <see cref="byte" /></returns>
+        public static T ToStruct<T>(this byte[] bytes) where T : struct
         {
-            return sb.AppendFormat(format, args).AppendLine();
-        }
-
-        /// <summary>Преобразование экземпляра <see cref="IPAddress"/> в строку ###.###.###.###.</summary>
-        /// <param name="address">Экземпляр <see cref="IPAddress"/></param>
-        /// <returns>Возвращает IP-адрес в виде строки ###.###.###.###.</returns>
-        public static string IpToString(this IPAddress address)
-        {
-            var b = address.GetAddressBytes();
-            return string.Format("{0:000}.{1:000}.{2:000}.{3:000}", b[0], b[1], b[2], b[3]);
+            GCHandle handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
+            T stuff = (T) Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+            handle.Free();
+            return stuff;
         }
     }
 }

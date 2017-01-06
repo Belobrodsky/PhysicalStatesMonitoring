@@ -6,58 +6,33 @@ namespace Ipt
     /// <summary>Структура для хранения данных с ИПТ-4</summary>
     public struct Ipt4
     {
-        [MarshalAs(UnmanagedType.U1)]
-        public byte MagistralFailure;
-        [MarshalAs(UnmanagedType.R4)]
-        public float FCurrent1;
-        [MarshalAs(UnmanagedType.R4)]
-        public float Freactivity1;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Power1;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Filter1;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Lcounter1;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Status1;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte GotHVP1;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte GotHVN1;
+        [MarshalAs(UnmanagedType.U1)] public byte MagistralFailure;
+        [MarshalAs(UnmanagedType.R4)] public float FCurrent1;
+        [MarshalAs(UnmanagedType.R4)] public float Freactivity1;
+        [MarshalAs(UnmanagedType.U1)] public byte Power1;
+        [MarshalAs(UnmanagedType.U1)] public byte Filter1;
+        [MarshalAs(UnmanagedType.U1)] public byte Lcounter1;
+        [MarshalAs(UnmanagedType.U1)] public byte Status1;
+        [MarshalAs(UnmanagedType.U1)] public byte GotHVP1;
+        [MarshalAs(UnmanagedType.U1)] public byte GotHVN1;
 
-        [MarshalAs(UnmanagedType.R4)]
-        public float FCurrent2;
-        [MarshalAs(UnmanagedType.R4)]
-        public float Freactivity2;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Power2;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Filter2;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Lcounter2;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Status2;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte GotHVP2;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte GotHVN2;
+        [MarshalAs(UnmanagedType.R4)] public float FCurrent2;
+        [MarshalAs(UnmanagedType.R4)] public float Freactivity2;
+        [MarshalAs(UnmanagedType.U1)] public byte Power2;
+        [MarshalAs(UnmanagedType.U1)] public byte Filter2;
+        [MarshalAs(UnmanagedType.U1)] public byte Lcounter2;
+        [MarshalAs(UnmanagedType.U1)] public byte Status2;
+        [MarshalAs(UnmanagedType.U1)] public byte GotHVP2;
+        [MarshalAs(UnmanagedType.U1)] public byte GotHVN2;
 
-        [MarshalAs(UnmanagedType.R4)]
-        public float FCurrent3;
-        [MarshalAs(UnmanagedType.R4)]
-        public float Freactivity3;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Power3;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Filter3;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Lcounter3;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte Status3;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte GotHVP3;
-        [MarshalAs(UnmanagedType.U1)]
-        public byte GotHVN3;
+        [MarshalAs(UnmanagedType.R4)] public float FCurrent3;
+        [MarshalAs(UnmanagedType.R4)] public float Freactivity3;
+        [MarshalAs(UnmanagedType.U1)] public byte Power3;
+        [MarshalAs(UnmanagedType.U1)] public byte Filter3;
+        [MarshalAs(UnmanagedType.U1)] public byte Lcounter3;
+        [MarshalAs(UnmanagedType.U1)] public byte Status3;
+        [MarshalAs(UnmanagedType.U1)] public byte GotHVP3;
+        [MarshalAs(UnmanagedType.U1)] public byte GotHVN3;
 
         #region Overrides of ValueType
 

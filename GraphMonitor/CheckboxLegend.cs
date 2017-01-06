@@ -9,18 +9,20 @@ using System.Windows.Forms.VisualStyles;
 namespace GraphMonitor
 {
     /// <summary>
-    /// Класс для отображения названия графика с чекбоксом
+    ///     Класс для отображения названия графика с чекбоксом
     /// </summary>
     internal class CheckboxLegend : LegendItem
     {
+        #region Свойства
+
         //Путь к изображению отмеченного чекбокса
         private static string _checkboxCheckedPath;
         //Путь к изображению неотмеченного чекбокса
         private static string _checkboxUncheckedPath;
         //Ассоциированный график
         private readonly Series _series;
-        /// <summary>Событие при выборе легенды в списке</summary>
-        public event EventHandler<LegendSelectedEventArgs> LegendSelected;
+
+        #endregion
 
         public CheckboxLegend(Series series)
         {
@@ -33,52 +35,29 @@ namespace GraphMonitor
             AddCells();
         }
 
+        /// <summary>Событие при выборе легенды в списке</summary>
+        public event EventHandler<LegendSelectedEventArgs> LegendSelected;
+
         /// <summary>Добавление ячеек с нужными элементами</summary>
         private void AddCells()
         {
             //Изображение чекбокса
-            var imageCell = new LegendCell()
-            {
-                CellType = LegendCellType.Image,
-                Image = _series.Enabled ? _checkboxCheckedPath : _checkboxUncheckedPath,
-            };
+            var imageCell = new LegendCell
+                            {
+                                CellType = LegendCellType.Image,
+                                Image = _series.Enabled ? _checkboxCheckedPath : _checkboxUncheckedPath
+                            };
             //Цвет графика
             var seriesCell = new LegendCell(LegendCellType.Text, _series.Name);
 
             //Название графика
-            var typeCell = new LegendCell()
-            {
-                CellType = LegendCellType.SeriesSymbol,
-            };
+            var typeCell = new LegendCell
+                           {
+                               CellType = LegendCellType.SeriesSymbol
+                           };
             Cells.Add(imageCell);
             Cells.Add(typeCell);
             Cells.Add(seriesCell);
-        }
-
-        /// <summary>Рисование чекбоксов</summary>
-        private static void DrawBitmaps()
-        {
-            //Пути к файлам во временной папке
-            _checkboxCheckedPath = Path.Combine(Path.GetTempPath(), "checkboxChecked.bmp");
-            _checkboxUncheckedPath = Path.Combine(Path.GetTempPath(), "checkboxUnchecked.bmp");
-            //Размеры изображений чекбоксов для разных состояний
-            var sizeChecked = CheckBoxRenderer.GetGlyphSize(Graphics.FromHwnd(IntPtr.Zero), CheckBoxState.CheckedNormal);
-            var sizeUnchecked = CheckBoxRenderer.GetGlyphSize(Graphics.FromHwnd(IntPtr.Zero), CheckBoxState.UncheckedNormal);
-
-            //Рисование изображений чекбоксов
-            using (Bitmap checkedBmp = new Bitmap(sizeChecked.Width, sizeChecked.Height), unCheckedBmp = new Bitmap(sizeUnchecked.Width, sizeUnchecked.Height))
-            {
-                using (Graphics g = Graphics.FromImage(checkedBmp), g1 = Graphics.FromImage(unCheckedBmp))
-                {
-                    CheckBoxRenderer.DrawCheckBox(g, new Point(), CheckBoxState.CheckedNormal);
-                    CheckBoxRenderer.DrawCheckBox(g1, new Point(), CheckBoxState.UncheckedNormal);
-                }
-                //Сохранение во временную папку.
-                if (!File.Exists(_checkboxCheckedPath))
-                    checkedBmp.Save(_checkboxCheckedPath, ImageFormat.Bmp);
-                if (!File.Exists(_checkboxUncheckedPath))
-                    unCheckedBmp.Save(_checkboxUncheckedPath, ImageFormat.Bmp);
-            }
         }
 
         /// <summary> Клик по описанию графика </summary>
@@ -92,7 +71,7 @@ namespace GraphMonitor
                     //Прямоугольник выделения
                     foreach (var item in Legend.CustomItems)
                     {
-                        if (!(item is CheckboxLegend)) continue;
+                        if (!( item is CheckboxLegend )) continue;
 
                         item.Cells[1].BackColor = Color.Transparent;
                         item.Cells[2].BackColor = Color.Transparent;
@@ -110,8 +89,37 @@ namespace GraphMonitor
             }
         }
 
+        /// <summary>Рисование чекбоксов</summary>
+        private static void DrawBitmaps()
+        {
+            //Пути к файлам во временной папке
+            _checkboxCheckedPath = Path.Combine(Path.GetTempPath(), "checkboxChecked.bmp");
+            _checkboxUncheckedPath = Path.Combine(Path.GetTempPath(), "checkboxUnchecked.bmp");
+            //Размеры изображений чекбоксов для разных состояний
+            var sizeChecked = CheckBoxRenderer.GetGlyphSize(Graphics.FromHwnd(IntPtr.Zero), CheckBoxState.CheckedNormal);
+            var sizeUnchecked = CheckBoxRenderer.GetGlyphSize(
+                Graphics.FromHwnd(IntPtr.Zero), CheckBoxState.UncheckedNormal);
+
+            //Рисование изображений чекбоксов
+            using (
+                Bitmap checkedBmp = new Bitmap(sizeChecked.Width, sizeChecked.Height),
+                       unCheckedBmp = new Bitmap(sizeUnchecked.Width, sizeUnchecked.Height))
+            {
+                using (Graphics g = Graphics.FromImage(checkedBmp), g1 = Graphics.FromImage(unCheckedBmp))
+                {
+                    CheckBoxRenderer.DrawCheckBox(g, new Point(), CheckBoxState.CheckedNormal);
+                    CheckBoxRenderer.DrawCheckBox(g1, new Point(), CheckBoxState.UncheckedNormal);
+                }
+                //Сохранение во временную папку.
+                if (!File.Exists(_checkboxCheckedPath))
+                    checkedBmp.Save(_checkboxCheckedPath, ImageFormat.Bmp);
+                if (!File.Exists(_checkboxUncheckedPath))
+                    unCheckedBmp.Save(_checkboxUncheckedPath, ImageFormat.Bmp);
+            }
+        }
+
         /// <summary>
-        /// Метод вызова события <see cref="LegendSelected"/>
+        ///     Метод вызова события <see cref="LegendSelected" />
         /// </summary>
         /// <param name="e"></param>
         protected virtual void OnSelectedLegendChanged(LegendSelectedEventArgs e)

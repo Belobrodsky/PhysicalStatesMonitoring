@@ -11,19 +11,16 @@ namespace IptEmul
         public static void Check()
         {
             Console.WriteLine("Проверка связи с ИПТ.");
-            if (Program.EndPoint == null)
-                if (!Program.GetIpEndPoint()) return;
-
-            IptReader ipt = null;
             try
             {
-                ipt = IptReader.GetInstance(Program.EndPoint.Address, Program.EndPoint.Port);
-                ipt.Connect();
-                Console.WriteLine(ipt.Read());
-                
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Соединение с ИПТ установлено ({0}).", Program.EndPoint);
-                Console.ResetColor();
+                using (var ipt = IptReader.GetInstance(Program.Address, Program.Port))
+                {
+                    ipt.Connect();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Соединение с ИПТ установлено ({0}).", Program.Address);
+                    Console.ResetColor();
+                    Console.WriteLine(ipt.Read());
+                }
             }
             catch (SocketException e)
             {
@@ -32,10 +29,6 @@ namespace IptEmul
                 Console.WriteLine("Номер ошибки: {0}.", e.ErrorCode);
                 Console.WriteLine("Сообщение: {0}.", e.Message);
                 Console.ResetColor();
-            }
-            finally
-            {
-                if (ipt != null) ipt.Dispose();
             }
         }
     }

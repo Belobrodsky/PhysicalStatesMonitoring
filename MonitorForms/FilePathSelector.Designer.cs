@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.browseButton = new System.Windows.Forms.Button();
             this.pathTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.browseButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,20 +56,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(287, 49);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // browseButton
-            // 
-            this.browseButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.browseButton.Image = global::MonitorForms.Properties.Resources.OpenFolder;
-            this.browseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.browseButton.Location = new System.Drawing.Point(209, 23);
-            this.browseButton.Name = "browseButton";
-            this.browseButton.Size = new System.Drawing.Size(75, 23);
-            this.browseButton.TabIndex = 0;
-            this.browseButton.Text = "Обзор...";
-            this.browseButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.browseButton.UseVisualStyleBackColor = true;
-            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
-            // 
             // pathTextBox
             // 
             this.pathTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -77,7 +63,7 @@
             this.pathTextBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.pathTextBox.Name = "pathTextBox";
             this.pathTextBox.Size = new System.Drawing.Size(200, 20);
-            this.pathTextBox.TabIndex = 1;
+            this.pathTextBox.TabIndex = 0;
             this.pathTextBox.TextChanged += new System.EventHandler(this.pathTextBox_TextChanged);
             // 
             // label1
@@ -91,6 +77,20 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "label1";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // browseButton
+            // 
+            this.browseButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.browseButton.Image = global::MonitorForms.Properties.Resources.OpenFolder;
+            this.browseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.browseButton.Location = new System.Drawing.Point(209, 23);
+            this.browseButton.Name = "browseButton";
+            this.browseButton.Size = new System.Drawing.Size(75, 23);
+            this.browseButton.TabIndex = 1;
+            this.browseButton.Text = "Обзор...";
+            this.browseButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.browseButton.UseVisualStyleBackColor = true;
+            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
             // 
             // FilePathSelector
             // 
