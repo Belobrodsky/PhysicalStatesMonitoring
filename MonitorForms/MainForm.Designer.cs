@@ -335,7 +335,7 @@
             this.iptListBox.Location = new System.Drawing.Point(3, 16);
             this.iptListBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.iptListBox.Name = "iptListBox";
-            this.iptListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.iptListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.iptListBox.Size = new System.Drawing.Size(206, 226);
             this.iptListBox.TabIndex = 2;
             // 

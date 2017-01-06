@@ -19,7 +19,7 @@ namespace MonitorForms
         private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
         private DataReader _dataReader;
 
-        private List<int> _freqs = new List<int>(new[] {1, 10, 20, 30, 40});
+        private List<int> _freqs = new List<int>(new[] { 1, 10, 20, 30, 40 });
         private bool _normalize;
 
         //DataReader для чтения данных с устройств
@@ -53,8 +53,8 @@ namespace MonitorForms
                     Program.Settings.LogFile,
                     new[]
                     {
-                        "Время", "J1", "J2", "R1", "R2", "Rc", "P1k", "Tcold", "Thot", "Ppg", "H10", "H9", "H8", "Lkd",
-                        "Lpg", "C", "Cp", "F", "N1", "Ntg", "AO"
+                        "Время", "J1", "J2", "R1", "R2", "Rc", "P_CORE", "T_COLD", "T_HOT", "P_SG", "H_12", "H_11", "H_10", "L_pres",
+                        "L_sg", "C_bor", "C_bor_f", "F_makeup", "N_akz", "N_tg", "AO"
                     });
             }
         }
@@ -86,15 +86,19 @@ namespace MonitorForms
 
         private void _dataReader_IptDataRead(object sender, DataReadEventArgs e)
         {
+            KksValues values = null;
             if (e.Buffer.Buff != null)
             {
-                //TODO: Извлекать значения по индексам из Kks
+                values = new KksValues(e.Buffer, Program.Settings.Kks);
                 //Поскольку таймер опроса СКУД и ИПТ работает в отдельном потоке, то
                 //вывод данных на форму выполняется с проверкой
                 if (Program.Settings.ScudListVisible)
                 {
                     scudValuesGrid.InvokeEx(
-                        () => { scudValuesGrid.SelectedObject = new KksValues(e.Buffer, Program.Settings.Kks); });
+                        () =>
+                        {
+                            scudValuesGrid.SelectedObject = values;
+                        });
                 }
             }
             if (Program.Settings.IptListVisible)
@@ -109,7 +113,8 @@ namespace MonitorForms
             }
             //TODO:Добавить вычисление токов перед записью в файл
             //NOTE:Writer создаётся в потоке формы, а файл пишется в потоке таймера. Выяснить возможные уязвимости
-            Writer.WriteData(e.Buffer, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2);
+            //Для записи передавать KksValues
+            Writer.WriteData(values, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2);
         }
 
         //Добавить график
@@ -169,13 +174,13 @@ namespace MonitorForms
         {
             dataGridView1.DataSource = graphChart1.MonitorValues.Select(
                 mv => new
-                      {
-                          Время = mv.TimeStamp,
-                          Макс = mv.Max,
-                          Мин = mv.Min,
-                          Норм = mv.NValue,
-                          Значение = mv.Value
-                      }).ToList();
+                {
+                    Время = mv.TimeStamp,
+                    Макс = mv.Max,
+                    Мин = mv.Min,
+                    Норм = mv.NValue,
+                    Значение = mv.Value
+                }).ToList();
         }
 
         //Смена частоты
@@ -222,13 +227,13 @@ namespace MonitorForms
         private void runEmulatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var psi = new ProcessStartInfo(Program.Settings.EmulPath)
-                      {
-                          Arguments = string.Format(
+            {
+                Arguments = string.Format(
                               "-emul -ip {0} -p {1}",
                               Program.Settings.IptIp,
                               Program.Settings.IptPort),
-                          WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
-                      };
+                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
+            };
             var p = Process.Start(psi);
             Closing += (o, args) =>
             {
@@ -297,7 +302,7 @@ namespace MonitorForms
             iptMenuItem.Checked = Program.Settings.IptListVisible;
             errorLogMenuItem.Checked = Program.Settings.ErrorLogVisible;
 
-            splitContainer2.Panel2Collapsed = !( Program.Settings.IptListVisible || Program.Settings.ScudListVisible );
+            splitContainer2.Panel2Collapsed = !(Program.Settings.IptListVisible || Program.Settings.ScudListVisible);
             scudIptSplitContainer.Panel1Collapsed = !Program.Settings.ScudListVisible;
             scudIptSplitContainer.Panel2Collapsed = !Program.Settings.IptListVisible;
             splitContainer4.Panel2Collapsed = !Program.Settings.ErrorLogVisible;
