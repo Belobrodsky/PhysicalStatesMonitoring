@@ -19,7 +19,8 @@ namespace GraphMonitor
         /// <summary>Скрытие формы при её закрытии пользователем</summary>
         private void SelPointInfoForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason != CloseReason.UserClosing) return;
+            if (e.CloseReason != CloseReason.UserClosing)
+                return;
             e.Cancel = true;
             Hide();
         }

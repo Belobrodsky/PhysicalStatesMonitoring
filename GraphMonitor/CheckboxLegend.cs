@@ -30,7 +30,8 @@ namespace GraphMonitor
             _series.IsVisibleInLegend = false;
             ImageStyle = LegendImageStyle.Line;
             Color = _series.Color;
-            if (!File.Exists(_checkboxCheckedPath) || !File.Exists(_checkboxUncheckedPath))
+            if (!File.Exists(_checkboxCheckedPath)
+                || !File.Exists(_checkboxUncheckedPath))
                 DrawBitmaps();
             AddCells();
         }
@@ -63,7 +64,8 @@ namespace GraphMonitor
         /// <summary> Клик по описанию графика </summary>
         public void Click(LegendCell cell = null)
         {
-            if (cell == null) return;
+            if (cell == null)
+                return;
             switch (cell.CellType)
             {
                 case LegendCellType.Text:
@@ -71,7 +73,8 @@ namespace GraphMonitor
                     //Прямоугольник выделения
                     foreach (var item in Legend.CustomItems)
                     {
-                        if (!( item is CheckboxLegend )) continue;
+                        if (!(item is CheckboxLegend))
+                            continue;
 
                         item.Cells[1].BackColor = Color.Transparent;
                         item.Cells[2].BackColor = Color.Transparent;
@@ -125,7 +128,8 @@ namespace GraphMonitor
         protected virtual void OnSelectedLegendChanged(LegendSelectedEventArgs e)
         {
             EventHandler<LegendSelectedEventArgs> handler = LegendSelected;
-            if (handler != null) handler(this, e);
+            if (handler != null)
+                handler(this, e);
         }
     }
 }

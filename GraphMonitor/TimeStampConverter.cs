@@ -12,7 +12,7 @@ namespace GraphMonitor
                                          Type destinationType)
         {
             if (value is DateTime)
-                return ( (DateTime) value ).ToString("HH:mm:ss fff мс");
+                return ((DateTime) value).ToString("HH:mm:ss fff мс");
             return base.ConvertTo(context, culture, value, destinationType);
         }
 

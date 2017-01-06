@@ -30,19 +30,21 @@ namespace MonitorForms
         {
             get
             {
-                if (index > Values.Count - 1 || index < 0)
+                if (index > Values.Count - 1
+                    || index < 0)
                 {
                     return double.NaN;
                 }
                 if (normal)
                 {
-                    return ( Values[index] - Mins[index] ) / ( Maxs[index] - Mins[index] );
+                    return (Values[index] - Mins[index]) / (Maxs[index] - Mins[index]);
                 }
                 return Values[index];
             }
             set
             {
-                if (index > Values.Count - 1 || index < 0)
+                if (index > Values.Count - 1
+                    || index < 0)
                     throw new ArgumentOutOfRangeException("index");
                 Values[index] = value;
             }

@@ -14,8 +14,14 @@ namespace MonitorForms
         [Description("Путь к файлу.")]
         public string FilePath
         {
-            get { return pathTextBox.Text; }
-            set { pathTextBox.Text = value; }
+            get
+            {
+                return pathTextBox.Text;
+            }
+            set
+            {
+                pathTextBox.Text = value;
+            }
         }
 
         /// <summary>Диалог выбора файла</summary>
@@ -25,8 +31,14 @@ namespace MonitorForms
         [Description("Заголовок поля.")]
         public string Caption
         {
-            get { return label1.Text; }
-            set { label1.Text = value; }
+            get
+            {
+                return label1.Text;
+            }
+            set
+            {
+                label1.Text = value;
+            }
         }
 
         #endregion

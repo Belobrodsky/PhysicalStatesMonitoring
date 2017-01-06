@@ -16,8 +16,10 @@ namespace MonitorForms
         /// </remarks>
         public static string CleanIp(this string address)
         {
-            if (address.IsNullOrEmpty()) return address;
-            if (address.IndexOf(".0.", StringComparison.Ordinal) != -1) return address;
+            if (address.IsNullOrEmpty())
+                return address;
+            if (address.IndexOf(".0.", StringComparison.Ordinal) != -1)
+                return address;
             while (address.IndexOf(".0", StringComparison.Ordinal) != -1
                    && address.IndexOf(".0.", StringComparison.Ordinal) == -1)
             {

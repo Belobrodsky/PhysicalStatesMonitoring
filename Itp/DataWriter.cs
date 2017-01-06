@@ -20,7 +20,10 @@ namespace Ipt
         /// <summary>Время в формате Unix.</summary>
         private static long UnixTime
         {
-            get { return (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000; }
+            get
+            {
+                return (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
+            }
         }
 
         #endregion
@@ -53,7 +56,8 @@ namespace Ipt
         /// <param name="R1">Рассчитанная реактивность.</param>
         /// <param name="R2">Рассчитанная реактивность.</param>
         /// <param name="Rc">Средняя реактивность</param>
-        public void WriteData(KksValues values, double J1 = 0, double J2 = 0, double R1 = 0, double R2 = 0, double Rc = 0)
+        public void WriteData(KksValues values, double J1 = 0, double J2 = 0, double R1 = 0, double R2 = 0,
+                              double Rc = 0)
         {
             var sb = new StringBuilder();
             sb.AppendFormat("{0}", UnixTime);
@@ -81,7 +85,8 @@ namespace Ipt
         {
             if (!disposing)
                 return;
-            if (_writer != null) _writer.Dispose();
+            if (_writer != null)
+                _writer.Dispose();
         }
 
         #endregion

@@ -28,16 +28,19 @@ namespace IptEmul
                         Console.WriteLine("Ожидание запроса от {0}", handler.RemoteEndPoint);
                         byte[] buffer = new byte[1];
                         rec = handler.Receive(buffer);
-                        if (buffer[0] != 0xE0) continue;
+                        if (buffer[0] != 0xE0)
+                            continue;
                         var time = DateTime.Now;
-                        Console.WriteLine("{1:HH:mm:ss.ff}\tПришёл запрос: {0:X}", buffer[0], time);
+                        Console.WriteLine("{1:HH:mm:ss.ffffff}\tПришёл запрос: {0:X}", buffer[0], time);
+
                         //При получении запроса 0xE0 отправляется ответ
                         Random rnd = new Random(DateTime.Now.Millisecond);
                         var bytes = new byte[Marshal.SizeOf(typeof(Ipt4))];
                         rnd.NextBytes(bytes);
                         handler.Send(bytes);
+
                         Console.WriteLine(
-                            "Ответ отправлен через {0:N1} мсек:", ( DateTime.Now - time ).TotalMilliseconds);
+                            "Ответ отправлен через {0:N1} мсек:", (DateTime.Now - time).TotalMilliseconds);
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine(bytes.ToStruct<Ipt4>());
                         Console.ResetColor();

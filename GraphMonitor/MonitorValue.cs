@@ -33,7 +33,10 @@ namespace GraphMonitor
         [ReadOnly(true)]
         public double NValue
         {
-            get { return Math.Abs(Max - Min) < double.Epsilon ? Value : ( Value - Min ) / ( Max - Min ); }
+            get
+            {
+                return Math.Abs(Max - Min) < double.Epsilon ? Value : (Value - Min) / (Max - Min);
+            }
         }
 
         public MonitorValue(DateTime timestamp, double value, double max, double min)

@@ -21,7 +21,10 @@
         /// <summary>Размах значения</summary>
         public double Rate
         {
-            get { return Max - Min; }
+            get
+            {
+                return Max - Min;
+            }
         }
 
         /// <summary>Отображать ли на графике</summary>

@@ -14,15 +14,27 @@ namespace MonitorForms
         [Description("Адрес.")]
         public string Address
         {
-            get { return ipAddressMaskTextBox.Text; }
-            set { ipAddressMaskTextBox.Text = value; }
+            get
+            {
+                return ipAddressMaskTextBox.Text;
+            }
+            set
+            {
+                ipAddressMaskTextBox.Text = value;
+            }
         }
 
         [Description("Номер порта.")]
         public int Port
         {
-            get { return (int) portNumericUpDown.Value; }
-            set { portNumericUpDown.Value = value; }
+            get
+            {
+                return (int) portNumericUpDown.Value;
+            }
+            set
+            {
+                portNumericUpDown.Value = value;
+            }
         }
 
         [Description("Является ли введённый адрес валидным.")]
@@ -49,7 +61,8 @@ namespace MonitorForms
         protected virtual void OnIsAddressValidChanged()
         {
             var handler = IsAddressValidChanged;
-            if (handler != null) handler(this, EventArgs.Empty);
+            if (handler != null)
+                handler(this, EventArgs.Empty);
         }
     }
 }

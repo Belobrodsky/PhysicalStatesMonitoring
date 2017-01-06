@@ -77,8 +77,10 @@ namespace Ipt
 
         public override string ToString()
         {
-            return string.Format("{0:E7}\t{1:E7}\t{2:E7}\t{3:E7}\t{4:E7}\t{5:E7}\t{6:E7}\t{7:E7}\t{8:E7}\t{9:E7}\t{10:E7}\t{11:E7}\t{12:E7}\t{13:E7}\t{14:E7}",
-                PCore, TCold, THot, PSg, H12, H11, H10, LPres, LSg, Cbor, Cborf, Fmakeup, Nakz, Ntg, Ao);
+            return
+                string.Format(
+                    "{0:E7}\t{1:E7}\t{2:E7}\t{3:E7}\t{4:E7}\t{5:E7}\t{6:E7}\t{7:E7}\t{8:E7}\t{9:E7}\t{10:E7}\t{11:E7}\t{12:E7}\t{13:E7}\t{14:E7}",
+                    PCore, TCold, THot, PSg, H12, H11, H10, LPres, LSg, Cbor, Cborf, Fmakeup, Nakz, Ntg, Ao);
         }
 
         #endregion

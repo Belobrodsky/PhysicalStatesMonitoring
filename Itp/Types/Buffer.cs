@@ -10,20 +10,26 @@ namespace Ipt
     public struct Buffer
     {
         /// <summary>Время со СКУД в сек.</summary>
-        [MarshalAs(UnmanagedType.U4)] public uint ScudTimeSec;
+        [MarshalAs(UnmanagedType.U4)]
+        public uint ScudTimeSec;
 
         /// <summary>
         ///     Время со СКУД в мсек. Оно нам не нужно но так уж случилось. Я его заменяю на время в сек.
         ///     А время в сек. затем меняю на время из компьютера. Поэтому в записанном файле идет в первой
         ///     колонке время компьютера, а во второй - время со СКУД.
         /// </summary>
-        [MarshalAs(UnmanagedType.U4)] public uint ScudTimeMsec;
+        [MarshalAs(UnmanagedType.U4)]
+        public uint ScudTimeMsec;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 350, ArraySubType = UnmanagedType.R4)] public float[] Buff;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 350, ArraySubType = UnmanagedType.R4)]
+        public float[] Buff;
 
         public float this[int index]
         {
-            get { return Buff[index]; }
+            get
+            {
+                return Buff[index];
+            }
         }
     }
 }

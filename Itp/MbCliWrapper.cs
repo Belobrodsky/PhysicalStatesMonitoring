@@ -74,13 +74,15 @@ namespace Ipt
         private static void OnConnected()
         {
             var handler = Connected;
-            if (handler != null) handler(null, EventArgs.Empty);
+            if (handler != null)
+                handler(null, EventArgs.Empty);
         }
 
         private static void OnDisconnected()
         {
             var handler = Disconnected;
-            if (handler != null) handler(null, EventArgs.Empty);
+            if (handler != null)
+                handler(null, EventArgs.Empty);
         }
 
         /// <summary>Вызов события <see cref="Error" />.</summary>

@@ -40,7 +40,10 @@ namespace GraphMonitor
         [Browsable(false)]
         public DataPoint SelectedPoint
         {
-            get { return _selectedPoint; }
+            get
+            {
+                return _selectedPoint;
+            }
             set
             {
                 _selectedPoint = value;
@@ -61,7 +64,10 @@ namespace GraphMonitor
         [Description("Количество отображаемых графиков")]
         public int Count
         {
-            get { return chart.Series.Count; }
+            get
+            {
+                return chart.Series.Count;
+            }
             set
             {
                 if (chart.Series.Count == value)
@@ -82,7 +88,7 @@ namespace GraphMonitor
         {
             InitializeComponent();
             InitChart();
-            _range = (double)rangeNumericUpDown.Value;
+            _range = (double) rangeNumericUpDown.Value;
         }
 
         /// <summary>Событие при выборе точки курсором.</summary>
@@ -117,7 +123,9 @@ namespace GraphMonitor
         /// <param name="normalize">Нормировать значение.</param>
         public void AddValue(MonitorValue val, int seriesIndex, bool normalize = true)
         {
-            if (seriesIndex < 0 || seriesIndex > chart.Series.Count - 1) return;
+            if (seriesIndex < 0
+                || seriesIndex > chart.Series.Count - 1)
+                return;
             GetFrequency();
             //Добавление точки на график
             var index = chart.Series[seriesIndex].Points.AddXY(
@@ -155,7 +163,7 @@ namespace GraphMonitor
                     series.Select(s => s.Points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).First())
                           .ToList();
                 //
-                MonitorValues = points.Select(pt => (MonitorValue)pt.Tag);
+                MonitorValues = points.Select(pt => (MonitorValue) pt.Tag);
                 //Точка графика ближайшая к курсору
                 SelectedPoint = points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).First();
             }
@@ -168,7 +176,9 @@ namespace GraphMonitor
         private void chart_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             var result = chart.HitTest(e.X, e.Y);
-            if (result == null || result.Object == null) return;
+            if (result == null
+                || result.Object == null)
+                return;
             switch (result.ChartElementType)
             {
                 //Клик на оси
@@ -176,7 +186,8 @@ namespace GraphMonitor
                 case ChartElementType.AxisLabelImage:
                 case ChartElementType.AxisLabels:
                 case ChartElementType.AxisTitle:
-                    if (result.Axis.AxisName == AxisName.X) return;
+                    if (result.Axis.AxisName == AxisName.X)
+                        return;
                     var maxMinForm = new SetMaxMinForm(
                         result.Axis.Maximum, result.Axis.Minimum, result.Axis.Title, PointToScreen(e.Location));
                     maxMinForm.FormClosing += (s, args) =>
@@ -196,7 +207,9 @@ namespace GraphMonitor
         private void chart_MouseDown(object sender, MouseEventArgs e)
         {
             var result = chart.HitTest(e.X, e.Y);
-            if (result == null || result.Object == null) return;
+            if (result == null
+                || result.Object == null)
+                return;
             switch (result.ChartElementType)
             {
                 case ChartElementType.PlottingArea:
@@ -205,8 +218,9 @@ namespace GraphMonitor
                     AdjustCursorPosition();
                     break;
                 case ChartElementType.LegendItem:
-                    var legend = (CheckboxLegend)result.Object;
-                    if (legend == null) return;
+                    var legend = (CheckboxLegend) result.Object;
+                    if (legend == null)
+                        return;
                     var item = legend;
                     item.Click(result.SubObject as LegendCell);
                     break;
@@ -223,8 +237,10 @@ namespace GraphMonitor
         {
             var time = _stopwatch.Elapsed.TotalSeconds;
             _count++;
-            if (!_stopwatch.IsRunning) _stopwatch.Start();
-            if (_count < 10) return;
+            if (!_stopwatch.IsRunning)
+                _stopwatch.Start();
+            if (_count < 10)
+                return;
             freqLabel.Text = string.Format("{0:f1} Гц", 1 / (time / _count));
             _count = 0;
             _stopwatch.Restart();
@@ -236,15 +252,15 @@ namespace GraphMonitor
             chart.ChartAreas.Clear();
             chart.Series.Clear();
             _area = new ChartArea
-            {
-                CursorX =
+                    {
+                        CursorX =
                         {
                             IsUserEnabled = true,
                             IntervalType = DateTimeIntervalType.Milliseconds,
                             Interval = 5
                         },
-                //Ось Y
-                AxisY =
+                        //Ось Y
+                        AxisY =
                         {
                             Enabled = AxisEnabled.True,
                             Name = "Ось значений",
@@ -254,8 +270,8 @@ namespace GraphMonitor
                                 LineColor = Color.Gray
                             }
                         },
-                //Ось X
-                AxisX =
+                        //Ось X
+                        AxisX =
                         {
                             Name = "Ось времени",
                             Enabled = AxisEnabled.True,
@@ -296,7 +312,7 @@ namespace GraphMonitor
                                 MinSizeType = DateTimeIntervalType.Seconds
                             }
                         }
-            };
+                    };
             chart.ChartAreas.Add(_area);
         }
 
@@ -310,12 +326,13 @@ namespace GraphMonitor
         protected virtual void OnSelectedPointChanged()
         {
             var handler = SelectedPointChanged;
-            if (handler != null) handler(this, EventArgs.Empty);
+            if (handler != null)
+                handler(this, EventArgs.Empty);
         }
 
         private void rangeNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            _range = (double)rangeNumericUpDown.Value;
+            _range = (double) rangeNumericUpDown.Value;
             _area.AxisX.ScaleView.MinSize = _range;
             _area.AxisX.ScaleView.Zoom(_area.AxisX.ScaleView.Position, _range);
         }
@@ -323,7 +340,8 @@ namespace GraphMonitor
         /// <summary>Удаление последнего графика.</summary>
         public void RemoveLastSeries()
         {
-            if (chart.Series.Count == 0) return;
+            if (chart.Series.Count == 0)
+                return;
             chart.Series.RemoveAt(chart.Series.Count - 1);
             chart.Legends[0].CustomItems.RemoveAt(chart.Legends[0].CustomItems.Count - 1);
         }

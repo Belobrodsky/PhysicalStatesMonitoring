@@ -22,7 +22,7 @@ namespace MonitorForms
 
         private void ipEndPointEditor_IsAddressValidChanged(object sender, EventArgs e)
         {
-            okButton.Enabled = ( (IpEndPointEditor) sender ).IsAddressValid;
+            okButton.Enabled = ((IpEndPointEditor) sender).IsAddressValid;
         }
 
         private void okButton_Click(object sender, EventArgs e)

@@ -26,20 +26,29 @@ namespace MonitorForms
         [XmlIgnore]
         public IPAddress IptIpAddress
         {
-            get { return IPAddress.Parse(IptIp.CleanIp()); }
+            get
+            {
+                return IPAddress.Parse(IptIp.CleanIp());
+            }
         }
 
         [XmlIgnore]
         public IPAddress ScudIpAddress
         {
-            get { return IPAddress.Parse(ScudIp.CleanIp()); }
+            get
+            {
+                return IPAddress.Parse(ScudIp.CleanIp());
+            }
         }
 
         private static XmlSerializer Serializer { get; set; }
 
         private static string SettingsPath
         {
-            get { return "settings.xml"; }
+            get
+            {
+                return "settings.xml";
+            }
         }
 
         #endregion

@@ -20,7 +20,7 @@ namespace MonitorForms
         private DataReader _dataReader;
         private DataWriter _dataWriter;
 
-        private List<int> _freqs = new List<int>(new[] { 1, 10, 20, 30, 40 });
+        private List<int> _freqs = new List<int>(new[] {1, 10, 20, 30, 40});
         private bool _normalize;
 
         //DataReader для чтения данных с устройств
@@ -59,8 +59,13 @@ namespace MonitorForms
 
         protected override bool DoubleBuffered
         {
-            get { return true; }
-            set { }
+            get
+            {
+                return true;
+            }
+            set
+            {
+            }
         }
 
         #endregion
@@ -150,10 +155,17 @@ namespace MonitorForms
         {
             if (Program.Settings.LogFile.IsNullOrEmpty())
                 SelectFile();
-            if (Program.Settings.LogFile.IsNullOrEmpty()) return;
+            if (Program.Settings.LogFile.IsNullOrEmpty())
+                return;
             Reader.Connect(
                 Program.Settings.ScudIpAddress, Program.Settings.ScudPort, Program.Settings.IptIpAddress,
                 Program.Settings.IptPort);
+        }
+
+        //Копирование в буфер из окна ошибок
+        private void copyMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(errorLogTextBox.SelectedText);
         }
 
         //Меню «Отключиться»
@@ -165,6 +177,7 @@ namespace MonitorForms
         private void errorLogcontextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             clearMenuItem.Enabled = errorLogTextBox.Lines.Length > 0;
+            copyMenuItem.Enabled = errorLogTextBox.SelectionLength > 0;
         }
 
         //На графике выбрана точка
@@ -172,13 +185,13 @@ namespace MonitorForms
         {
             dataGridView1.DataSource = graphChart1.MonitorValues.Select(
                 mv => new
-                {
-                    Время = mv.TimeStamp,
-                    Макс = mv.Max,
-                    Мин = mv.Min,
-                    Норм = mv.NValue,
-                    Значение = mv.Value
-                }).ToList();
+                      {
+                          Время = mv.TimeStamp,
+                          Макс = mv.Max,
+                          Мин = mv.Min,
+                          Норм = mv.NValue,
+                          Значение = mv.Value
+                      }).ToList();
         }
 
         //Смена частоты
@@ -225,17 +238,19 @@ namespace MonitorForms
         private void runEmulatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var psi = new ProcessStartInfo(Program.Settings.EmulPath)
-            {
-                Arguments = string.Format(
+                      {
+                          Arguments = string.Format(
                               "-emul -ip {0} -p {1}",
                               Program.Settings.IptIp,
                               Program.Settings.IptPort),
-                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
-            };
+                          WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
+                      };
             var p = Process.Start(psi);
             Closing += (o, args) =>
             {
-                if (p != null && !p.HasExited) p.Kill();
+                if (p != null
+                    && !p.HasExited)
+                    p.Kill();
             };
         }
 

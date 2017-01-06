@@ -28,15 +28,27 @@ namespace Ipt
         //Интервал чтения данных со СКУД
         public double ScudInterval
         {
-            get { return _scudTimer.Interval; }
-            set { _scudTimer.Interval = value; }
+            get
+            {
+                return _scudTimer.Interval;
+            }
+            set
+            {
+                _scudTimer.Interval = value;
+            }
         }
 
         //Интервал чтения данных с ИПТ
         public double IptInterval
         {
-            get { return _iptTimer.Interval; }
-            set { _iptTimer.Interval = value; }
+            get
+            {
+                return _iptTimer.Interval;
+            }
+            set
+            {
+                _iptTimer.Interval = value;
+            }
         }
 
         /// <summary>Состояние ридера. <see cref="ReaderStateEnum" /></summary>
@@ -66,8 +78,14 @@ namespace Ipt
             _iptTimer = new Timer(250);
             _iptTimer.Elapsed += _iptTimer_Elapsed;
 
-            MbCliWrapper.Connected += (s, e) => { _isScudConnected = true; };
-            MbCliWrapper.Disconnected += (s, e) => { _isScudConnected = false; };
+            MbCliWrapper.Connected += (s, e) =>
+            {
+                _isScudConnected = true;
+            };
+            MbCliWrapper.Disconnected += (s, e) =>
+            {
+                _isScudConnected = false;
+            };
             MbCliWrapper.Error +=
                 (s, e) =>
                 {
@@ -155,19 +173,22 @@ namespace Ipt
         protected virtual void OnIptDataRead(DataReadEventArgs e)
         {
             EventHandler<DataReadEventArgs> handler = IptDataRead;
-            if (handler != null) handler(this, e);
+            if (handler != null)
+                handler(this, e);
         }
 
         protected virtual void OnIptError(DataReaderErrorEventArgs e)
         {
             EventHandler<DataReaderErrorEventArgs> handler = Error;
-            if (handler != null) handler(this, e);
+            if (handler != null)
+                handler(this, e);
         }
 
         protected virtual void OnScudError(DataReaderErrorEventArgs e)
         {
             EventHandler<DataReaderErrorEventArgs> handler = Error;
-            if (handler != null) handler(this, e);
+            if (handler != null)
+                handler(this, e);
         }
 
         /// <summary>Чтение данных ИПТ.</summary>
@@ -241,8 +262,10 @@ namespace Ipt
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_scudTimer != null) _scudTimer.Dispose();
-            if (_iptTimer != null) _iptTimer.Dispose();
+            if (_scudTimer != null)
+                _scudTimer.Dispose();
+            if (_iptTimer != null)
+                _iptTimer.Dispose();
         }
 
         #endregion
