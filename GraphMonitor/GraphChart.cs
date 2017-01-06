@@ -14,29 +14,29 @@ namespace GraphMonitor
     {
         #region Свойства
 
-        /// <summary>Количество минут для хранения данных</summary>
+        /// <summary>Количество минут для хранения данных.</summary>
         private const int MAX_MINUTES_DISPLAY = 10;
 
-        /// <summary>Секундомер для определения частоты</summary>
+        /// <summary>Секундомер для определения частоты.</summary>
         private readonly Stopwatch _stopwatch = new Stopwatch();
 
         private ChartArea _area;
 
-        /// <summary>Счётчик значений для определения частоты</summary>
+        /// <summary>Счётчик значений для определения частоты.</summary>
         private byte _count;
 
-        /// <summary>Форма с информацией</summary>
+        /// <summary>Форма с информацией.</summary>
         private SelPointInfoForm _infoForm = new SelPointInfoForm();
 
-        /// <summary>Отображаемый диапазон</summary>
+        /// <summary>Отображаемый диапазон.</summary>
         private double _range;
 
         private DataPoint _selectedPoint;
 
-        /// <summary>Выбранный график</summary>
+        /// <summary>Выбранный график.</summary>
         public Series SelectedSeries { get; set; }
 
-        /// <summary>Выбранная точка графика</summary>
+        /// <summary>Выбранная точка графика.</summary>
         [Browsable(false)]
         public DataPoint SelectedPoint
         {
@@ -53,13 +53,11 @@ namespace GraphMonitor
             }
         }
 
-        /// <summary>
-        ///     Значения графиков под курсором
-        /// </summary>
+        /// <summary>Значения графиков под курсором.</summary>
         [Browsable(false)]
         public IEnumerable<MonitorValue> MonitorValues { get; set; }
 
-        /// <summary>Количество графиков</summary>
+        /// <summary>Количество графиков.</summary>
         [Description("Количество отображаемых графиков")]
         public int Count
         {
@@ -73,7 +71,7 @@ namespace GraphMonitor
                 chart.Legends.Add(new Legend());
                 chart.Series.Clear();
                 for (int i = 0; i < value; i++)
-                    AddNewSeries(( i + 1 ).ToString());
+                    AddNewSeries((i + 1).ToString());
                 chart.Series.ResumeUpdates();
             }
         }
@@ -84,15 +82,15 @@ namespace GraphMonitor
         {
             InitializeComponent();
             InitChart();
-            _range = (double) rangeNumericUpDown.Value;
+            _range = (double)rangeNumericUpDown.Value;
         }
 
-        /// <summary>Событие при выборе точки курсором</summary>
+        /// <summary>Событие при выборе точки курсором.</summary>
         [Description("Событие при выборе точки курсором")]
         public event EventHandler SelectedPointChanged;
 
-        /// <summary>Добавление графика с указанным именем</summary>
-        /// <param name="name">Имя добавляемого графика</param>
+        /// <summary>Добавление графика с указанным именем.</summary>
+        /// <param name="name">Имя добавляемого графика.</param>
         public void AddNewSeries(string name)
         {
             if (chart.Series.FindByName(name) != null)
@@ -107,21 +105,18 @@ namespace GraphMonitor
             chart.Legends[0].CustomItems.Add(cbl);
         }
 
-        /// <summary>Добавление графика с именем по умолчанию</summary>
+        /// <summary>Добавление графика с именем по умолчанию.</summary>
         public void AddNewSeries()
         {
-            AddNewSeries(( chart.Series.Count + 1 ).ToString());
+            AddNewSeries((chart.Series.Count + 1).ToString());
         }
 
-        /// <summary>
-        ///     Добавление значения в заданный график
-        /// </summary>
-        /// <param name="val">Значение</param>
-        /// <param name="seriesIndex">Номер графика</param>
-        /// <param name="normalize">Нормировать значение</param>
+        /// <summary>Добавление значения в заданный график.</summary>
+        /// <param name="val">Значение.</param>
+        /// <param name="seriesIndex">Номер графика.</param>
+        /// <param name="normalize">Нормировать значение.</param>
         public void AddValue(MonitorValue val, int seriesIndex, bool normalize = true)
         {
-            //PerformanceMeter.Start($"Добавление значения. Всего {chart.Series[seriesIndex].Points.Count}.");
             if (seriesIndex < 0 || seriesIndex > chart.Series.Count - 1) return;
             GetFrequency();
             //Добавление точки на график
@@ -131,7 +126,7 @@ namespace GraphMonitor
             chart.Series[seriesIndex].Points[index].Tag = val;
             //Удаление точек позже 10 минут
             var firstValue = DateTime.FromOADate(chart.Series[seriesIndex].Points[0].XValue);
-            while (( val.TimeStamp - firstValue ).TotalMinutes > MAX_MINUTES_DISPLAY)
+            while ((val.TimeStamp - firstValue).TotalMinutes > MAX_MINUTES_DISPLAY)
             {
                 chart.Series[seriesIndex].Points.RemoveAt(0);
                 firstValue = DateTime.FromOADate(chart.Series[seriesIndex].Points[0].XValue);
@@ -139,10 +134,9 @@ namespace GraphMonitor
             SetYLimits(normalize);
             _area.AxisX.ScaleView.MinSize = _range;
             _area.AxisX.ScaleView.Zoom(val.TimeStamp.AddSeconds(0.5).ToOADate(), _range);
-            //PerformanceMeter.Stop();
         }
 
-        /// <summary>Метод для установки курсора в точное положение на графике</summary>
+        /// <summary>Метод для установки курсора в точное положение на графике.</summary>
         private void AdjustCursorPosition()
         {
             if (_area.CursorX.Position.Equals(double.NaN))
@@ -161,7 +155,7 @@ namespace GraphMonitor
                     series.Select(s => s.Points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).First())
                           .ToList();
                 //
-                MonitorValues = points.Select(pt => (MonitorValue) pt.Tag);
+                MonitorValues = points.Select(pt => (MonitorValue)pt.Tag);
                 //Точка графика ближайшая к курсору
                 SelectedPoint = points.OrderBy(pt => Math.Abs(pt.XValue - _area.CursorX.Position)).First();
             }
@@ -170,7 +164,7 @@ namespace GraphMonitor
             }
         }
 
-        /// <summary>Двойной клик по графику</summary>
+        /// <summary>Двойной клик по графику.</summary>
         private void chart_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             var result = chart.HitTest(e.X, e.Y);
@@ -211,7 +205,7 @@ namespace GraphMonitor
                     AdjustCursorPosition();
                     break;
                 case ChartElementType.LegendItem:
-                    var legend = (CheckboxLegend) result.Object;
+                    var legend = (CheckboxLegend)result.Object;
                     if (legend == null) return;
                     var item = legend;
                     item.Click(result.SubObject as LegendCell);
@@ -224,70 +218,89 @@ namespace GraphMonitor
             }
         }
 
-        /// <summary>Определение частоты изменения значений</summary>
+        /// <summary>Определение частоты изменения значений.</summary>
         private void GetFrequency()
         {
             var time = _stopwatch.Elapsed.TotalSeconds;
             _count++;
             if (!_stopwatch.IsRunning) _stopwatch.Start();
             if (_count < 10) return;
-            freqLabel.Text = string.Format("{0:f1} Гц", 1 / ( time / _count ));
+            freqLabel.Text = string.Format("{0:f1} Гц", 1 / (time / _count));
             _count = 0;
             _stopwatch.Restart();
         }
 
-        /// <summary>Инициализация графика</summary>
+        /// <summary>Инициализация графика.</summary>
         private void InitChart()
         {
             chart.ChartAreas.Clear();
             chart.Series.Clear();
             _area = new ChartArea
-                    {
-                        CursorX =
+            {
+                CursorX =
                         {
                             IsUserEnabled = true,
                             IntervalType = DateTimeIntervalType.Milliseconds,
                             Interval = 5
+                        },
+                //Ось Y
+                AxisY =
+                        {
+                            Enabled = AxisEnabled.True,
+                            Name = "Ось значений",
+                            MajorGrid =
+                            {
+                                LineDashStyle = ChartDashStyle.Dash,
+                                LineColor = Color.Gray
+                            }
+                        },
+                //Ось X
+                AxisX =
+                        {
+                            Name = "Ось времени",
+                            Enabled = AxisEnabled.True,
+                            MajorTickMark = {Enabled = false},
+                            //Основные линии сетки
+                            MajorGrid =
+                            {
+                                IntervalType = DateTimeIntervalType.Seconds,
+                                Interval = 1,
+                                LineColor = Color.Gray,
+                                LineDashStyle = ChartDashStyle.Dash
+                            },
+                            //Вспомогательные линии
+                            MinorTickMark =
+                            {
+                                IntervalType = DateTimeIntervalType.Seconds,
+                                TickMarkStyle = TickMarkStyle.InsideArea,
+                                Enabled = true,
+                                Interval = 0.5
+                            },
+                            //Метки на оси
+                            LabelStyle =
+                            {
+                                IntervalType = DateTimeIntervalType.Seconds,
+                                Interval = 1,
+                                IntervalOffset = 1,
+                                IntervalOffsetType = DateTimeIntervalType.Seconds,
+                                Format = "HH:mm:ss"
+                            },
+                            LabelAutoFitStyle = LabelAutoFitStyles.DecreaseFont | LabelAutoFitStyles.LabelsAngleStep90,
+                            //Укрупнённый вид на график
+                            ScaleView =
+                            {
+                                SmallScrollMinSizeType = DateTimeIntervalType.Seconds,
+                                SmallScrollMinSize = 1,
+                                SmallScrollSizeType = DateTimeIntervalType.Milliseconds,
+                                SmallScrollSize = 0.2,
+                                MinSizeType = DateTimeIntervalType.Seconds
+                            }
                         }
-                    };
-
-            //Ось Y
-            _area.AxisY.Enabled = AxisEnabled.True;
-            _area.AxisY.Name = "Ось значений";
-            _area.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _area.AxisY.MajorGrid.LineColor = Color.Gray;
-            //Ось X
-            _area.AxisX.Name = "Ось времени";
-            _area.AxisX.Enabled = AxisEnabled.True;
-            //Основные линии сетки
-            _area.AxisX.MajorTickMark.Enabled = false;
-            _area.AxisX.MajorGrid.IntervalType = DateTimeIntervalType.Seconds;
-            _area.AxisX.MajorGrid.Interval = 1;
-            _area.AxisX.MajorGrid.LineColor = Color.Gray;
-            _area.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            //Вспомогательные линии
-            _area.AxisX.MinorTickMark.IntervalType = DateTimeIntervalType.Seconds;
-            _area.AxisX.MinorTickMark.TickMarkStyle = TickMarkStyle.InsideArea;
-            _area.AxisX.MinorTickMark.Enabled = true;
-            _area.AxisX.MinorTickMark.Interval = 0.5;
-            //Метки на оси
-            _area.AxisX.LabelStyle.IntervalType = DateTimeIntervalType.Seconds;
-            _area.AxisX.LabelStyle.Interval = 1;
-            _area.AxisX.LabelStyle.IntervalOffset = 1;
-            _area.AxisX.LabelStyle.IntervalOffsetType = DateTimeIntervalType.Seconds;
-            _area.AxisX.LabelStyle.Format = "HH:mm:ss";
-            _area.AxisX.LabelAutoFitStyle = LabelAutoFitStyles.DecreaseFont | LabelAutoFitStyles.LabelsAngleStep90;
-            //Укрупнённый вид на график
-            _area.AxisX.ScaleView.SmallScrollMinSizeType = DateTimeIntervalType.Seconds;
-            _area.AxisX.ScaleView.SmallScrollMinSize = 1;
-            _area.AxisX.ScaleView.SmallScrollSizeType = DateTimeIntervalType.Milliseconds;
-            _area.AxisX.ScaleView.SmallScrollSize = 0.2;
-            _area.AxisX.ScaleView.MinSizeType = DateTimeIntervalType.Seconds;
-
+            };
             chart.ChartAreas.Add(_area);
         }
 
-        /// <summary>Обработчик события при выборе легенды</summary>
+        /// <summary>Обработчик события при выборе легенды.</summary>
         private void LegendSelected(object sender, LegendSelectedEventArgs e)
         {
             SelectedSeries = e.SelectedSeries;
@@ -302,12 +315,12 @@ namespace GraphMonitor
 
         private void rangeNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            _range = (double) rangeNumericUpDown.Value;
+            _range = (double)rangeNumericUpDown.Value;
             _area.AxisX.ScaleView.MinSize = _range;
             _area.AxisX.ScaleView.Zoom(_area.AxisX.ScaleView.Position, _range);
         }
 
-        /// <summary>Удаление последнего графика</summary>
+        /// <summary>Удаление последнего графика.</summary>
         public void RemoveLastSeries()
         {
             if (chart.Series.Count == 0) return;
@@ -315,8 +328,8 @@ namespace GraphMonitor
             chart.Legends[0].CustomItems.RemoveAt(chart.Legends[0].CustomItems.Count - 1);
         }
 
-        /// <summary>Пересчёт пределов по оси Y</summary>
-        /// <param name="normalize">Нормализовать шкалу</param>
+        /// <summary>Пересчёт пределов по оси Y.</summary>
+        /// <param name="normalize">Нормализовать шкалу.</param>
         private void SetYLimits(bool normalize)
         {
             if (normalize)

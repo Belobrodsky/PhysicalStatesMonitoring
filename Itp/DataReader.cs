@@ -134,8 +134,6 @@ namespace Ipt
 
         private void DisconnectScud()
         {
-            //TODO:Сделать работу СКУД и ИПТ независимыми.
-            //Сейчас каким-то образом подключённый СКУД мешает повторному соединению с эмулятором ИПТ
             _scudTimer.Stop();
             _scudReader.Disconnect();
             _scudReader.Dispose();

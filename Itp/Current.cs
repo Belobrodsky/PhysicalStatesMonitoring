@@ -43,7 +43,7 @@ namespace Ipt
 
         //  List<double> MyPsi = new List<double>();
 
-
+        //TODO: Александр. Старые значения времени и токов нужно хранить в полях класса. Извне брать только текущие значения.
         //эти методы должны расчитывать реактивности из Ток1 и Ток2
         public void SearchReactivity(double timeNow, double timeOld, double j1Now, double j1Old, double j2Now,
                                      double j2Old, double[] l, double[] a)
@@ -68,8 +68,8 @@ namespace Ipt
             {
                 double constTRaspada = l[i] * dT;
                 _one[i] = Math.Exp(-constTRaspada);
-                _two[i] = ( 1 - _one[i] ) / constTRaspada;
-                _psi01[i] = _psi01[i] * _one[i] - ( j1Now - j1Old ) * _two[i] - j1Old * _one[i] + j1Now;
+                _two[i] = (1 - _one[i]) / constTRaspada;
+                _psi01[i] = _psi01[i] * _one[i] - (j1Now - j1Old) * _two[i] - j1Old * _one[i] + j1Now;
 
                 Reactivity1 += a[i] * _psi01[i];
                 Reactivity2 += a[i] * _psi02[i];
@@ -83,9 +83,9 @@ namespace Ipt
             #region Свойства
 
             //параметры запаздывающих нейтронов (постоянные распада - лямбда, взятые из методик физических испытаний)
-            public static double[] LMetodiki = {0.0127, 0.0317, 0.1180, 0.3170, 1.4000, 3.9200};
+            public static double[] LMetodiki = { 0.0127, 0.0317, 0.1180, 0.3170, 1.4000, 3.9200 };
             //параметры запаздывающих нейтронов (относительные групповые доли - альфа)
-            public static double[] AApik = {0.0340, 0.2020, 0.1840, 0.4030, 0.1430, 0.0340};
+            public static double[] AApik = { 0.0340, 0.2020, 0.1840, 0.4030, 0.1430, 0.0340 };
             //коэффициент перевода из процентов в бетта эффективность
             private static double _beff = 0.74;
 

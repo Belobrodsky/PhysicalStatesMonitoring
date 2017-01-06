@@ -18,6 +18,7 @@ namespace MonitorForms
         //Генератор случайных чисел для эмуляции графика
         private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
         private DataReader _dataReader;
+        private DataWriter _dataWriter;
 
         private List<int> _freqs = new List<int>(new[] { 1, 10, 20, 30, 40 });
         private bool _normalize;
@@ -45,17 +46,14 @@ namespace MonitorForms
         {
             get
             {
-                if (Program.Settings.LogFile.IsNullOrEmpty())
-                {
-                    return null;
-                }
-                return DataWriter.GetInstance(
-                    Program.Settings.LogFile,
-                    new[]
-                    {
-                        "Время", "J1", "J2", "R1", "R2", "Rc", "P_CORE", "T_COLD", "T_HOT", "P_SG", "H_12", "H_11", "H_10", "L_pres",
-                        "L_sg", "C_bor", "C_bor_f", "F_makeup", "N_akz", "N_tg", "AO"
-                    });
+                return _dataWriter ?? (_dataWriter = DataWriter.GetInstance(
+                           Program.Settings.LogFile,
+                           new[]
+                           {
+                               "Время", "J1", "J2", "R1", "R2", "Rc", "P_CORE", "T_COLD", "T_HOT", "P_SG", "H_12",
+                               "H_11", "H_10", "L_pres",
+                               "L_sg", "C_bor", "C_bor_f", "F_makeup", "N_akz", "N_tg", "AO"
+                           }));
             }
         }
 
@@ -289,10 +287,8 @@ namespace MonitorForms
         //Таймер для анимации данных на графике
         private void timer1_Tick(object sender, EventArgs e)
         {
-            PerformanceMeter.Start(string.Format("Графиков {0}.", graphChart1.Count));
             for (int i = 0; i < graphChart1.Count; i++)
                 graphChart1.AddValue(new MonitorValue(DateTime.Now, _rnd.Next(-10, 11), 10, -10), i, _normalize);
-            PerformanceMeter.Stop();
         }
 
         //Обновление вида
