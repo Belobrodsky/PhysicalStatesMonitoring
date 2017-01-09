@@ -22,12 +22,15 @@ namespace IptEmul
                 using (Socket handler = listener.Accept())
                 {
                     Console.WriteLine("Подключён {0}", handler.RemoteEndPoint);
-                    int rec = -1;
-                    while (rec != 0)
+                    while (true)
                     {
                         Console.WriteLine("Ожидание запроса от {0}", handler.RemoteEndPoint);
                         byte[] buffer = new byte[1];
-                        rec = handler.Receive(buffer);
+                        var rec = handler.Receive(buffer);
+                        if (rec == 0)
+                        {
+                            break;
+                        }
                         if (buffer[0] != 0xE0)
                             continue;
                         var time = DateTime.Now;
