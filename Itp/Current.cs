@@ -20,29 +20,49 @@ namespace Ipt
         //   private double _timeNow;
         //для расчета реактивностей необходимы следующие параметры
         //предыдущее значение времени
-        private DateTime _timeOld = DateTime.MinValue;
+        private DateTime _time1Old = DateTime.MinValue;
+    
+        public DateTime Time1Old 
 
-        public DateTime TimeOld
         {
             get
             {
-                return _timeOld;
+                return _time1Old;
             }
             set
             {
-                _timeOld = value;
+                _time1Old = value;
+            }
+        }
+        
+        private DateTime _time2Old = DateTime.MinValue;
+        public DateTime Time2Old
+        {
+            get
+            {
+                return _time2Old;
+            }
+            set
+            {
+                _time2Old = value;
             }
         }
 
-        public double Ro; ////возвращает реактивность, рассчитанную в Беттах
 
+
+
+
+
+        public double Ro; ////возвращает реактивность, рассчитанную в Беттах
         private double _tok1Old = double.NaN;
         private double _tok2Old = double.NaN;
+
         public double Tok1New { get; set; }
         public double Tok2New { get; set; }
 
         public double Reactivity1 { get; set; }
         public double Reactivity2 { get; set; }
+        public DateTime timenow { get; private set; }
 
         #endregion
 
@@ -67,18 +87,25 @@ namespace Ipt
             //TODO:ТАК КАК НЕТ ДВУХ ЗНАЧЕНИЙ ТОКОВ, А ЕСТЬ ТОЛЬКО ОДНО, А ЕСЛИ ЗАРЕГИСТРИРОВАЛОСЬ ВТОРОЕ ЗНАЧЕНИЕ 
             //TODO:ПРОПУСКАЕТСЯ ЭТОТ ЦИКЛ FOR
             Tok1New = SearchCurrent1(temp);
+            
+            //вспомогательная переменная для устранения косяка неодинаковости времени
+            DateTime _timeNow;
 
-            if (_timeOld.Equals(DateTime.MinValue) && _tok1Old.Equals(double.NaN))
+            if (_time1Old.Equals(DateTime.MinValue) && _tok1Old.Equals(double.NaN))
             {
                 for (int i = 0; i < 6; i++)
                 {
                     _psi01[i] = Tok1New;
                 }
-                _timeOld = DateTime.Now;
+                _time1Old = DateTime.Now;
                 _tok1Old = Tok1New;
+
             }
 
-            var dt = DateTime.Now - _timeOld;
+
+            _timeNow = DateTime.Now;
+
+            var dt =  _timeNow- _time1Old;
 
             for (int i = 0; i < _one.Length; i++)
             {
@@ -89,7 +116,9 @@ namespace Ipt
 
                 Reactivity1 += a[i] * _psi01[i];
             }
-            _timeOld = DateTime.Now;
+
+            //Зачем потребовалось создать _timeNow ?? Да просто иначе если бы в этой строке стояло бы DateTime.Now то это было бы уже другое время, нежели участвующее в формуле выше!!!
+            _time1Old = _timeNow;
             _tok1Old = Tok1New;
 
             return Reactivity1 = 1 - Reactivity1 / Tok1New;
@@ -102,18 +131,26 @@ namespace Ipt
             //TODO:ТАК КАК НЕТ ДВУХ ЗНАЧЕНИЙ ТОКОВ, А ЕСТЬ ТОЛЬКО ОДНО, А ЕСЛИ ЗАРЕГИСТРИРОВАЛОСЬ ВТОРОЕ ЗНАЧЕНИЕ 
             //TODO:ПРОПУСКАЕТСЯ ЭТОТ ЦИКЛ FOR
             Tok2New = SearchCurrent2(temp);
+            
+            //вспомогательная переменная для устранения косяка неодинаковости времени
+            DateTime _timeNow;
 
-            if (_timeOld.Equals(DateTime.MinValue) && _tok2Old.Equals(double.NaN))
+
+            if (_time2Old.Equals(DateTime.MinValue) && _tok2Old.Equals(double.NaN))
             {
                 for (int i = 0; i < 6; i++)
                 {
                     _psi02[i] = Tok2New;
                 }
-                _timeOld = DateTime.Now;
+                _time2Old = DateTime.Now;
                 _tok2Old = Tok2New;
             }
 
-            var dt = DateTime.Now - _timeOld;
+            _timeNow = DateTime.Now;
+
+            var dt = _timeNow - _time2Old;
+
+
             for (int i = 0; i < _one.Length; i++)
             {
                 double constTRaspada = l[i] * dt.TotalSeconds;
@@ -123,7 +160,7 @@ namespace Ipt
 
                 Reactivity2 += a[i] * _psi02[i];
             }
-            _timeOld = DateTime.Now;
+            _time2Old = _timeNow;
             _tok1Old = Tok2New;
 
             return Reactivity2 = 1 - Reactivity2 / Tok2New;

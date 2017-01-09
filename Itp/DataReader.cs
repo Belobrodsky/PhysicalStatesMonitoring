@@ -72,6 +72,7 @@ namespace Ipt
 
         private DataReader()
         {
+            
             _scudTimer = new Timer(1000);
             _scudTimer.Elapsed += ScudTimerElapsed;
 
