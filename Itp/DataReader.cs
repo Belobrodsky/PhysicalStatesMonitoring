@@ -222,6 +222,7 @@ namespace Ipt
             var bytes = new byte[Marshal.SizeOf(typeof(Buffer))];
             rnd.NextBytes(bytes);
             _buffer = bytes.ToStruct<Buffer>();
+            //TODO Запись времени. 
         }
 
         private void ScudTimerElapsed(object sender, ElapsedEventArgs e)

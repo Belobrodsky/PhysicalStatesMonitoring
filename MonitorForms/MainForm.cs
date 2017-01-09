@@ -20,9 +20,9 @@ namespace MonitorForms
         private DataReader _dataReader;
         private DataWriter _dataWriter;
 
-        private List<int> _freqs = new List<int>(new[] {1, 10, 20, 30, 40});
+        private List<int> _freqs = new List<int>(new[] { 1, 10, 20, 30, 40 });
         private bool _normalize;
-
+        private Current _current;
         //DataReader для чтения данных с устройств
         private DataReader Reader
         {
@@ -73,6 +73,7 @@ namespace MonitorForms
         public MainForm()
         {
             InitializeComponent();
+            _current = new Current();
         }
 
         //Ошибка при чтении данных
@@ -185,13 +186,13 @@ namespace MonitorForms
         {
             dataGridView1.DataSource = graphChart1.MonitorValues.Select(
                 mv => new
-                      {
-                          Время = mv.TimeStamp,
-                          Макс = mv.Max,
-                          Мин = mv.Min,
-                          Норм = mv.NValue,
-                          Значение = mv.Value
-                      }).ToList();
+                {
+                    Время = mv.TimeStamp,
+                    Макс = mv.Max,
+                    Мин = mv.Min,
+                    Норм = mv.NValue,
+                    Значение = mv.Value
+                }).ToList();
         }
 
         //Смена частоты
@@ -238,13 +239,13 @@ namespace MonitorForms
         private void runEmulatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var psi = new ProcessStartInfo(Program.Settings.EmulPath)
-                      {
-                          Arguments = string.Format(
+            {
+                Arguments = string.Format(
                               "-emul -ip {0} -p {1}",
                               Program.Settings.IptIp,
                               Program.Settings.IptPort),
-                          WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
-                      };
+                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
+            };
             var p = Process.Start(psi);
             Closing += (o, args) =>
             {

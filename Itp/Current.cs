@@ -2,7 +2,7 @@
 
 namespace Ipt
 {
-    class Current
+    public class Current
     {
         #region Свойства
 
