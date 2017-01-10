@@ -20,7 +20,7 @@ namespace MonitorForms
         private DataReader _dataReader;
         private DataWriter _dataWriter;
 
-        private List<int> _freqs = new List<int>(new[] { 1, 10, 20, 30, 40 });
+        private readonly List<int> _freqs = new List<int>(new[] { 1, 10, 20, 30, 40 });
         private bool _normalize;
         private Current _current;
         //DataReader для чтения данных с устройств
@@ -115,10 +115,13 @@ namespace MonitorForms
                         iptListBox.EndUpdate();
                     });
             }
+            var r1 = _current.SearchReactivity1(Program.Settings.Lambdas, Program.Settings.Alphas, e.Buffer, e.Ipt4);
+            var r2 = _current.SearchReactivity2(Program.Settings.Lambdas, Program.Settings.Alphas, e.Buffer, e.Ipt4);
             //TODO:Добавить вычисление токов перед записью в файл
             //NOTE:Writer создаётся в потоке формы, а файл пишется в потоке таймера. Выяснить возможные уязвимости
             //Для записи передавать KksValues
-            Writer.WriteData(values, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2);
+            Writer.WriteData(values, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2, r1, r2);
+            AddToChart();
         }
 
         //Добавить график
