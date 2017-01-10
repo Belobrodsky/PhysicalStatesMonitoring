@@ -32,32 +32,36 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.scudIpEndPoint = new MonitorForms.IpEndPointEditor();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.iptIpEndPoint = new MonitorForms.IpEndPointEditor();
             this.cancelButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.dataTabPage = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.pathsTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.logFilePathSelector = new MonitorForms.FilePathSelector();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.emulFilePathSelector = new MonitorForms.FilePathSelector();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.connectionTabPage = new System.Windows.Forms.TabPage();
-            this.dataTabPage = new System.Windows.Forms.TabPage();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.constArrayEditor = new MonitorForms.ArrayEditor.ArrayEditor();
+            this.logFilePathSelector = new MonitorForms.FilePathSelector();
+            this.emulFilePathSelector = new MonitorForms.FilePathSelector();
+            this.scudIpEndPoint = new MonitorForms.IpEndPointEditor();
+            this.iptIpEndPoint = new MonitorForms.IpEndPointEditor();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.dataTabPage.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.pathsTabPage.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.connectionTabPage.SuspendLayout();
-            this.dataTabPage.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.constArrayEditor)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -74,7 +78,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(441, 161);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(493, 174);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -90,7 +94,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(435, 155);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(487, 168);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // groupBox1
@@ -99,54 +103,29 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(211, 149);
+            this.groupBox1.Size = new System.Drawing.Size(237, 162);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "СКУД";
-            // 
-            // scudIpEndPoint
-            // 
-            this.scudIpEndPoint.Address = "   .   .   .";
-            this.scudIpEndPoint.AutoSize = true;
-            this.scudIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.scudIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
-            this.scudIpEndPoint.Location = new System.Drawing.Point(3, 16);
-            this.scudIpEndPoint.Name = "scudIpEndPoint";
-            this.scudIpEndPoint.Port = 1952;
-            this.scudIpEndPoint.Size = new System.Drawing.Size(205, 52);
-            this.scudIpEndPoint.TabIndex = 2;
-            this.scudIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.iptIpEndPoint);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(220, 3);
+            this.groupBox2.Location = new System.Drawing.Point(246, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(212, 149);
+            this.groupBox2.Size = new System.Drawing.Size(238, 162);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ИПТ";
             // 
-            // iptIpEndPoint
-            // 
-            this.iptIpEndPoint.Address = "   .   .   .";
-            this.iptIpEndPoint.AutoSize = true;
-            this.iptIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.iptIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
-            this.iptIpEndPoint.Location = new System.Drawing.Point(3, 16);
-            this.iptIpEndPoint.Name = "iptIpEndPoint";
-            this.iptIpEndPoint.Port = 1952;
-            this.iptIpEndPoint.Size = new System.Drawing.Size(206, 52);
-            this.iptIpEndPoint.TabIndex = 3;
-            this.iptIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
-            // 
             // cancelButton
             // 
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.AutoSize = true;
             this.cancelButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(302, 205);
+            this.cancelButton.Location = new System.Drawing.Point(429, 209);
             this.cancelButton.MinimumSize = new System.Drawing.Size(75, 0);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
@@ -156,10 +135,11 @@
             // 
             // okButton
             // 
+            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.AutoSize = true;
             this.okButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(221, 205);
+            this.okButton.Location = new System.Drawing.Point(348, 209);
             this.okButton.MinimumSize = new System.Drawing.Size(75, 0);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
@@ -170,16 +150,57 @@
             // 
             // tabControl1
             // 
+            this.tableLayoutPanel4.SetColumnSpan(this.tabControl1, 2);
             this.tabControl1.Controls.Add(this.dataTabPage);
             this.tabControl1.Controls.Add(this.pathsTabPage);
             this.tabControl1.Controls.Add(this.connectionTabPage);
-            this.tabControl1.Location = new System.Drawing.Point(9, 9);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(455, 193);
+            this.tabControl1.Size = new System.Drawing.Size(507, 206);
             this.tabControl1.TabIndex = 1;
+            // 
+            // dataTabPage
+            // 
+            this.dataTabPage.Controls.Add(this.tableLayoutPanel2);
+            this.dataTabPage.Location = new System.Drawing.Point(4, 22);
+            this.dataTabPage.Name = "dataTabPage";
+            this.dataTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.dataTabPage.Size = new System.Drawing.Size(499, 180);
+            this.dataTabPage.TabIndex = 2;
+            this.dataTabPage.Text = "Данные";
+            this.dataTabPage.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.21088F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.78912F));
+            this.tableLayoutPanel2.Controls.Add(this.propertyGrid1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.constArrayEditor, 1, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(493, 174);
+            this.tableLayoutPanel2.TabIndex = 1;
+            // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.HelpVisible = false;
+            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.tableLayoutPanel2.SetRowSpan(this.propertyGrid1, 2);
+            this.propertyGrid1.Size = new System.Drawing.Size(128, 168);
+            this.propertyGrid1.TabIndex = 0;
+            this.propertyGrid1.ToolbarVisible = false;
             // 
             // pathsTabPage
             // 
@@ -187,7 +208,7 @@
             this.pathsTabPage.Location = new System.Drawing.Point(4, 22);
             this.pathsTabPage.Name = "pathsTabPage";
             this.pathsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.pathsTabPage.Size = new System.Drawing.Size(447, 167);
+            this.pathsTabPage.Size = new System.Drawing.Size(499, 180);
             this.pathsTabPage.TabIndex = 0;
             this.pathsTabPage.Text = "Файлы";
             this.pathsTabPage.UseVisualStyleBackColor = true;
@@ -204,22 +225,8 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(441, 161);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(493, 174);
             this.tableLayoutPanel5.TabIndex = 0;
-            // 
-            // logFilePathSelector
-            // 
-            this.logFilePathSelector.AutoSize = true;
-            this.logFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.logFilePathSelector.Caption = "Файл результатов:";
-            this.logFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
-            this.logFilePathSelector.FileDialog = this.saveFileDialog1;
-            this.logFilePathSelector.FilePath = "";
-            this.logFilePathSelector.Location = new System.Drawing.Point(0, 0);
-            this.logFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
-            this.logFilePathSelector.Name = "logFilePathSelector";
-            this.logFilePathSelector.Size = new System.Drawing.Size(441, 49);
-            this.logFilePathSelector.TabIndex = 1;
             // 
             // saveFileDialog1
             // 
@@ -227,20 +234,6 @@
             this.saveFileDialog1.OverwritePrompt = false;
             this.saveFileDialog1.SupportMultiDottedExtensions = true;
             this.saveFileDialog1.Title = "Выберите файл для записи результата";
-            // 
-            // emulFilePathSelector
-            // 
-            this.emulFilePathSelector.AutoSize = true;
-            this.emulFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.emulFilePathSelector.Caption = "Эмулятор ИПТ:";
-            this.emulFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
-            this.emulFilePathSelector.FileDialog = this.saveFileDialog2;
-            this.emulFilePathSelector.FilePath = "";
-            this.emulFilePathSelector.Location = new System.Drawing.Point(0, 49);
-            this.emulFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
-            this.emulFilePathSelector.Name = "emulFilePathSelector";
-            this.emulFilePathSelector.Size = new System.Drawing.Size(441, 49);
-            this.emulFilePathSelector.TabIndex = 0;
             // 
             // saveFileDialog2
             // 
@@ -255,62 +248,105 @@
             this.connectionTabPage.Location = new System.Drawing.Point(4, 22);
             this.connectionTabPage.Name = "connectionTabPage";
             this.connectionTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.connectionTabPage.Size = new System.Drawing.Size(447, 167);
+            this.connectionTabPage.Size = new System.Drawing.Size(499, 180);
             this.connectionTabPage.TabIndex = 1;
             this.connectionTabPage.Text = "Соединение";
             this.connectionTabPage.UseVisualStyleBackColor = true;
             // 
-            // dataTabPage
+            // tableLayoutPanel4
             // 
-            this.dataTabPage.Controls.Add(this.tableLayoutPanel2);
-            this.dataTabPage.Location = new System.Drawing.Point(4, 22);
-            this.dataTabPage.Name = "dataTabPage";
-            this.dataTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.dataTabPage.Size = new System.Drawing.Size(447, 167);
-            this.dataTabPage.TabIndex = 2;
-            this.dataTabPage.Text = "Данные";
-            this.dataTabPage.UseVisualStyleBackColor = true;
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.Controls.Add(this.cancelButton, 1, 1);
+            this.tableLayoutPanel4.Controls.Add(this.tabControl1, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.okButton, 0, 1);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(507, 235);
+            this.tableLayoutPanel4.TabIndex = 2;
             // 
-            // propertyGrid1
+            // constArrayEditor
             // 
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.HelpVisible = false;
-            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.tableLayoutPanel2.SetRowSpan(this.propertyGrid1, 2);
-            this.propertyGrid1.Size = new System.Drawing.Size(113, 155);
-            this.propertyGrid1.TabIndex = 0;
-            this.propertyGrid1.ToolbarVisible = false;
+            this.constArrayEditor.AllowUserToAddRows = false;
+            this.constArrayEditor.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
+            this.constArrayEditor.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.constArrayEditor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.constArrayEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.constArrayEditor.Location = new System.Drawing.Point(137, 3);
+            this.constArrayEditor.MultiSelect = false;
+            this.constArrayEditor.Name = "constArrayEditor";
+            this.constArrayEditor.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.constArrayEditor.Size = new System.Drawing.Size(353, 81);
+            this.constArrayEditor.TabIndex = 1;
             // 
-            // tableLayoutPanel2
+            // logFilePathSelector
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.21088F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.78912F));
-            this.tableLayoutPanel2.Controls.Add(this.propertyGrid1, 0, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(441, 161);
-            this.tableLayoutPanel2.TabIndex = 1;
+            this.logFilePathSelector.AutoSize = true;
+            this.logFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.logFilePathSelector.Caption = "Файл результатов:";
+            this.logFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
+            this.logFilePathSelector.FileDialog = this.saveFileDialog1;
+            this.logFilePathSelector.FilePath = "";
+            this.logFilePathSelector.Location = new System.Drawing.Point(0, 0);
+            this.logFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
+            this.logFilePathSelector.Name = "logFilePathSelector";
+            this.logFilePathSelector.Size = new System.Drawing.Size(493, 49);
+            this.logFilePathSelector.TabIndex = 1;
+            // 
+            // emulFilePathSelector
+            // 
+            this.emulFilePathSelector.AutoSize = true;
+            this.emulFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.emulFilePathSelector.Caption = "Эмулятор ИПТ:";
+            this.emulFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
+            this.emulFilePathSelector.FileDialog = this.saveFileDialog2;
+            this.emulFilePathSelector.FilePath = "";
+            this.emulFilePathSelector.Location = new System.Drawing.Point(0, 49);
+            this.emulFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
+            this.emulFilePathSelector.Name = "emulFilePathSelector";
+            this.emulFilePathSelector.Size = new System.Drawing.Size(493, 49);
+            this.emulFilePathSelector.TabIndex = 0;
+            // 
+            // scudIpEndPoint
+            // 
+            this.scudIpEndPoint.Address = "   .   .   .";
+            this.scudIpEndPoint.AutoSize = true;
+            this.scudIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.scudIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
+            this.scudIpEndPoint.Location = new System.Drawing.Point(3, 16);
+            this.scudIpEndPoint.Name = "scudIpEndPoint";
+            this.scudIpEndPoint.Port = 1952;
+            this.scudIpEndPoint.Size = new System.Drawing.Size(231, 52);
+            this.scudIpEndPoint.TabIndex = 2;
+            this.scudIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
+            // 
+            // iptIpEndPoint
+            // 
+            this.iptIpEndPoint.Address = "   .   .   .";
+            this.iptIpEndPoint.AutoSize = true;
+            this.iptIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.iptIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
+            this.iptIpEndPoint.Location = new System.Drawing.Point(3, 16);
+            this.iptIpEndPoint.Name = "iptIpEndPoint";
+            this.iptIpEndPoint.Port = 1952;
+            this.iptIpEndPoint.Size = new System.Drawing.Size(232, 52);
+            this.iptIpEndPoint.TabIndex = 3;
+            this.iptIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
             // 
             // SettingsForm
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(983, 438);
-            this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.okButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.ClientSize = new System.Drawing.Size(507, 235);
+            this.Controls.Add(this.tableLayoutPanel4);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "SettingsForm";
@@ -324,14 +360,16 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.dataTabPage.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.pathsTabPage.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             this.connectionTabPage.ResumeLayout(false);
-            this.dataTabPage.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.constArrayEditor)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -356,5 +394,7 @@
         private IpEndPointEditor iptIpEndPoint;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private ArrayEditor.ArrayEditor constArrayEditor;
     }
 }
