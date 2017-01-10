@@ -22,7 +22,7 @@ namespace MonitorForms
         public bool IptListVisible { get; set; }
         public int IptFreqIndex { get; set; }
         public Kks Kks { get; set; }
-
+        public XmlSerializableDictionary<string, int> ScudValues { get; set; }
         [XmlIgnore]
         public IPAddress IptIpAddress
         {
@@ -60,7 +60,7 @@ namespace MonitorForms
 
         private static Settings GetDefaultSettings()
         {
-            return new Settings
+            var set= new Settings
                    {
                        IptIp = "192.168.008.002",
                        IptPort = 2040,
@@ -71,8 +71,26 @@ namespace MonitorForms
                        ScudListVisible = true,
                        IptListVisible = true,
                        IptFreqIndex = 0,
-                       Kks = new Kks()
+                       Kks = new Kks(),
+                       ScudValues = new XmlSerializableDictionary<string, int>()
                    };
+            set.ScudValues.Add("PCore", 60);
+            set.ScudValues.Add("TCold", 82);
+            set.ScudValues.Add("THot", 77);
+            set.ScudValues.Add("PSg", 232);
+            set.ScudValues.Add("H12", 102);
+            set.ScudValues.Add("H11", 101);
+            set.ScudValues.Add("H10", 100);
+            set.ScudValues.Add("LPres", 241);
+            set.ScudValues.Add("LSg", 237);
+            set.ScudValues.Add("Cbor", 51);
+            set.ScudValues.Add("Cborf", 53);
+            set.ScudValues.Add("Fmakeup", 63);
+            set.ScudValues.Add("Nakz", 54);
+            set.ScudValues.Add("Ntg", 59);
+            set.ScudValues.Add("Ao", 243);
+
+            return set;
         }
 
         public static Settings Read()
