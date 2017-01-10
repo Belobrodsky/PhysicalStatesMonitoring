@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Xml.Serialization;
@@ -25,7 +22,6 @@ namespace MonitorForms
         public bool IptListVisible { get; set; }
         public int IptFreqIndex { get; set; }
         public Kks Kks { get; set; }
-        public XmlSerializableDictionary<string, int> ScudValues { get; set; }
 
         [XmlIgnore]
         public IPAddress IptIpAddress
@@ -62,43 +58,21 @@ namespace MonitorForms
             Serializer = new XmlSerializer(typeof(Settings));
         }
 
-        public Settings()
-        {
-            ScudValues = new XmlSerializableDictionary<string, int>();
-        }
-
         private static Settings GetDefaultSettings()
         {
-            var set = new Settings
-            {
-                IptIp = "192.168.008.002",
-                IptPort = 2040,
-                ScudIp = "192.168.008.001",
-                ScudPort = 1024,
-                LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.txt"),
-                ErrorLogVisible = false,
-                ScudListVisible = true,
-                IptListVisible = true,
-                IptFreqIndex = 0,
-                Kks = new Kks(),
-                ScudValues = new XmlSerializableDictionary<string, int>()
-            };
-            set.ScudValues.Add("PCore", 60);
-            set.ScudValues.Add("TCold", 82);
-            set.ScudValues.Add("THot", 77);
-            set.ScudValues.Add("PSg", 232);
-            set.ScudValues.Add("H12", 102);
-            set.ScudValues.Add("H11", 101);
-            set.ScudValues.Add("H10", 100);
-            set.ScudValues.Add("LPres", 241);
-            set.ScudValues.Add("LSg", 237);
-            set.ScudValues.Add("Cbor", 51);
-            set.ScudValues.Add("Cborf", 53);
-            set.ScudValues.Add("Fmakeup", 63);
-            set.ScudValues.Add("Nakz", 54);
-            set.ScudValues.Add("Ntg", 59);
-            set.ScudValues.Add("Ao", 243);
-            return set;
+            return new Settings
+                   {
+                       IptIp = "192.168.008.002",
+                       IptPort = 2040,
+                       ScudIp = "192.168.008.001",
+                       ScudPort = 1024,
+                       LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.txt"),
+                       ErrorLogVisible = false,
+                       ScudListVisible = true,
+                       IptListVisible = true,
+                       IptFreqIndex = 0,
+                       Kks = new Kks()
+                   };
         }
 
         public static Settings Read()
@@ -111,7 +85,7 @@ namespace MonitorForms
             {
                 try
                 {
-                    return (Settings)Serializer.Deserialize(reader);
+                    return (Settings) Serializer.Deserialize(reader);
                 }
                 catch (Exception)
                 {
