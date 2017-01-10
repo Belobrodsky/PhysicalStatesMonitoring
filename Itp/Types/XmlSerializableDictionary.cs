@@ -3,6 +3,11 @@ using System.Xml.Serialization;
 
 namespace Ipt
 {
+    /// <summary>
+    ///     Класс для сериализации словаря.
+    /// </summary>
+    /// <typeparam name="TKey">Тип ключа.</typeparam>
+    /// <typeparam name="TValue">Тип значения.</typeparam>
     [XmlRoot("Dictionary")]
     public class XmlSerializableDictionary<TKey, TValue>
         : Dictionary<TKey, TValue>, IXmlSerializable
@@ -24,12 +29,12 @@ namespace Ipt
             {
                 reader.ReadStartElement("item");
                 reader.ReadStartElement("key");
-                TKey key = (TKey)keySerializer.Deserialize(reader);
+                TKey key = (TKey) keySerializer.Deserialize(reader);
                 reader.ReadEndElement();
                 reader.ReadStartElement("value");
-                TValue value = (TValue)valueSerializer.Deserialize(reader);
+                TValue value = (TValue) valueSerializer.Deserialize(reader);
                 reader.ReadEndElement();
-                this.Add(key, value);
+                Add(key, value);
                 reader.ReadEndElement();
                 reader.MoveToContent();
             }
@@ -40,7 +45,7 @@ namespace Ipt
         {
             XmlSerializer keySerializer = new XmlSerializer(typeof(TKey));
             XmlSerializer valueSerializer = new XmlSerializer(typeof(TValue));
-            foreach (TKey key in this.Keys)
+            foreach (TKey key in Keys)
             {
                 writer.WriteStartElement("item");
                 writer.WriteStartElement("key");
