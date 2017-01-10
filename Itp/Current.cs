@@ -20,58 +20,43 @@ namespace Ipt
         //   private double _timeNow;
         //для расчета реактивностей необходимы следующие параметры
         //предыдущее значение времени
-        private DateTime _time1Old = DateTime.MinValue;
-    
-        public DateTime Time1Old 
 
-        {
-            get
-            {
-                return _time1Old;
-            }
-            set
-            {
-                _time1Old = value;
-            }
-        }
-        
-        private DateTime _time2Old = DateTime.MinValue;
-        public DateTime Time2Old
-        {
-            get
-            {
-                return _time2Old;
-            }
-            set
-            {
-                _time2Old = value;
-            }
-        }
-
-
-
-
+        /// <summary>
+        /// Время при расчёте первой реактивности
+        /// </summary>
+        public DateTime Time1Old { get; private set; }
+        /// <summary>
+        /// Время при расчёте второй реактивности
+        /// </summary>
+        public DateTime Time2Old { get; private set; }
 
 
         public double Ro; ////возвращает реактивность, рассчитанную в Беттах
         private double _tok1Old = double.NaN;
         private double _tok2Old = double.NaN;
 
+        public Current()
+        {
+            Time2Old = DateTime.MinValue;
+            Time1Old = DateTime.MinValue;
+        }
+
         public double Tok1New { get; set; }
         public double Tok2New { get; set; }
 
         public double Reactivity1 { get; set; }
         public double Reactivity2 { get; set; }
-        public DateTime timenow { get; private set; }
+        public DateTime TimeNow { get; private set; }
 
         #endregion
 
-        public double SearchCurrent1(Ipt4 temp)
+        private double SearchCurrent1(Ipt4 temp)
         {
             var step1 = Math.Pow(10, -temp.Power1);
             return Tok1New = temp.FCurrent1 / 25000.0 * step1;
         }
-        public double SearchCurrent2(Ipt4 temp)
+
+        private double SearchCurrent2(Ipt4 temp)
         {
             var step2 = Math.Pow(10, -temp.Power2);
             return Tok2New = temp.FCurrent2 / 25000.0 * step2;
@@ -87,25 +72,23 @@ namespace Ipt
             //TODO:ТАК КАК НЕТ ДВУХ ЗНАЧЕНИЙ ТОКОВ, А ЕСТЬ ТОЛЬКО ОДНО, А ЕСЛИ ЗАРЕГИСТРИРОВАЛОСЬ ВТОРОЕ ЗНАЧЕНИЕ 
             //TODO:ПРОПУСКАЕТСЯ ЭТОТ ЦИКЛ FOR
             Tok1New = SearchCurrent1(temp);
-            
-            //вспомогательная переменная для устранения косяка неодинаковости времени
-            DateTime _timeNow;
 
-            if (_time1Old.Equals(DateTime.MinValue) && _tok1Old.Equals(double.NaN))
+            //вспомогательная переменная для устранения косяка неодинаковости времени
+
+            if (Time1Old.Equals(DateTime.MinValue) && _tok1Old.Equals(double.NaN))
             {
                 for (int i = 0; i < 6; i++)
                 {
                     _psi01[i] = Tok1New;
                 }
-                _time1Old = DateTime.Now;
+                Time1Old = DateTime.Now;
                 _tok1Old = Tok1New;
-
             }
 
 
-            _timeNow = DateTime.Now;
+            var timeNow = DateTime.Now;
 
-            var dt =  _timeNow- _time1Old;
+            var dt = timeNow - Time1Old;
 
             for (int i = 0; i < _one.Length; i++)
             {
@@ -118,7 +101,7 @@ namespace Ipt
             }
 
             //Зачем потребовалось создать _timeNow ?? Да просто иначе если бы в этой строке стояло бы DateTime.Now то это было бы уже другое время, нежели участвующее в формуле выше!!!
-            _time1Old = _timeNow;
+            Time1Old = timeNow;
             _tok1Old = Tok1New;
 
             return Reactivity1 = 1 - Reactivity1 / Tok1New;
@@ -131,24 +114,23 @@ namespace Ipt
             //TODO:ТАК КАК НЕТ ДВУХ ЗНАЧЕНИЙ ТОКОВ, А ЕСТЬ ТОЛЬКО ОДНО, А ЕСЛИ ЗАРЕГИСТРИРОВАЛОСЬ ВТОРОЕ ЗНАЧЕНИЕ 
             //TODO:ПРОПУСКАЕТСЯ ЭТОТ ЦИКЛ FOR
             Tok2New = SearchCurrent2(temp);
-            
+
             //вспомогательная переменная для устранения косяка неодинаковости времени
-            DateTime _timeNow;
 
 
-            if (_time2Old.Equals(DateTime.MinValue) && _tok2Old.Equals(double.NaN))
+            if (Time2Old.Equals(DateTime.MinValue) && _tok2Old.Equals(double.NaN))
             {
                 for (int i = 0; i < 6; i++)
                 {
                     _psi02[i] = Tok2New;
                 }
-                _time2Old = DateTime.Now;
+                Time2Old = DateTime.Now;
                 _tok2Old = Tok2New;
             }
 
-            _timeNow = DateTime.Now;
+            var timeNow = DateTime.Now;
 
-            var dt = _timeNow - _time2Old;
+            var dt = timeNow - Time2Old;
 
 
             for (int i = 0; i < _one.Length; i++)
@@ -160,7 +142,7 @@ namespace Ipt
 
                 Reactivity2 += a[i] * _psi02[i];
             }
-            _time2Old = _timeNow;
+            Time2Old = timeNow;
             _tok1Old = Tok2New;
 
             return Reactivity2 = 1 - Reactivity2 / Tok2New;
