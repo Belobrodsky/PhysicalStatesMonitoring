@@ -32,24 +32,25 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.scudIpEndPoint = new MonitorForms.IpEndPointEditor();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.iptIpEndPoint = new MonitorForms.IpEndPointEditor();
             this.cancelButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.dataTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.constArrayEditor = new MonitorForms.ArrayEditor.ArrayEditor();
             this.pathsTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.logFilePathSelector = new MonitorForms.FilePathSelector();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.emulFilePathSelector = new MonitorForms.FilePathSelector();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.connectionTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.constArrayEditor = new MonitorForms.ArrayEditor.ArrayEditor();
-            this.logFilePathSelector = new MonitorForms.FilePathSelector();
-            this.emulFilePathSelector = new MonitorForms.FilePathSelector();
-            this.scudIpEndPoint = new MonitorForms.IpEndPointEditor();
-            this.iptIpEndPoint = new MonitorForms.IpEndPointEditor();
+            this.objectsInfoDataGridView = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -57,11 +58,12 @@
             this.tabControl1.SuspendLayout();
             this.dataTabPage.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.constArrayEditor)).BeginInit();
             this.pathsTabPage.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.connectionTabPage.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.constArrayEditor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectsInfoDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -108,6 +110,19 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "СКУД";
             // 
+            // scudIpEndPoint
+            // 
+            this.scudIpEndPoint.Address = "   .   .   .";
+            this.scudIpEndPoint.AutoSize = true;
+            this.scudIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.scudIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
+            this.scudIpEndPoint.Location = new System.Drawing.Point(3, 16);
+            this.scudIpEndPoint.Name = "scudIpEndPoint";
+            this.scudIpEndPoint.Port = 1952;
+            this.scudIpEndPoint.Size = new System.Drawing.Size(231, 52);
+            this.scudIpEndPoint.TabIndex = 2;
+            this.scudIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.iptIpEndPoint);
@@ -119,13 +134,26 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ИПТ";
             // 
+            // iptIpEndPoint
+            // 
+            this.iptIpEndPoint.Address = "   .   .   .";
+            this.iptIpEndPoint.AutoSize = true;
+            this.iptIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.iptIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
+            this.iptIpEndPoint.Location = new System.Drawing.Point(3, 16);
+            this.iptIpEndPoint.Name = "iptIpEndPoint";
+            this.iptIpEndPoint.Port = 1952;
+            this.iptIpEndPoint.Size = new System.Drawing.Size(232, 52);
+            this.iptIpEndPoint.TabIndex = 3;
+            this.iptIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
+            // 
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.AutoSize = true;
             this.cancelButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(429, 209);
+            this.cancelButton.Location = new System.Drawing.Point(575, 363);
             this.cancelButton.MinimumSize = new System.Drawing.Size(75, 0);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
@@ -139,7 +167,7 @@
             this.okButton.AutoSize = true;
             this.okButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(348, 209);
+            this.okButton.Location = new System.Drawing.Point(494, 363);
             this.okButton.MinimumSize = new System.Drawing.Size(75, 0);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
@@ -160,7 +188,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(507, 206);
+            this.tabControl1.Size = new System.Drawing.Size(653, 360);
             this.tabControl1.TabIndex = 1;
             // 
             // dataTabPage
@@ -169,7 +197,7 @@
             this.dataTabPage.Location = new System.Drawing.Point(4, 22);
             this.dataTabPage.Name = "dataTabPage";
             this.dataTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.dataTabPage.Size = new System.Drawing.Size(499, 180);
+            this.dataTabPage.Size = new System.Drawing.Size(645, 334);
             this.dataTabPage.TabIndex = 2;
             this.dataTabPage.Text = "Данные";
             this.dataTabPage.UseVisualStyleBackColor = true;
@@ -181,13 +209,14 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.78912F));
             this.tableLayoutPanel2.Controls.Add(this.propertyGrid1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.constArrayEditor, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.objectsInfoDataGridView, 1, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(493, 174);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(639, 328);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // propertyGrid1
@@ -198,9 +227,23 @@
             this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
             this.propertyGrid1.Name = "propertyGrid1";
             this.tableLayoutPanel2.SetRowSpan(this.propertyGrid1, 2);
-            this.propertyGrid1.Size = new System.Drawing.Size(128, 168);
+            this.propertyGrid1.Size = new System.Drawing.Size(167, 322);
             this.propertyGrid1.TabIndex = 0;
             this.propertyGrid1.ToolbarVisible = false;
+            // 
+            // constArrayEditor
+            // 
+            this.constArrayEditor.AllowUserToAddRows = false;
+            this.constArrayEditor.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
+            this.constArrayEditor.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.constArrayEditor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.constArrayEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.constArrayEditor.Location = new System.Drawing.Point(176, 3);
+            this.constArrayEditor.MultiSelect = false;
+            this.constArrayEditor.Name = "constArrayEditor";
+            this.constArrayEditor.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.constArrayEditor.Size = new System.Drawing.Size(460, 158);
+            this.constArrayEditor.TabIndex = 1;
             // 
             // pathsTabPage
             // 
@@ -228,12 +271,40 @@
             this.tableLayoutPanel5.Size = new System.Drawing.Size(493, 174);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
+            // logFilePathSelector
+            // 
+            this.logFilePathSelector.AutoSize = true;
+            this.logFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.logFilePathSelector.Caption = "Файл результатов:";
+            this.logFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
+            this.logFilePathSelector.FileDialog = this.saveFileDialog1;
+            this.logFilePathSelector.FilePath = "";
+            this.logFilePathSelector.Location = new System.Drawing.Point(0, 0);
+            this.logFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
+            this.logFilePathSelector.Name = "logFilePathSelector";
+            this.logFilePathSelector.Size = new System.Drawing.Size(493, 49);
+            this.logFilePathSelector.TabIndex = 1;
+            // 
             // saveFileDialog1
             // 
             this.saveFileDialog1.Filter = "Текстовые файлы|*.txt";
             this.saveFileDialog1.OverwritePrompt = false;
             this.saveFileDialog1.SupportMultiDottedExtensions = true;
             this.saveFileDialog1.Title = "Выберите файл для записи результата";
+            // 
+            // emulFilePathSelector
+            // 
+            this.emulFilePathSelector.AutoSize = true;
+            this.emulFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.emulFilePathSelector.Caption = "Эмулятор ИПТ:";
+            this.emulFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
+            this.emulFilePathSelector.FileDialog = this.saveFileDialog2;
+            this.emulFilePathSelector.FilePath = "";
+            this.emulFilePathSelector.Location = new System.Drawing.Point(0, 49);
+            this.emulFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
+            this.emulFilePathSelector.Name = "emulFilePathSelector";
+            this.emulFilePathSelector.Size = new System.Drawing.Size(493, 49);
+            this.emulFilePathSelector.TabIndex = 0;
             // 
             // saveFileDialog2
             // 
@@ -267,76 +338,20 @@
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(507, 235);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(653, 389);
             this.tableLayoutPanel4.TabIndex = 2;
             // 
-            // constArrayEditor
+            // objectsInfoDataGridView
             // 
-            this.constArrayEditor.AllowUserToAddRows = false;
-            this.constArrayEditor.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
-            this.constArrayEditor.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.constArrayEditor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.constArrayEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.constArrayEditor.Location = new System.Drawing.Point(137, 3);
-            this.constArrayEditor.MultiSelect = false;
-            this.constArrayEditor.Name = "constArrayEditor";
-            this.constArrayEditor.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.constArrayEditor.Size = new System.Drawing.Size(353, 81);
-            this.constArrayEditor.TabIndex = 1;
-            // 
-            // logFilePathSelector
-            // 
-            this.logFilePathSelector.AutoSize = true;
-            this.logFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.logFilePathSelector.Caption = "Файл результатов:";
-            this.logFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
-            this.logFilePathSelector.FileDialog = this.saveFileDialog1;
-            this.logFilePathSelector.FilePath = "";
-            this.logFilePathSelector.Location = new System.Drawing.Point(0, 0);
-            this.logFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
-            this.logFilePathSelector.Name = "logFilePathSelector";
-            this.logFilePathSelector.Size = new System.Drawing.Size(493, 49);
-            this.logFilePathSelector.TabIndex = 1;
-            // 
-            // emulFilePathSelector
-            // 
-            this.emulFilePathSelector.AutoSize = true;
-            this.emulFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.emulFilePathSelector.Caption = "Эмулятор ИПТ:";
-            this.emulFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
-            this.emulFilePathSelector.FileDialog = this.saveFileDialog2;
-            this.emulFilePathSelector.FilePath = "";
-            this.emulFilePathSelector.Location = new System.Drawing.Point(0, 49);
-            this.emulFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
-            this.emulFilePathSelector.Name = "emulFilePathSelector";
-            this.emulFilePathSelector.Size = new System.Drawing.Size(493, 49);
-            this.emulFilePathSelector.TabIndex = 0;
-            // 
-            // scudIpEndPoint
-            // 
-            this.scudIpEndPoint.Address = "   .   .   .";
-            this.scudIpEndPoint.AutoSize = true;
-            this.scudIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.scudIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
-            this.scudIpEndPoint.Location = new System.Drawing.Point(3, 16);
-            this.scudIpEndPoint.Name = "scudIpEndPoint";
-            this.scudIpEndPoint.Port = 1952;
-            this.scudIpEndPoint.Size = new System.Drawing.Size(231, 52);
-            this.scudIpEndPoint.TabIndex = 2;
-            this.scudIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
-            // 
-            // iptIpEndPoint
-            // 
-            this.iptIpEndPoint.Address = "   .   .   .";
-            this.iptIpEndPoint.AutoSize = true;
-            this.iptIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.iptIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
-            this.iptIpEndPoint.Location = new System.Drawing.Point(3, 16);
-            this.iptIpEndPoint.Name = "iptIpEndPoint";
-            this.iptIpEndPoint.Port = 1952;
-            this.iptIpEndPoint.Size = new System.Drawing.Size(232, 52);
-            this.iptIpEndPoint.TabIndex = 3;
-            this.iptIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
+            this.objectsInfoDataGridView.AllowUserToAddRows = false;
+            this.objectsInfoDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.objectsInfoDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.objectsInfoDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.objectsInfoDataGridView.Location = new System.Drawing.Point(176, 167);
+            this.objectsInfoDataGridView.Name = "objectsInfoDataGridView";
+            this.objectsInfoDataGridView.RowHeadersVisible = false;
+            this.objectsInfoDataGridView.Size = new System.Drawing.Size(460, 158);
+            this.objectsInfoDataGridView.TabIndex = 2;
             // 
             // SettingsForm
             // 
@@ -344,7 +359,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(507, 235);
+            this.ClientSize = new System.Drawing.Size(653, 389);
             this.Controls.Add(this.tableLayoutPanel4);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -362,13 +377,14 @@
             this.tabControl1.ResumeLayout(false);
             this.dataTabPage.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.constArrayEditor)).EndInit();
             this.pathsTabPage.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             this.connectionTabPage.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.constArrayEditor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectsInfoDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -396,5 +412,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private ArrayEditor.ArrayEditor constArrayEditor;
+        private System.Windows.Forms.DataGridView objectsInfoDataGridView;
     }
 }

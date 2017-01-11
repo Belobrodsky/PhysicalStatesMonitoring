@@ -63,6 +63,7 @@
     <Compile Include="IReader.cs" />
     <Compile Include="ScudReader.cs" />
     <Compile Include="Types\Buffer.cs" />
+    <Compile Include="Types\ScudSignalData.cs" />
     <Compile Include="Types\XmlSerializableDictionary.cs" />
     <Compile Include="Types\Ipt4.cs" />
     <Compile Include="MbCliWrapper.cs" />

@@ -12,6 +12,8 @@ namespace MonitorForms
         {
             InitializeComponent();
 
+            objectsInfoDataGridView.AutoGenerateColumns = true;
+
             scudIpEndPoint.Address = Program.Settings.ScudIp;
             scudIpEndPoint.Port = Program.Settings.ScudPort;
             iptIpEndPoint.Address = Program.Settings.IptIp;
@@ -21,6 +23,7 @@ namespace MonitorForms
             propertyGrid1.SelectedObject = Program.Settings.Kks.Clone();
             constArrayEditor.Add("Лямбда", Program.Settings.Lambdas);
             constArrayEditor.Add("Альфа", Program.Settings.Alphas);
+            //objectsInfoDataGridView.DataSource = Program.Settings.ScudValues;
         }
 
         private void ipEndPointEditor_IsAddressValidChanged(object sender, EventArgs e)
