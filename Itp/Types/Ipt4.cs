@@ -4,6 +4,7 @@ using System.Text;
 namespace Ipt
 {
     /// <summary>Структура для хранения данных с ИПТ-4</summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Ipt4
     {
         [MarshalAs(UnmanagedType.U1)]
