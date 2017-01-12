@@ -28,42 +28,84 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.scudIpEndPoint = new MonitorForms.IpEndPointEditor();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.iptIpEndPoint = new MonitorForms.IpEndPointEditor();
             this.cancelButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.dataTabPage = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.constArrayEditor = new MonitorForms.ArrayEditor.ArrayEditor();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.scudSignalDataGridView = new System.Windows.Forms.DataGridView();
+            this.scudSignalBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.bindingNavigator1 = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.signalSettingsDataGridView = new System.Windows.Forms.DataGridView();
+            this.signalSettingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pathsTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.logFilePathSelector = new MonitorForms.FilePathSelector();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.emulFilePathSelector = new MonitorForms.FilePathSelector();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.connectionTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.objectsInfoDataGridView = new System.Windows.Forms.DataGridView();
+            this.bindingNavigator2 = new System.Windows.Forms.BindingNavigator(this.components);
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.scudSignalGroupBox = new System.Windows.Forms.GroupBox();
+            this.signalSettingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.constGroupBox = new System.Windows.Forms.GroupBox();
+            this.constArrayEditor = new MonitorForms.ArrayEditor.ArrayEditor();
+            this.logFilePathSelector = new MonitorForms.FilePathSelector();
+            this.emulFilePathSelector = new MonitorForms.FilePathSelector();
+            this.scudIpEndPoint = new MonitorForms.IpEndPointEditor();
+            this.iptIpEndPoint = new MonitorForms.IpEndPointEditor();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.dataTabPage.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.constArrayEditor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scudSignalDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.scudSignalBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
+            this.bindingNavigator1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.signalSettingsDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.signalSettingsBindingSource)).BeginInit();
             this.pathsTabPage.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.connectionTabPage.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectsInfoDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator2)).BeginInit();
+            this.bindingNavigator2.SuspendLayout();
+            this.scudSignalGroupBox.SuspendLayout();
+            this.signalSettingsGroupBox.SuspendLayout();
+            this.constGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.constArrayEditor)).BeginInit();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -80,7 +122,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(493, 174);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(639, 328);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -96,7 +138,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(487, 168);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(633, 322);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // groupBox1
@@ -105,47 +147,21 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(237, 162);
+            this.groupBox1.Size = new System.Drawing.Size(310, 316);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "СКУД";
-            // 
-            // scudIpEndPoint
-            // 
-            this.scudIpEndPoint.Address = "   .   .   .";
-            this.scudIpEndPoint.AutoSize = true;
-            this.scudIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.scudIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
-            this.scudIpEndPoint.Location = new System.Drawing.Point(3, 16);
-            this.scudIpEndPoint.Name = "scudIpEndPoint";
-            this.scudIpEndPoint.Port = 1952;
-            this.scudIpEndPoint.Size = new System.Drawing.Size(231, 52);
-            this.scudIpEndPoint.TabIndex = 2;
-            this.scudIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.iptIpEndPoint);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(246, 3);
+            this.groupBox2.Location = new System.Drawing.Point(319, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(238, 162);
+            this.groupBox2.Size = new System.Drawing.Size(311, 316);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ИПТ";
-            // 
-            // iptIpEndPoint
-            // 
-            this.iptIpEndPoint.Address = "   .   .   .";
-            this.iptIpEndPoint.AutoSize = true;
-            this.iptIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.iptIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
-            this.iptIpEndPoint.Location = new System.Drawing.Point(3, 16);
-            this.iptIpEndPoint.Name = "iptIpEndPoint";
-            this.iptIpEndPoint.Port = 1952;
-            this.iptIpEndPoint.Size = new System.Drawing.Size(232, 52);
-            this.iptIpEndPoint.TabIndex = 3;
-            this.iptIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
             // 
             // cancelButton
             // 
@@ -193,7 +209,7 @@
             // 
             // dataTabPage
             // 
-            this.dataTabPage.Controls.Add(this.tableLayoutPanel2);
+            this.dataTabPage.Controls.Add(this.splitContainer1);
             this.dataTabPage.Location = new System.Drawing.Point(4, 22);
             this.dataTabPage.Name = "dataTabPage";
             this.dataTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -202,48 +218,155 @@
             this.dataTabPage.Text = "Данные";
             this.dataTabPage.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel2
+            // splitContainer1
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.21088F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.78912F));
-            this.tableLayoutPanel2.Controls.Add(this.propertyGrid1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.constArrayEditor, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.objectsInfoDataGridView, 1, 1);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(639, 328);
-            this.tableLayoutPanel2.TabIndex = 1;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
             // 
-            // propertyGrid1
+            // splitContainer1.Panel1
             // 
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.HelpVisible = false;
-            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.tableLayoutPanel2.SetRowSpan(this.propertyGrid1, 2);
-            this.propertyGrid1.Size = new System.Drawing.Size(167, 322);
-            this.propertyGrid1.TabIndex = 0;
-            this.propertyGrid1.ToolbarVisible = false;
+            this.splitContainer1.Panel1.Controls.Add(this.scudSignalGroupBox);
             // 
-            // constArrayEditor
+            // splitContainer1.Panel2
             // 
-            this.constArrayEditor.AllowUserToAddRows = false;
-            this.constArrayEditor.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
-            this.constArrayEditor.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.constArrayEditor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.constArrayEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.constArrayEditor.Location = new System.Drawing.Point(176, 3);
-            this.constArrayEditor.MultiSelect = false;
-            this.constArrayEditor.Name = "constArrayEditor";
-            this.constArrayEditor.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.constArrayEditor.Size = new System.Drawing.Size(460, 158);
-            this.constArrayEditor.TabIndex = 1;
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Size = new System.Drawing.Size(639, 328);
+            this.splitContainer1.SplitterDistance = 213;
+            this.splitContainer1.TabIndex = 2;
+            // 
+            // scudSignalDataGridView
+            // 
+            this.scudSignalDataGridView.AllowUserToAddRows = false;
+            this.scudSignalDataGridView.AutoGenerateColumns = false;
+            this.scudSignalDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.scudSignalDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.scudSignalDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.scudSignalDataGridView.DataSource = this.scudSignalBindingSource;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.scudSignalDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            this.scudSignalDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scudSignalDataGridView.Location = new System.Drawing.Point(3, 28);
+            this.scudSignalDataGridView.Name = "scudSignalDataGridView";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.scudSignalDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.scudSignalDataGridView.RowHeadersVisible = false;
+            this.scudSignalDataGridView.Size = new System.Drawing.Size(201, 278);
+            this.scudSignalDataGridView.TabIndex = 4;
+            // 
+            // bindingNavigator1
+            // 
+            this.bindingNavigator1.AddNewItem = this.bindingNavigatorAddNewItem;
+            this.bindingNavigator1.BindingSource = this.scudSignalBindingSource;
+            this.bindingNavigator1.CountItem = null;
+            this.bindingNavigator1.DeleteItem = this.bindingNavigatorDeleteItem;
+            this.bindingNavigator1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.bindingNavigator1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bindingNavigatorAddNewItem,
+            this.bindingNavigatorDeleteItem});
+            this.bindingNavigator1.Location = new System.Drawing.Point(0, 0);
+            this.bindingNavigator1.MoveFirstItem = null;
+            this.bindingNavigator1.MoveLastItem = null;
+            this.bindingNavigator1.MoveNextItem = null;
+            this.bindingNavigator1.MovePreviousItem = null;
+            this.bindingNavigator1.Name = "bindingNavigator1";
+            this.bindingNavigator1.PositionItem = null;
+            this.bindingNavigator1.Size = new System.Drawing.Size(207, 25);
+            this.bindingNavigator1.TabIndex = 3;
+            this.bindingNavigator1.Text = "bindingNavigator1";
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorAddNewItem.Text = "Добавить параметр";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorDeleteItem.Text = "Удалить";
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.constGroupBox);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.signalSettingsGroupBox);
+            this.splitContainer2.Size = new System.Drawing.Size(422, 328);
+            this.splitContainer2.SplitterDistance = 113;
+            this.splitContainer2.TabIndex = 0;
+            // 
+            // signalSettingsDataGridView
+            // 
+            this.signalSettingsDataGridView.AllowUserToAddRows = false;
+            this.signalSettingsDataGridView.AutoGenerateColumns = false;
+            this.signalSettingsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.signalSettingsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.signalSettingsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.signalSettingsDataGridView.DataSource = this.signalSettingsBindingSource;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.signalSettingsDataGridView.DefaultCellStyle = dataGridViewCellStyle7;
+            this.signalSettingsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.signalSettingsDataGridView.Location = new System.Drawing.Point(3, 28);
+            this.signalSettingsDataGridView.Name = "signalSettingsDataGridView";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.signalSettingsDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            this.signalSettingsDataGridView.RowHeadersVisible = false;
+            this.signalSettingsDataGridView.Size = new System.Drawing.Size(416, 167);
+            this.signalSettingsDataGridView.TabIndex = 2;
             // 
             // pathsTabPage
             // 
@@ -251,7 +374,7 @@
             this.pathsTabPage.Location = new System.Drawing.Point(4, 22);
             this.pathsTabPage.Name = "pathsTabPage";
             this.pathsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.pathsTabPage.Size = new System.Drawing.Size(499, 180);
+            this.pathsTabPage.Size = new System.Drawing.Size(645, 334);
             this.pathsTabPage.TabIndex = 0;
             this.pathsTabPage.Text = "Файлы";
             this.pathsTabPage.UseVisualStyleBackColor = true;
@@ -268,22 +391,8 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(493, 174);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(639, 328);
             this.tableLayoutPanel5.TabIndex = 0;
-            // 
-            // logFilePathSelector
-            // 
-            this.logFilePathSelector.AutoSize = true;
-            this.logFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.logFilePathSelector.Caption = "Файл результатов:";
-            this.logFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
-            this.logFilePathSelector.FileDialog = this.saveFileDialog1;
-            this.logFilePathSelector.FilePath = "";
-            this.logFilePathSelector.Location = new System.Drawing.Point(0, 0);
-            this.logFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
-            this.logFilePathSelector.Name = "logFilePathSelector";
-            this.logFilePathSelector.Size = new System.Drawing.Size(493, 49);
-            this.logFilePathSelector.TabIndex = 1;
             // 
             // saveFileDialog1
             // 
@@ -291,20 +400,6 @@
             this.saveFileDialog1.OverwritePrompt = false;
             this.saveFileDialog1.SupportMultiDottedExtensions = true;
             this.saveFileDialog1.Title = "Выберите файл для записи результата";
-            // 
-            // emulFilePathSelector
-            // 
-            this.emulFilePathSelector.AutoSize = true;
-            this.emulFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.emulFilePathSelector.Caption = "Эмулятор ИПТ:";
-            this.emulFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
-            this.emulFilePathSelector.FileDialog = this.saveFileDialog2;
-            this.emulFilePathSelector.FilePath = "";
-            this.emulFilePathSelector.Location = new System.Drawing.Point(0, 49);
-            this.emulFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
-            this.emulFilePathSelector.Name = "emulFilePathSelector";
-            this.emulFilePathSelector.Size = new System.Drawing.Size(493, 49);
-            this.emulFilePathSelector.TabIndex = 0;
             // 
             // saveFileDialog2
             // 
@@ -319,7 +414,7 @@
             this.connectionTabPage.Location = new System.Drawing.Point(4, 22);
             this.connectionTabPage.Name = "connectionTabPage";
             this.connectionTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.connectionTabPage.Size = new System.Drawing.Size(499, 180);
+            this.connectionTabPage.Size = new System.Drawing.Size(645, 334);
             this.connectionTabPage.TabIndex = 1;
             this.connectionTabPage.Text = "Соединение";
             this.connectionTabPage.UseVisualStyleBackColor = true;
@@ -341,17 +436,192 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(653, 389);
             this.tableLayoutPanel4.TabIndex = 2;
             // 
-            // objectsInfoDataGridView
+            // bindingNavigator2
             // 
-            this.objectsInfoDataGridView.AllowUserToAddRows = false;
-            this.objectsInfoDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.objectsInfoDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.objectsInfoDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.objectsInfoDataGridView.Location = new System.Drawing.Point(176, 167);
-            this.objectsInfoDataGridView.Name = "objectsInfoDataGridView";
-            this.objectsInfoDataGridView.RowHeadersVisible = false;
-            this.objectsInfoDataGridView.Size = new System.Drawing.Size(460, 158);
-            this.objectsInfoDataGridView.TabIndex = 2;
+            this.bindingNavigator2.AddNewItem = this.toolStripButton1;
+            this.bindingNavigator2.BindingSource = this.signalSettingsBindingSource;
+            this.bindingNavigator2.CountItem = null;
+            this.bindingNavigator2.DeleteItem = this.toolStripButton2;
+            this.bindingNavigator2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.bindingNavigator2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1,
+            this.toolStripButton2});
+            this.bindingNavigator2.Location = new System.Drawing.Point(0, 0);
+            this.bindingNavigator2.MoveFirstItem = null;
+            this.bindingNavigator2.MoveLastItem = null;
+            this.bindingNavigator2.MoveNextItem = null;
+            this.bindingNavigator2.MovePreviousItem = null;
+            this.bindingNavigator2.Name = "bindingNavigator2";
+            this.bindingNavigator2.PositionItem = null;
+            this.bindingNavigator2.Size = new System.Drawing.Size(422, 25);
+            this.bindingNavigator2.TabIndex = 3;
+            this.bindingNavigator2.Text = "bindingNavigator1";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.RightToLeftAutoMirrorImage = true;
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "Добавить параметр";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.RightToLeftAutoMirrorImage = true;
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Text = "Удалить";
+            // 
+            // scudSignalGroupBox
+            // 
+            this.scudSignalGroupBox.Controls.Add(this.tableLayoutPanel6);
+            this.scudSignalGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scudSignalGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.scudSignalGroupBox.Name = "scudSignalGroupBox";
+            this.scudSignalGroupBox.Size = new System.Drawing.Size(213, 328);
+            this.scudSignalGroupBox.TabIndex = 5;
+            this.scudSignalGroupBox.TabStop = false;
+            this.scudSignalGroupBox.Text = "Настройки СКУД";
+            // 
+            // signalSettingsGroupBox
+            // 
+            this.signalSettingsGroupBox.Controls.Add(this.tableLayoutPanel2);
+            this.signalSettingsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.signalSettingsGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.signalSettingsGroupBox.Name = "signalSettingsGroupBox";
+            this.signalSettingsGroupBox.Padding = new System.Windows.Forms.Padding(0);
+            this.signalSettingsGroupBox.Size = new System.Drawing.Size(422, 211);
+            this.signalSettingsGroupBox.TabIndex = 4;
+            this.signalSettingsGroupBox.TabStop = false;
+            this.signalSettingsGroupBox.Text = "Настройка параметров";
+            // 
+            // constGroupBox
+            // 
+            this.constGroupBox.Controls.Add(this.constArrayEditor);
+            this.constGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.constGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.constGroupBox.Name = "constGroupBox";
+            this.constGroupBox.Size = new System.Drawing.Size(422, 113);
+            this.constGroupBox.TabIndex = 2;
+            this.constGroupBox.TabStop = false;
+            this.constGroupBox.Text = "Константы";
+            // 
+            // constArrayEditor
+            // 
+            this.constArrayEditor.AllowUserToAddRows = false;
+            this.constArrayEditor.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
+            this.constArrayEditor.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.constArrayEditor.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.constArrayEditor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.constArrayEditor.DefaultCellStyle = dataGridViewCellStyle5;
+            this.constArrayEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.constArrayEditor.Location = new System.Drawing.Point(3, 16);
+            this.constArrayEditor.MultiSelect = false;
+            this.constArrayEditor.Name = "constArrayEditor";
+            this.constArrayEditor.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.constArrayEditor.Size = new System.Drawing.Size(416, 94);
+            this.constArrayEditor.TabIndex = 1;
+            // 
+            // logFilePathSelector
+            // 
+            this.logFilePathSelector.AutoSize = true;
+            this.logFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.logFilePathSelector.Caption = "Файл результатов:";
+            this.logFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
+            this.logFilePathSelector.FileDialog = this.saveFileDialog1;
+            this.logFilePathSelector.FilePath = "";
+            this.logFilePathSelector.Location = new System.Drawing.Point(0, 0);
+            this.logFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
+            this.logFilePathSelector.Name = "logFilePathSelector";
+            this.logFilePathSelector.Size = new System.Drawing.Size(639, 49);
+            this.logFilePathSelector.TabIndex = 1;
+            // 
+            // emulFilePathSelector
+            // 
+            this.emulFilePathSelector.AutoSize = true;
+            this.emulFilePathSelector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.emulFilePathSelector.Caption = "Эмулятор ИПТ:";
+            this.emulFilePathSelector.Dock = System.Windows.Forms.DockStyle.Top;
+            this.emulFilePathSelector.FileDialog = this.saveFileDialog2;
+            this.emulFilePathSelector.FilePath = "";
+            this.emulFilePathSelector.Location = new System.Drawing.Point(0, 49);
+            this.emulFilePathSelector.Margin = new System.Windows.Forms.Padding(0);
+            this.emulFilePathSelector.Name = "emulFilePathSelector";
+            this.emulFilePathSelector.Size = new System.Drawing.Size(639, 49);
+            this.emulFilePathSelector.TabIndex = 0;
+            // 
+            // scudIpEndPoint
+            // 
+            this.scudIpEndPoint.Address = "   .   .   .";
+            this.scudIpEndPoint.AutoSize = true;
+            this.scudIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.scudIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
+            this.scudIpEndPoint.Location = new System.Drawing.Point(3, 16);
+            this.scudIpEndPoint.Name = "scudIpEndPoint";
+            this.scudIpEndPoint.Port = 1952;
+            this.scudIpEndPoint.Size = new System.Drawing.Size(304, 52);
+            this.scudIpEndPoint.TabIndex = 2;
+            this.scudIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
+            // 
+            // iptIpEndPoint
+            // 
+            this.iptIpEndPoint.Address = "   .   .   .";
+            this.iptIpEndPoint.AutoSize = true;
+            this.iptIpEndPoint.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.iptIpEndPoint.Dock = System.Windows.Forms.DockStyle.Top;
+            this.iptIpEndPoint.Location = new System.Drawing.Point(3, 16);
+            this.iptIpEndPoint.Name = "iptIpEndPoint";
+            this.iptIpEndPoint.Port = 1952;
+            this.iptIpEndPoint.Size = new System.Drawing.Size(305, 52);
+            this.iptIpEndPoint.TabIndex = 3;
+            this.iptIpEndPoint.IsAddressValidChanged += new System.EventHandler(this.ipEndPointEditor_IsAddressValidChanged);
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.bindingNavigator2, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.signalSettingsDataGridView, 0, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 13);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(422, 198);
+            this.tableLayoutPanel2.TabIndex = 4;
+            // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.ColumnCount = 1;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.Controls.Add(this.bindingNavigator1, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.scudSignalDataGridView, 0, 1);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 2;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(207, 309);
+            this.tableLayoutPanel6.TabIndex = 5;
             // 
             // SettingsForm
             // 
@@ -376,15 +646,38 @@
             this.groupBox2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.dataTabPage.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.constArrayEditor)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.scudSignalDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.scudSignalBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
+            this.bindingNavigator1.ResumeLayout(false);
+            this.bindingNavigator1.PerformLayout();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.signalSettingsDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.signalSettingsBindingSource)).EndInit();
             this.pathsTabPage.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             this.connectionTabPage.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectsInfoDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator2)).EndInit();
+            this.bindingNavigator2.ResumeLayout(false);
+            this.bindingNavigator2.PerformLayout();
+            this.scudSignalGroupBox.ResumeLayout(false);
+            this.signalSettingsGroupBox.ResumeLayout(false);
+            this.constGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.constArrayEditor)).EndInit();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -408,10 +701,24 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog2;
         private IpEndPointEditor scudIpEndPoint;
         private IpEndPointEditor iptIpEndPoint;
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private ArrayEditor.ArrayEditor constArrayEditor;
-        private System.Windows.Forms.DataGridView objectsInfoDataGridView;
+        private System.Windows.Forms.DataGridView signalSettingsDataGridView;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.DataGridView scudSignalDataGridView;
+        private System.Windows.Forms.BindingSource scudSignalBindingSource;
+        private System.Windows.Forms.BindingNavigator bindingNavigator1;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.BindingSource signalSettingsBindingSource;
+        private System.Windows.Forms.BindingNavigator bindingNavigator2;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.GroupBox scudSignalGroupBox;
+        private System.Windows.Forms.GroupBox constGroupBox;
+        private System.Windows.Forms.GroupBox signalSettingsGroupBox;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
     }
 }

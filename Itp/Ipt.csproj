@@ -63,13 +63,13 @@
     <Compile Include="IReader.cs" />
     <Compile Include="ScudReader.cs" />
     <Compile Include="Types\Buffer.cs" />
-    <Compile Include="Types\ScudSignalData.cs" />
+    <Compile Include="Types\SignalSettings.cs" />
+    <Compile Include="Types\SignalBase.cs" />
     <Compile Include="Types\XmlSerializableDictionary.cs" />
     <Compile Include="Types\Ipt4.cs" />
     <Compile Include="MbCliWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\Kks.cs" />
-    <Compile Include="Types\KksValues.cs" />
     <Compile Include="Types\ReaderStateEnum.cs" />
     <Compile Include="Types\ScudSignal.cs" />
     <Compile Include="UnsafeNativeMethods.cs" />

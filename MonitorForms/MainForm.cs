@@ -14,15 +14,20 @@ namespace MonitorForms
     public partial class MainForm : Form
     {
         #region Свойства
+        //Частоты опроса ИПТ в Гц
+        private readonly List<int> _freqs = new List<int>(new[] { 1, 10, 20, 30, 40 });
 
         //Генератор случайных чисел для эмуляции графика
         private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
+        private readonly Current _current;
         private DataReader _dataReader;
         private DataWriter _dataWriter;
-
-        private readonly List<int> _freqs = new List<int>(new[] { 1, 10, 20, 30, 40 });
         private bool _normalize;
-        private Current _current;
+        //Вспомогательный список, чтобы отбирать выбранные значения из настроек
+        private List<ScudSignal> _selectedScudSignals;
+        //Эти данные отображаются в таблице слева от графика
+        private readonly DictionaryPropertyAdapter<string, double> _values;
+
         //DataReader для чтения данных с устройств
         private DataReader Reader
         {
@@ -46,14 +51,9 @@ namespace MonitorForms
         {
             get
             {
+                //TODO Генерация заголовков в соответствии с набором выбранных параметров.
                 return _dataWriter ?? (_dataWriter = DataWriter.GetInstance(
-                           Program.Settings.LogFile,
-                           new[]
-                           {
-                               "Время", "J1", "J2", "R1", "R2", "Rc", "P_CORE", "T_COLD", "T_HOT", "P_SG", "H_12",
-                               "H_11", "H_10", "L_pres",
-                               "L_sg", "C_bor", "C_bor_f", "F_makeup", "N_akz", "N_tg", "AO"
-                           }));
+                           Program.Settings.LogFile));
             }
         }
 
@@ -74,6 +74,7 @@ namespace MonitorForms
         {
             InitializeComponent();
             _current = new Current();
+            _values = new DictionaryPropertyAdapter<string, double>();
         }
 
         //Ошибка при чтении данных
@@ -88,21 +89,15 @@ namespace MonitorForms
             errorLogTextBox.InvokeEx(() => errorLogTextBox.AppendText(message));
         }
 
+        //При поступлении новых данных
         private void _dataReader_IptDataRead(object sender, DataReadEventArgs e)
         {
-            KksValues values = null;
             if (e.Buffer.Buff != null)
             {
-                values = new KksValues(e.Buffer, Program.Settings.Kks);
-                //Поскольку таймер опроса СКУД и ИПТ работает в отдельном потоке, то
-                //вывод данных на форму выполняется с проверкой
-                if (Program.Settings.ScudListVisible)
+                //Обновляем значения выбранных переменных СКУД
+                foreach (var signal in _selectedScudSignals)
                 {
-                    scudValuesGrid.InvokeEx(
-                        () =>
-                        {
-                            scudValuesGrid.SelectedObject = values;
-                        });
+                    _values[signal.Name] = e.Buffer.Buff[signal.Index];
                 }
             }
             if (Program.Settings.IptListVisible)
@@ -115,12 +110,19 @@ namespace MonitorForms
                         iptListBox.EndUpdate();
                     });
             }
-            var r1 = _current.SearchReactivity1(Program.Settings.Lambdas, Program.Settings.Alphas, e.Buffer, e.Ipt4);
-            var r2 = _current.SearchReactivity2(Program.Settings.Lambdas, Program.Settings.Alphas, e.Buffer, e.Ipt4);
+            //Вычисления 
+             _current.SearchReactivity1(Program.Settings.Lambdas, Program.Settings.Alphas, e.Buffer, e.Ipt4);
+             _current.SearchReactivity2(Program.Settings.Lambdas, Program.Settings.Alphas, e.Buffer, e.Ipt4);
+            //Значения токов и реактивностей.
+            _values["I_1"] = _current.Tok1New;
+            _values["I_2"] = _current.Tok2New;
+            _values["R_1"] = _current.Reactivity1;
+            _values["R_2"] = _current.Reactivity2;
+            //Обновляем таблицу
+            propertyGrid1.InvokeEx(() => propertyGrid1.Refresh());
             //TODO:Добавить вычисление токов перед записью в файл
             //NOTE:Writer создаётся в потоке формы, а файл пишется в потоке таймера. Выяснить возможные уязвимости
-            //Для записи передавать KksValues
-            Writer.WriteData(values, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2, r1, r2);
+            Writer.WriteData(e.Buffer.Buff, _current.Tok1New, _current.Tok2New, _current.Reactivity1, _current.Reactivity1);
             AddToChart();
         }
 
@@ -211,10 +213,11 @@ namespace MonitorForms
         //Загрузка формы
         private void MainForm_Load(object sender, EventArgs e)
         {
+            dataGridView1.AutoGenerateColumns = true;
+
             graphChart1.Count = 2;
             normalizeButton.Checked = _normalize;
-            dataGridView1.AutoGenerateColumns = true;
-            //scudValuesGrid= "E7";
+            UpdateValuesSet();
             UpdateView();
         }
 
@@ -286,6 +289,7 @@ namespace MonitorForms
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new SettingsForm().ShowDialog(this);
+            UpdateValuesSet();
         }
 
         //Кнопка «Остановить/Начать» показ графика
@@ -308,6 +312,27 @@ namespace MonitorForms
         {
             for (int i = 0; i < graphChart1.Count; i++)
                 graphChart1.AddValue(new MonitorValue(DateTime.Now, _rnd.Next(-10, 11), 10, -10), i, _normalize);
+        }
+
+        //Обновление списков отображаемых значений.
+        private void UpdateValuesSet()
+        {
+            //Отображаемые значения. Передаём их в словарь _values
+            foreach (var s in Program.Settings.SignalSettingses)
+            {
+                if (s.IsActive)
+                {
+                    _values.Add(s.Name, 0.0);
+                }
+            }
+            //Выбранные значения СКУД, которые будут отображаться на графике и в таблице
+            _selectedScudSignals = Program.Settings.ScudSignals.Where(s => Program.Settings.SignalSettingses.Any(ss => s.Name == ss.Name && ss.IsActive)).ToList();
+            graphChart1.Count = 0;
+            foreach (var signalSettings in Program.Settings.SignalSettingses.Where(s => s.IsActive))
+            {
+                graphChart1.AddNewSeries(signalSettings.Name);
+            }
+            propertyGrid1.SelectedObject = _values;
         }
 
         //Обновление вида
