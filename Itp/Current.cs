@@ -16,136 +16,77 @@ namespace Ipt
         //так как нет предыдущего времени, а есть только первое значение
         double[] _psi01 = new double[6];
         double[] _psi02 = new double[6];
-        //последнее значение времени зарегистрированного параметра
-        //   private double _timeNow;
-        //для расчета реактивностей необходимы следующие параметры
-        //предыдущее значение времени
-
-        /// <summary>
-        /// Время при расчёте первой реактивности
-        /// </summary>
-        public DateTime Time1Old { get; private set; }
-        /// <summary>
-        /// Время при расчёте второй реактивности
-        /// </summary>
-        public DateTime Time2Old { get; private set; }
-
-
+    
         public double Ro; ////возвращает реактивность, рассчитанную в Беттах
         private double _tok1Old = double.NaN;
         private double _tok2Old = double.NaN;
 
         public Current()
         {
-            Time2Old = DateTime.MinValue;
-            Time1Old = DateTime.MinValue;
+            _timeOld= DateTime.MinValue;
         }
 
-        public double Tok1New { get; set; }
-        public double Tok2New { get; set; }
+        public double _tok1New;
+        public double _tok2New;
 
-        public double Reactivity1 { get; set; }
-        public double Reactivity2 { get; set; }
-        public DateTime TimeNow { get; private set; }
+        public double _reactivity1;
+        public double _reactivity2;
+
+        public DateTime _timeNow;
+        public DateTime _timeOld;
 
         #endregion
 
-        private double SearchCurrent1(Ipt4 temp)
+        private void SearchCurrent(Ipt4 temp)
         {
             var step1 = Math.Pow(10, -temp.Power1);
-            return Tok1New = temp.FCurrent1 / 25000.0 * step1;
-        }
-
-        private double SearchCurrent2(Ipt4 temp)
-        {
+            _tok1New = temp.FCurrent1 / 25000.0 * step1;
             var step2 = Math.Pow(10, -temp.Power2);
-            return Tok2New = temp.FCurrent2 / 25000.0 * step2;
+            _tok2New = temp.FCurrent2 / 25000.0 * step2;
         }
-
 
         //TODO: Александр. Старые значения времени и токов нужно хранить в полях класса. Извне брать только текущие значения.
         //эти методы должны расчитывать реактивности из Ток1 и Ток2
-        public double SearchReactivity1(double[] l, double[] a, Buffer time, Ipt4 temp)
+        public void SearchReactivity(double[] l, double[] a, Buffer time, Ipt4 temp)
         {
-            //так как предыдущего значения тока нет в самом начале регистрации, то приравиваем все 6 значений массива одному току
             //TODO:ВОЗМОЖНО ТУТ НУЖНО СТАВИТЬ УСЛОВИЕ, ЕСЛИ НАЧАЛО РЕГИСТРАЦИИ ТО НУЖНО ВЫПОЛНЯТЬ ЭТОТ ЦИКЛ 
             //TODO:ТАК КАК НЕТ ДВУХ ЗНАЧЕНИЙ ТОКОВ, А ЕСТЬ ТОЛЬКО ОДНО, А ЕСЛИ ЗАРЕГИСТРИРОВАЛОСЬ ВТОРОЕ ЗНАЧЕНИЕ 
             //TODO:ПРОПУСКАЕТСЯ ЭТОТ ЦИКЛ FOR
-            Tok1New = SearchCurrent1(temp);
+             SearchCurrent(temp);
 
-            //вспомогательная переменная для устранения косяка неодинаковости времени
-
-            if (Time1Old.Equals(DateTime.MinValue) && _tok1Old.Equals(double.NaN))
+             if (_timeOld.Equals(DateTime.MinValue) && _tok1Old.Equals(double.NaN) && _tok2Old.Equals(double.NaN))
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    _psi01[i] = Tok1New;
+                    _psi01[i] = _tok1New;
+                    _psi02[i] = _tok2New;
                 }
-                Time1Old = DateTime.Now;
-                _tok1Old = Tok1New;
+                _timeOld = DateTime.Now;
+                _tok1Old = _tok1New;
+                _tok2Old = _tok2New;
             }
 
-
             var timeNow = DateTime.Now;
-
-            var dt = timeNow - Time1Old;
+            var dt = timeNow - _timeOld;
 
             for (int i = 0; i < _one.Length; i++)
             {
                 double constTRaspada = l[i] * dt.TotalSeconds;
                 _one[i] = Math.Exp(-constTRaspada);
                 _two[i] = (1 - _one[i]) / constTRaspada;
-                _psi01[i] = _psi01[i] * _one[i] - (Tok1New - _tok1Old) * _two[i] - _tok1Old * _one[i] + Tok1New;
-
-                Reactivity1 += a[i] * _psi01[i];
+                _psi01[i] = _psi01[i] * _one[i] - (_tok1New - _tok1Old) * _two[i] - _tok1Old * _one[i] + _tok1New;
+                _psi02[i] = _psi02[i] * _one[i] - (_tok2New - _tok2Old) * _two[i] - _tok2Old * _one[i] + _tok2New;
+                _reactivity1 += a[i] * _psi01[i];
+                _reactivity2 += a[i] * _psi02[i];
             }
-
+    
             //Зачем потребовалось создать _timeNow ?? Да просто иначе если бы в этой строке стояло бы DateTime.Now то это было бы уже другое время, нежели участвующее в формуле выше!!!
-            Time1Old = timeNow;
-            _tok1Old = Tok1New;
+            _timeOld = timeNow;
+            _tok1Old = _tok1New;
+            _tok2Old = _tok2New;
 
-            return Reactivity1 = 1 - Reactivity1 / Tok1New;
-        }
-
-        public double SearchReactivity2(double[] l, double[] a, Buffer time, Ipt4 temp)
-        {
-            //так как предыдущего значения тока нет в самом начале регистрации, то приравиваем все 6 значений массива одному току
-            //TODO:ВОЗМОЖНО ТУТ НУЖНО СТАВИТЬ УСЛОВИЕ, ЕСЛИ НАЧАЛО РЕГИСТРАЦИИ ТО НУЖНО ВЫПОЛНЯТЬ ЭТОТ ЦИКЛ 
-            //TODO:ТАК КАК НЕТ ДВУХ ЗНАЧЕНИЙ ТОКОВ, А ЕСТЬ ТОЛЬКО ОДНО, А ЕСЛИ ЗАРЕГИСТРИРОВАЛОСЬ ВТОРОЕ ЗНАЧЕНИЕ 
-            //TODO:ПРОПУСКАЕТСЯ ЭТОТ ЦИКЛ FOR
-            Tok2New = SearchCurrent2(temp);
-
-            //вспомогательная переменная для устранения косяка неодинаковости времени
-
-
-            if (Time2Old.Equals(DateTime.MinValue) && _tok2Old.Equals(double.NaN))
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    _psi02[i] = Tok2New;
-                }
-                Time2Old = DateTime.Now;
-                _tok2Old = Tok2New;
-            }
-
-            var timeNow = DateTime.Now;
-
-            var dt = timeNow - Time2Old;
-
-
-            for (int i = 0; i < _one.Length; i++)
-            {
-                double constTRaspada = l[i] * dt.TotalSeconds;
-                _one[i] = Math.Exp(-constTRaspada);
-                _two[i] = (1 - _one[i]) / constTRaspada;
-                _psi02[i] = _psi02[i] * _one[i] - (Tok2New - _tok2Old) * _two[i] - _tok2Old * _one[i] + Tok2New;
-
-                Reactivity2 += a[i] * _psi02[i];
-            }
-            Time2Old = timeNow;
-            _tok1Old = Tok2New;
-
-            return Reactivity2 = 1 - Reactivity2 / Tok2New;
+            _reactivity1 = 1 - _reactivity1 / _tok1New;
+            _reactivity2 = 1 - _reactivity2 / _tok2New;
         }
 
         class MyConst
