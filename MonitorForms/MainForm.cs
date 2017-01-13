@@ -115,12 +115,12 @@ namespace MonitorForms
                         iptListBox.EndUpdate();
                     });
             }
-            var r1 = _current.SearchReactivity1(Program.Settings.Lambdas, Program.Settings.Alphas, e.Buffer, e.Ipt4);
-            var r2 = _current.SearchReactivity2(Program.Settings.Lambdas, Program.Settings.Alphas, e.Buffer, e.Ipt4);
+            _current.SearchReactivity(Program.Settings.Lambdas, Program.Settings.Alphas, e.Buffer, e.Ipt4);
+            
             //TODO:Добавить вычисление токов перед записью в файл
             //NOTE:Writer создаётся в потоке формы, а файл пишется в потоке таймера. Выяснить возможные уязвимости
             //Для записи передавать KksValues
-            Writer.WriteData(values, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2, r1, r2);
+            Writer.WriteData(values, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2, _current._reactivity1, _current._reactivity2);
             AddToChart();
         }
 
