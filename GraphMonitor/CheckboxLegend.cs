@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.VisualStyles;
+using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace GraphMonitor
 {
@@ -48,10 +49,11 @@ namespace GraphMonitor
                                 CellType = LegendCellType.Image,
                                 Image = _series.Enabled ? _checkboxCheckedPath : _checkboxUncheckedPath
                             };
-            //Цвет графика
-            var seriesCell = new LegendCell(LegendCellType.Text, _series.Name);
-
             //Название графика
+            var seriesCell = new LegendCell(LegendCellType.Text, _series.Name);
+            seriesCell.Alignment = ContentAlignment.MiddleLeft;
+
+            //Цвет графика
             var typeCell = new LegendCell
                            {
                                CellType = LegendCellType.SeriesSymbol

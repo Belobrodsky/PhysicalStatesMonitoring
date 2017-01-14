@@ -84,6 +84,9 @@
     <Compile Include="ArrayEditor\ArrayEditor.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DictionayViewer\DictionaryPropertyAdapter.cs" />
+    <Compile Include="DictionayViewer\DictionaryPropertyDescriptor.cs" />
+    <Compile Include="DictionayViewer\ScudIptConverter.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FilePathSelector.cs">
       <SubType>UserControl</SubType>
@@ -168,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <None Include="Resources\VSO_Synchronize_16x.png" />
     <None Include="Resources\Remove_color_16x.png" />
     <None Include="Resources\action_add_16xLG.png" />
     <None Include="Resources\folder_Open_16xLG.png" />

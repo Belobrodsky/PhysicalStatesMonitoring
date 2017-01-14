@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Xml.Serialization;
@@ -11,6 +12,8 @@ namespace MonitorForms
     {
         #region Свойства
 
+        //public List<ObjectInfo> ScudValues;
+
         public string ScudIp { get; set; }
         public int ScudPort { get; set; }
         public string IptIp { get; set; }
@@ -21,12 +24,19 @@ namespace MonitorForms
         public bool ScudListVisible { get; set; }
         public bool IptListVisible { get; set; }
         public int IptFreqIndex { get; set; }
-        public Kks Kks { get; set; }
-        [XmlArrayItem]
+
+        [XmlArrayItem("sig")]
+        public List<ScudSignal> ScudSignals { get; set; }
+
+        [XmlArray("SignalParams")]
+        [XmlArrayItem("set")]
+        public List<SignalParams> SignalParameters { get; set; }
+
+        [XmlArrayItem("l")]
         public double[] Lambdas { get; set; }
-        [XmlArrayItem]
+
+        [XmlArrayItem("a")]
         public double[] Alphas { get; set; }
-        public XmlSerializableDictionary<string, int> ScudValues { get; set; }
 
         [XmlIgnore]
         public IPAddress IptIpAddress
@@ -76,27 +86,49 @@ namespace MonitorForms
                           ScudListVisible = true,
                           IptListVisible = true,
                           IptFreqIndex = 0,
-                          Kks = new Kks(),
-                          ScudValues = new XmlSerializableDictionary<string, int>(),
+                          ScudSignals = new List<ScudSignal>
+                                        {
+                                            new ScudSignal("PCore", 60),
+                                            new ScudSignal("TCold", 82),
+                                            new ScudSignal("THot", 77),
+                                            new ScudSignal("PSg", 232),
+                                            new ScudSignal("H12", 102),
+                                            new ScudSignal("H11", 101),
+                                            new ScudSignal("H10", 100),
+                                            new ScudSignal("LPres", 241),
+                                            new ScudSignal("LSg", 237),
+                                            new ScudSignal("Cbor", 51),
+                                            new ScudSignal("Cborf", 53),
+                                            new ScudSignal("Fmakeup", 63),
+                                            new ScudSignal("Nakz", 54),
+                                            new ScudSignal("Ntg", 59),
+                                            new ScudSignal("Ao", 243)
+                                        },
+                          SignalParameters = new List<SignalParams>
+                                             {
+                                                 new SignalParams("R_1", true, float.NaN, float.NaN),
+                                                 new SignalParams("R_2", true, float.NaN, float.NaN),
+                                                 new SignalParams("PCore", true, 15, 17),
+                                                 new SignalParams("TCold", true, 280, 320),
+                                                 new SignalParams("THot", true, 280, 320),
+                                                 new SignalParams("PSg", true, 6, 8),
+                                                 new SignalParams("H12", true, 0, 100),
+                                                 new SignalParams("H11", true, 0, 100),
+                                                 new SignalParams("H10", true, 0, 100),
+                                                 new SignalParams("LPres", true, 4, 9),
+                                                 new SignalParams("LSg", true, 0, 10),
+                                                 new SignalParams("Cbor", true, 0, 10),
+                                                 new SignalParams("Cborf", true, 0, 40),
+                                                 new SignalParams("Fmakeup", true, 10000, 90000),
+                                                 new SignalParams("Nakz", true, 1200, 3200),
+                                                 new SignalParams("Ntg", true, 0, 1200),
+                                                 new SignalParams("Ao", true, -50, 10),
+                                                 new SignalParams("I_1", true, float.NaN, float.NaN),
+                                                 new SignalParams("I_2", true, float.NaN, float.NaN)
+                                             },
                           Lambdas = new[] {0.0127, 0.0317, 0.1180, 0.3170, 1.4000, 3.9200},
                           Alphas = new[] {0.0340, 0.2020, 0.1840, 0.4030, 0.1430, 0.0340}
                       };
-            set.ScudValues.Add("PCore", 60);
-            set.ScudValues.Add("TCold", 82);
-            set.ScudValues.Add("THot", 77);
-            set.ScudValues.Add("PSg", 232);
-            set.ScudValues.Add("H12", 102);
-            set.ScudValues.Add("H11", 101);
-            set.ScudValues.Add("H10", 100);
-            set.ScudValues.Add("LPres", 241);
-            set.ScudValues.Add("LSg", 237);
-            set.ScudValues.Add("Cbor", 51);
-            set.ScudValues.Add("Cborf", 53);
-            set.ScudValues.Add("Fmakeup", 63);
-            set.ScudValues.Add("Nakz", 54);
-            set.ScudValues.Add("Ntg", 59);
-            set.ScudValues.Add("Ao", 243);
-
             return set;
         }
 
@@ -127,6 +159,13 @@ namespace MonitorForms
                 ns.Add("", "");
                 Serializer.Serialize(writer, settings, ns);
             }
+        }
+
+        public void Reset()
+        {
+            File.Delete(SettingsPath);
+            Read();
+            Save(this);
         }
     }
 }

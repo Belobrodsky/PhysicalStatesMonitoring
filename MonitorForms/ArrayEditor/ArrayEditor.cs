@@ -106,5 +106,11 @@ namespace MonitorForms.ArrayEditor
         }
 
         #endregion
+
+        public void Clear()
+        {
+            Rows.Clear();
+            Columns.Clear();
+        }
     }
 }
