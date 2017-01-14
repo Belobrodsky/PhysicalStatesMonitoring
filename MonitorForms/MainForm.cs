@@ -15,19 +15,20 @@ namespace MonitorForms
     public partial class MainForm : Form
     {
         #region Свойства
+
+        private readonly Current _current;
         //Частоты опроса ИПТ в Гц
-        private readonly List<int> _freqs = new List<int>(new[] { 1, 10, 20, 30, 40 });
+        private readonly List<int> _freqs = new List<int>(new[] {1, 10, 20, 30, 40});
 
         //Генератор случайных чисел для эмуляции графика
         private readonly Random _rnd = new Random(DateTime.Now.Millisecond);
-        private readonly Current _current;
+        //Эти данные отображаются в таблице слева от графика
+        private readonly DictionaryPropertyAdapter<string, double> _values;
         private DataReader _dataReader;
         private DataWriter _dataWriter;
         private bool _normalize;
         //Вспомогательный список, чтобы отбирать выбранные значения из настроек
         private List<ScudSignal> _selectedSignals;
-        //Эти данные отображаются в таблице слева от графика
-        private readonly DictionaryPropertyAdapter<string, double> _values;
 
         //DataReader для чтения данных с устройств
         private DataReader Reader
@@ -37,11 +38,13 @@ namespace MonitorForms
                 if (_dataReader == null)
                 {
                     _dataReader = DataReader.GetInstance();
-                    _dataReader.IptInterval = 1000d / _freqs[Program.Settings.IptFreqIndex];
+                    _dataReader.IptInterval = 1000 / _freqs[Program.Settings.IptFreqIndex];
                     _dataReader.Error -= _dataReader_Error;
                     _dataReader.Error += _dataReader_Error;
                     _dataReader.IptDataRead -= _dataReader_IptDataRead;
                     _dataReader.IptDataRead += _dataReader_IptDataRead;
+                    _dataReader.ScudDataRead -= _dataReader_ScudDataRead;
+                    _dataReader.ScudDataRead += _dataReader_ScudDataRead;
                 }
                 return _dataReader;
             }
@@ -52,7 +55,6 @@ namespace MonitorForms
         {
             get
             {
-                //TODO Генерация заголовков в соответствии с набором выбранных параметров.
                 return _dataWriter ?? (_dataWriter = DataWriter.GetInstance(
                            Program.Settings.LogFile));
             }
@@ -90,48 +92,17 @@ namespace MonitorForms
             errorLogTextBox.InvokeEx(() => errorLogTextBox.AppendText(message));
         }
 
-        private void WriteData(object o)
-        {
-            var args = (DataReadEventArgs) o;
-            #region Вычисления и запись в файл 0.7 — 1 мс
-            //Вычисление значений токов и реактивностей.
-            _current.SearchReactivity1(Program.Settings.Lambdas, Program.Settings.Alphas, args.Buffer, args.Ipt4);
-            _current.SearchReactivity2(Program.Settings.Lambdas, Program.Settings.Alphas, args.Buffer, args.Ipt4);
-            Writer.WriteData(args.Buffer.Buff, _current.Tok1New, _current.Tok2New, _current.Reactivity1, _current.Reactivity1);
-            #endregion
-        }
-
         //При поступлении новых данных
         private void _dataReader_IptDataRead(object sender, DataReadEventArgs e)
         {
             var writeThread = new Thread(WriteData);
             writeThread.Start(e);
             //Обновляем значения выбранных переменных СКУД
-            foreach (var signal in _selectedSignals)
-            {
-                _values[signal.Name] = e.Buffer.Buff[signal.Index];
-            }
-            //1-3 мс
-            if (Program.Settings.IptListVisible)
-            {
-                iptListBox.InvokeEx(
-                    () =>
-                    {
-                        iptListBox.BeginUpdate();
-                        iptListBox.DataSource = e.Ipt4.ToString().Split('\r');
-                        iptListBox.EndUpdate();
-                    });
-            }
-            _values[Program.I1] = _current.Tok1New;
-            _values[Program.I2] = _current.Tok2New;
-            _values[Program.R1] = _current.Reactivity1;
-            _values[Program.R2] = _current.Reactivity2;
-            //Обновляем таблицу 30 мс
-            propertyGrid1.InvokeEx(() =>
-            {
-                propertyGrid1.Refresh();
-            });
-            AddToChart();
+        }
+
+        private void _dataReader_ScudDataRead(object sender, DataReadEventArgs e)
+        {
+            UpdateUi(e);
         }
 
         //Добавить график
@@ -188,6 +159,7 @@ namespace MonitorForms
             Reader.Disconnect();
         }
 
+        //Контекстное меню лога ошибок
         private void errorLogcontextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             clearMenuItem.Enabled = errorLogTextBox.Lines.Length > 0;
@@ -197,15 +169,15 @@ namespace MonitorForms
         //На графике выбрана точка
         private void GraphChart1_SelectedPointChanged(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = graphChart1.MonitorValues.Select(
+            graphValuesDataGridView.DataSource = graphChart1.MonitorValues.Select(
                 mv => new
-                {
-                    Время = mv.TimeStamp,
-                    Макс = mv.Max,
-                    Мин = mv.Min,
-                    Норм = mv.NValue,
-                    Значение = mv.Value
-                }).ToList();
+                      {
+                          Время = mv.TimeStamp,
+                          Макс = mv.Max,
+                          Мин = mv.Min,
+                          Норм = mv.NValue,
+                          Значение = mv.Value
+                      }).ToList();
         }
 
         //Смена частоты
@@ -213,7 +185,7 @@ namespace MonitorForms
         {
             if (_dataReader != null)
             {
-                _dataReader.IptInterval = 1000d / _freqs[iptFreqComboBox.SelectedIndex];
+                _dataReader.IptInterval = 1000 / _freqs[iptFreqComboBox.SelectedIndex];
             }
             Program.Settings.IptFreqIndex = iptFreqComboBox.SelectedIndex;
         }
@@ -221,7 +193,7 @@ namespace MonitorForms
         //Загрузка формы
         private void MainForm_Load(object sender, EventArgs e)
         {
-            dataGridView1.AutoGenerateColumns = true;
+            graphValuesDataGridView.AutoGenerateColumns = true;
 
             graphChart1.Count = 2;
             normalizeButton.Checked = _normalize;
@@ -253,13 +225,13 @@ namespace MonitorForms
         private void runEmulatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var psi = new ProcessStartInfo(Program.Settings.EmulPath)
-            {
-                Arguments = string.Format(
+                      {
+                          Arguments = string.Format(
                               "-emul -ip {0} -p {1}",
                               Program.Settings.IptIp,
                               Program.Settings.IptPort),
-                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
-            };
+                          WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
+                      };
             var p = Process.Start(psi);
             Closing += (o, args) =>
             {
@@ -296,7 +268,8 @@ namespace MonitorForms
         //Меню настроек
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (new SettingsForm().ShowDialog(this) != DialogResult.OK) return;
+            if (new SettingsForm().ShowDialog(this) != DialogResult.OK)
+                return;
             UpdateValuesSet();
         }
 
@@ -310,6 +283,7 @@ namespace MonitorForms
         //Меню «Начать чтение данных»
         private void startReadingtoolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Writer.NewFile(Program.Settings.LogFile);
             Reader.Start();
             //Reader.ReadScud();
             //Reader.ReadIpt();
@@ -320,6 +294,36 @@ namespace MonitorForms
         {
             for (int i = 0; i < graphChart1.Count; i++)
                 graphChart1.AddValue(new MonitorValue(DateTime.Now, _rnd.Next(-10, 11), 10, -10), i, _normalize);
+        }
+
+        //Обновление интерфейса
+        private void UpdateUi(DataReadEventArgs e)
+        {
+            foreach (var signal in _selectedSignals)
+            {
+                _values[signal.Name] = e.Buffer.Buff[signal.Index];
+            }
+            //1-3 мс
+            if (Program.Settings.IptListVisible)
+            {
+                iptListBox.InvokeEx(
+                    () =>
+                    {
+                        iptListBox.BeginUpdate();
+                        iptListBox.DataSource = e.Ipt4.ToString().Split('\r');
+                        iptListBox.EndUpdate();
+                    });
+            }
+            _values[Program.I1] = _current.Tok1New;
+            _values[Program.I2] = _current.Tok2New;
+            _values[Program.R1] = _current.Reactivity1;
+            _values[Program.R2] = _current.Reactivity2;
+            //Обновляем таблицу 30 мс
+            scudPropertyGrid.InvokeEx(() =>
+            {
+                scudPropertyGrid.Refresh();
+            });
+            AddToChart();
         }
 
         //Обновление списков отображаемых значений.
@@ -341,7 +345,7 @@ namespace MonitorForms
             {
                 graphChart1.AddNewSeries(signal.Name);
             }
-            propertyGrid1.SelectedObject = _values;
+            scudPropertyGrid.SelectedObject = _values;
         }
 
         //Обновление вида
@@ -352,8 +356,7 @@ namespace MonitorForms
             errorLogMenuItem.Checked = Program.Settings.ErrorLogVisible;
 
             splitContainer2.Panel2Collapsed = !(Program.Settings.IptListVisible || Program.Settings.ScudListVisible);
-            scudIptSplitContainer.Panel1Collapsed = !Program.Settings.ScudListVisible;
-            scudIptSplitContainer.Panel2Collapsed = !Program.Settings.IptListVisible;
+            splitContainer2.Panel2Collapsed = !Program.Settings.IptListVisible;
             splitContainer4.Panel2Collapsed = !Program.Settings.ErrorLogVisible;
 
             iptFreqComboBox.SelectedIndex = Program.Settings.IptFreqIndex;
@@ -363,6 +366,19 @@ namespace MonitorForms
         private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             UpdateView();
+        }
+
+        private void WriteData(object o)
+        {
+            var args = (DataReadEventArgs) o;
+
+            #region Вычисления и запись в файл 0.7 — 1 мс
+
+            //Вычисление значений токов и реактивностей.
+            _current.SearchReactivity(Program.Settings.Lambdas, Program.Settings.Alphas, args.Buffer, args.Ipt4);
+            Writer.WriteData(args.Buffer.Buff, _current.Tok1New, _current.Tok2New, _current.Reactivity1, _current.Reactivity1, _current.ReactivityAverage);
+
+            #endregion
         }
     }
 }

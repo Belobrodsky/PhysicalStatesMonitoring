@@ -40,19 +40,10 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.iptFreqLabel = new System.Windows.Forms.ToolStripLabel();
             this.iptFreqComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.graphChart1 = new GraphMonitor.GraphChart();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.graphValuesDataGridView = new System.Windows.Forms.DataGridView();
+            this.mainSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.scudIptSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.scudTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.scudValuesGrid = new System.Windows.Forms.PropertyGrid();
-            this.iptTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.iptListBox = new System.Windows.Forms.ListBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.serverMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,30 +64,33 @@
             this.errorLogcontextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.clearMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iptTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.iptListBox = new System.Windows.Forms.ListBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.scudGraphSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.graphChart1 = new GraphMonitor.GraphChart();
+            this.scudPropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.graphValuesDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
+            this.mainSplitContainer.Panel1.SuspendLayout();
+            this.mainSplitContainer.Panel2.SuspendLayout();
+            this.mainSplitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.scudIptSplitContainer)).BeginInit();
-            this.scudIptSplitContainer.Panel1.SuspendLayout();
-            this.scudIptSplitContainer.Panel2.SuspendLayout();
-            this.scudIptSplitContainer.SuspendLayout();
-            this.scudTableLayoutPanel.SuspendLayout();
-            this.iptTableLayoutPanel.SuspendLayout();
             this.mainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             this.errorLogcontextMenu.SuspendLayout();
+            this.iptTableLayoutPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scudGraphSplitContainer)).BeginInit();
+            this.scudGraphSplitContainer.Panel1.SuspendLayout();
+            this.scudGraphSplitContainer.Panel2.SuspendLayout();
+            this.scudGraphSplitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -197,82 +191,47 @@
             this.iptFreqComboBox.Size = new System.Drawing.Size(75, 25);
             this.iptFreqComboBox.SelectedIndexChanged += new System.EventHandler(this.iptFreqComboBox_SelectedIndexChanged);
             // 
-            // dataGridView1
+            // graphValuesDataGridView
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(439, 242);
-            this.dataGridView1.TabIndex = 1;
+            this.graphValuesDataGridView.AllowUserToAddRows = false;
+            this.graphValuesDataGridView.AllowUserToDeleteRows = false;
+            this.graphValuesDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.graphValuesDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.graphValuesDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.graphValuesDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.graphValuesDataGridView.Name = "graphValuesDataGridView";
+            this.graphValuesDataGridView.ReadOnly = true;
+            this.graphValuesDataGridView.Size = new System.Drawing.Size(439, 242);
+            this.graphValuesDataGridView.TabIndex = 1;
             // 
-            // splitContainer1
+            // mainSplitContainer
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.mainSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainSplitContainer.Location = new System.Drawing.Point(0, 0);
+            this.mainSplitContainer.Name = "mainSplitContainer";
+            this.mainSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer1.Panel1
+            // mainSplitContainer.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanel1);
-            this.splitContainer1.Panel1.Controls.Add(this.toolStrip1);
+            this.mainSplitContainer.Panel1.Controls.Add(this.scudGraphSplitContainer);
+            this.mainSplitContainer.Panel1.Controls.Add(this.toolStrip1);
             // 
-            // splitContainer1.Panel2
+            // mainSplitContainer.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(784, 491);
-            this.splitContainer1.SplitterDistance = 245;
-            this.splitContainer1.TabIndex = 4;
+            this.mainSplitContainer.Panel2.Controls.Add(this.splitContainer2);
+            this.mainSplitContainer.Size = new System.Drawing.Size(784, 491);
+            this.mainSplitContainer.SplitterDistance = 245;
+            this.mainSplitContainer.TabIndex = 4;
             // 
-            // tableLayoutPanel1
+            // copyMenuItem
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.graphChart1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.propertyGrid1, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 25);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 220);
-            this.tableLayoutPanel1.TabIndex = 4;
-            // 
-            // graphChart1
-            // 
-            this.graphChart1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.graphChart1.Count = 1;
-            this.graphChart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphChart1.Location = new System.Drawing.Point(209, 3);
-            this.graphChart1.MonitorValues = null;
-            this.graphChart1.Name = "graphChart1";
-            this.graphChart1.SelectedPoint = null;
-            this.graphChart1.SelectedSeries = null;
-            this.graphChart1.Size = new System.Drawing.Size(572, 214);
-            this.graphChart1.TabIndex = 0;
-            this.graphChart1.SelectedPointChanged += new System.EventHandler(this.GraphChart1_SelectedPointChanged);
-            // 
-            // propertyGrid1
-            // 
-            this.propertyGrid1.CategoryForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.propertyGrid1.CommandsDisabledLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.propertyGrid1.HelpVisible = false;
-            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.propertyGrid1.SelectedObject = this.copyMenuItem;
-            this.propertyGrid1.Size = new System.Drawing.Size(200, 214);
-            this.propertyGrid1.TabIndex = 1;
-            this.propertyGrid1.ToolbarVisible = false;
+            this.copyMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyMenuItem.Image")));
+            this.copyMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.copyMenuItem.Name = "copyMenuItem";
+            this.copyMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.copyMenuItem.Text = "Копировать";
+            this.copyMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
             // 
             // splitContainer2
             // 
@@ -282,109 +241,14 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.dataGridView1);
+            this.splitContainer2.Panel1.Controls.Add(this.graphValuesDataGridView);
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.scudIptSplitContainer);
+            this.splitContainer2.Panel2.Controls.Add(this.iptTableLayoutPanel);
             this.splitContainer2.Size = new System.Drawing.Size(784, 242);
             this.splitContainer2.SplitterDistance = 439;
             this.splitContainer2.TabIndex = 2;
-            // 
-            // scudIptSplitContainer
-            // 
-            this.scudIptSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scudIptSplitContainer.Location = new System.Drawing.Point(0, 0);
-            this.scudIptSplitContainer.Margin = new System.Windows.Forms.Padding(0);
-            this.scudIptSplitContainer.Name = "scudIptSplitContainer";
-            // 
-            // scudIptSplitContainer.Panel1
-            // 
-            this.scudIptSplitContainer.Panel1.Controls.Add(this.scudTableLayoutPanel);
-            // 
-            // scudIptSplitContainer.Panel2
-            // 
-            this.scudIptSplitContainer.Panel2.Controls.Add(this.iptTableLayoutPanel);
-            this.scudIptSplitContainer.Size = new System.Drawing.Size(341, 242);
-            this.scudIptSplitContainer.SplitterDistance = 156;
-            this.scudIptSplitContainer.TabIndex = 1;
-            // 
-            // scudTableLayoutPanel
-            // 
-            this.scudTableLayoutPanel.ColumnCount = 1;
-            this.scudTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.scudTableLayoutPanel.Controls.Add(this.label1, 0, 0);
-            this.scudTableLayoutPanel.Controls.Add(this.scudValuesGrid, 0, 1);
-            this.scudTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scudTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.scudTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.scudTableLayoutPanel.Name = "scudTableLayoutPanel";
-            this.scudTableLayoutPanel.RowCount = 2;
-            this.scudTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.scudTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.scudTableLayoutPanel.Size = new System.Drawing.Size(156, 242);
-            this.scudTableLayoutPanel.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(150, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "СКУД";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // scudValuesGrid
-            // 
-            this.scudValuesGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scudValuesGrid.HelpVisible = false;
-            this.scudValuesGrid.LineColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.scudValuesGrid.Location = new System.Drawing.Point(3, 16);
-            this.scudValuesGrid.Name = "scudValuesGrid";
-            this.scudValuesGrid.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.scudValuesGrid.Size = new System.Drawing.Size(150, 223);
-            this.scudValuesGrid.TabIndex = 2;
-            this.scudValuesGrid.ToolbarVisible = false;
-            // 
-            // iptTableLayoutPanel
-            // 
-            this.iptTableLayoutPanel.ColumnCount = 1;
-            this.iptTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.iptTableLayoutPanel.Controls.Add(this.iptListBox, 0, 1);
-            this.iptTableLayoutPanel.Controls.Add(this.label2, 0, 0);
-            this.iptTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.iptTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.iptTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.iptTableLayoutPanel.Name = "iptTableLayoutPanel";
-            this.iptTableLayoutPanel.RowCount = 2;
-            this.iptTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.iptTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.iptTableLayoutPanel.Size = new System.Drawing.Size(181, 242);
-            this.iptTableLayoutPanel.TabIndex = 1;
-            // 
-            // iptListBox
-            // 
-            this.iptListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.iptListBox.FormattingEnabled = true;
-            this.iptListBox.Location = new System.Drawing.Point(3, 16);
-            this.iptListBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.iptListBox.Name = "iptListBox";
-            this.iptListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.iptListBox.Size = new System.Drawing.Size(175, 226);
-            this.iptListBox.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(175, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "ИПТ";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // mainMenu
             // 
@@ -530,7 +394,7 @@
             // 
             // splitContainer4.Panel1
             // 
-            this.splitContainer4.Panel1.Controls.Add(this.splitContainer1);
+            this.splitContainer4.Panel1.Controls.Add(this.mainSplitContainer);
             // 
             // splitContainer4.Panel2
             // 
@@ -577,15 +441,89 @@
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(178, 6);
             // 
-            // copyMenuItem
+            // iptTableLayoutPanel
             // 
-            this.copyMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyMenuItem.Image")));
-            this.copyMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.copyMenuItem.Name = "copyMenuItem";
-            this.copyMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.copyMenuItem.Text = "Копировать";
-            this.copyMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
+            this.iptTableLayoutPanel.ColumnCount = 1;
+            this.iptTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.iptTableLayoutPanel.Controls.Add(this.iptListBox, 0, 1);
+            this.iptTableLayoutPanel.Controls.Add(this.label2, 0, 0);
+            this.iptTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.iptTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.iptTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.iptTableLayoutPanel.Name = "iptTableLayoutPanel";
+            this.iptTableLayoutPanel.RowCount = 2;
+            this.iptTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.iptTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.iptTableLayoutPanel.Size = new System.Drawing.Size(341, 242);
+            this.iptTableLayoutPanel.TabIndex = 2;
+            // 
+            // iptListBox
+            // 
+            this.iptListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.iptListBox.FormattingEnabled = true;
+            this.iptListBox.Location = new System.Drawing.Point(3, 16);
+            this.iptListBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.iptListBox.Name = "iptListBox";
+            this.iptListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.iptListBox.Size = new System.Drawing.Size(335, 226);
+            this.iptListBox.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(335, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "ИПТ";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // scudGraphSplitContainer
+            // 
+            this.scudGraphSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scudGraphSplitContainer.Location = new System.Drawing.Point(0, 25);
+            this.scudGraphSplitContainer.Name = "scudGraphSplitContainer";
+            // 
+            // scudGraphSplitContainer.Panel1
+            // 
+            this.scudGraphSplitContainer.Panel1.Controls.Add(this.scudPropertyGrid);
+            // 
+            // scudGraphSplitContainer.Panel2
+            // 
+            this.scudGraphSplitContainer.Panel2.Controls.Add(this.graphChart1);
+            this.scudGraphSplitContainer.Size = new System.Drawing.Size(784, 220);
+            this.scudGraphSplitContainer.SplitterDistance = 261;
+            this.scudGraphSplitContainer.TabIndex = 5;
+            // 
+            // graphChart1
+            // 
+            this.graphChart1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphChart1.Count = 1;
+            this.graphChart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.graphChart1.Location = new System.Drawing.Point(0, 0);
+            this.graphChart1.MonitorValues = null;
+            this.graphChart1.Name = "graphChart1";
+            this.graphChart1.SelectedPoint = null;
+            this.graphChart1.SelectedSeries = null;
+            this.graphChart1.Size = new System.Drawing.Size(519, 220);
+            this.graphChart1.TabIndex = 1;
+            // 
+            // scudPropertyGrid
+            // 
+            this.scudPropertyGrid.CategoryForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.scudPropertyGrid.CommandsDisabledLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.scudPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scudPropertyGrid.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.scudPropertyGrid.HelpVisible = false;
+            this.scudPropertyGrid.LineColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.scudPropertyGrid.Location = new System.Drawing.Point(0, 0);
+            this.scudPropertyGrid.Name = "scudPropertyGrid";
+            this.scudPropertyGrid.PropertySort = System.Windows.Forms.PropertySort.NoSort;
+            this.scudPropertyGrid.SelectedObject = this.copyMenuItem;
+            this.scudPropertyGrid.Size = new System.Drawing.Size(261, 220);
+            this.scudPropertyGrid.TabIndex = 2;
+            this.scudPropertyGrid.ToolbarVisible = false;
             // 
             // MainForm
             // 
@@ -602,25 +540,16 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.graphValuesDataGridView)).EndInit();
+            this.mainSplitContainer.Panel1.ResumeLayout(false);
+            this.mainSplitContainer.Panel1.PerformLayout();
+            this.mainSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).EndInit();
+            this.mainSplitContainer.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.scudIptSplitContainer.Panel1.ResumeLayout(false);
-            this.scudIptSplitContainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.scudIptSplitContainer)).EndInit();
-            this.scudIptSplitContainer.ResumeLayout(false);
-            this.scudTableLayoutPanel.ResumeLayout(false);
-            this.scudTableLayoutPanel.PerformLayout();
-            this.iptTableLayoutPanel.ResumeLayout(false);
-            this.iptTableLayoutPanel.PerformLayout();
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.splitContainer4.Panel1.ResumeLayout(false);
@@ -629,14 +558,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.errorLogcontextMenu.ResumeLayout(false);
+            this.iptTableLayoutPanel.ResumeLayout(false);
+            this.iptTableLayoutPanel.PerformLayout();
+            this.scudGraphSplitContainer.Panel1.ResumeLayout(false);
+            this.scudGraphSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.scudGraphSplitContainer)).EndInit();
+            this.scudGraphSplitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private GraphMonitor.GraphChart graphChart1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton normalizeButton;
@@ -644,8 +577,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton addSeriesButton;
         private System.Windows.Forms.ToolStripButton removeSeriesButton;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.DataGridView graphValuesDataGridView;
+        private System.Windows.Forms.SplitContainer mainSplitContainer;
         private System.Windows.Forms.MenuStrip mainMenu;
         private System.Windows.Forms.ToolStripMenuItem serverMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connectMenuItem;
@@ -658,12 +591,6 @@
         private System.Windows.Forms.ToolStripMenuItem startReadingMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.SplitContainer scudIptSplitContainer;
-        private System.Windows.Forms.TableLayoutPanel scudTableLayoutPanel;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TableLayoutPanel iptTableLayoutPanel;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListBox iptListBox;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.TextBox errorLogTextBox;
         private System.Windows.Forms.ToolStripMenuItem viewMenuItem;
@@ -675,11 +602,14 @@
         private System.Windows.Forms.ToolStripComboBox iptFreqComboBox;
         private System.Windows.Forms.ContextMenuStrip errorLogcontextMenu;
         private System.Windows.Forms.ToolStripMenuItem clearMenuItem;
-        private System.Windows.Forms.PropertyGrid scudValuesGrid;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripMenuItem copyMenuItem;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.TableLayoutPanel iptTableLayoutPanel;
+        private System.Windows.Forms.ListBox iptListBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.SplitContainer scudGraphSplitContainer;
+        private System.Windows.Forms.PropertyGrid scudPropertyGrid;
+        private GraphMonitor.GraphChart graphChart1;
     }
 }
 

@@ -14,7 +14,7 @@ namespace Ipt
         private static readonly object _padlock = new object();
         //Словарь с именами и индексами переменных СКУД
         private readonly Dictionary<string, int> _scud;
-        private readonly StreamWriter _writer;
+        private StreamWriter _writer;
 
         /// <summary>Заголовки столбцов.</summary>
         public IList<string> Headers { get; set; }
@@ -133,5 +133,12 @@ namespace Ipt
         }
 
         #endregion
+
+        public void NewFile(string path)
+        {
+            if(_writer!=null)
+                _writer.Close();
+            _writer = new StreamWriter(path, false);
+        }
     }
 }

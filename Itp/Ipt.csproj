@@ -62,6 +62,8 @@
     <Compile Include="IptReader.cs" />
     <Compile Include="IReader.cs" />
     <Compile Include="ScudReader.cs" />
+    <Compile Include="Timer\MultimediaTimer.cs" />
+    <Compile Include="Timer\NativeMethods.cs" />
     <Compile Include="Types\Buffer.cs" />
     <Compile Include="Types\SignalParams.cs" />
     <Compile Include="Types\SignalBase.cs" />

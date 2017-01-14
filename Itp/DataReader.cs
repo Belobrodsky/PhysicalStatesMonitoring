@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Timers;
 using GraphMonitor;
+using Ipt.Timer;
 
 namespace Ipt
 {
@@ -15,10 +16,12 @@ namespace Ipt
 
         private static DataReader _instance;
         private static readonly object _padlock = new object();
-        private readonly Timer _iptTimer;
-        private readonly Timer _scudTimer;
+        private readonly MultimediaTimer _iptTimer;
+        private readonly MultimediaTimer _scudTimer;
 
         private Buffer _buffer;
+
+        private Ipt4 _ipt;
 
         private IReader<Ipt4> _iptReader;
 
@@ -27,7 +30,7 @@ namespace Ipt
         private IReader<Buffer> _scudReader;
 
         //Интервал чтения данных со СКУД
-        public double ScudInterval
+        public int ScudInterval
         {
             get
             {
@@ -40,7 +43,7 @@ namespace Ipt
         }
 
         //Интервал чтения данных с ИПТ
-        public double IptInterval
+        public int IptInterval
         {
             get
             {
@@ -73,11 +76,10 @@ namespace Ipt
 
         private DataReader()
         {
-            
-            _scudTimer = new Timer(1000);
-            _scudTimer.Elapsed += ScudTimerElapsed;
+            _scudTimer = new MultimediaTimer(1000);
+            _scudTimer.Elapsed += _scudTimerElapsed;
 
-            _iptTimer = new Timer(250);
+            _iptTimer = new MultimediaTimer(250);
             _iptTimer.Elapsed += _iptTimer_Elapsed;
 
             MbCliWrapper.Connected += (s, e) =>
@@ -99,12 +101,20 @@ namespace Ipt
         /// <summary>Событие при любых ошибках ридера.</summary>
         public event EventHandler<DataReaderErrorEventArgs> Error;
 
-        /// <remarks>Событие возникает каждый раз, когда данные читаются из ИПТ.</remarks>
+        /// <summary>Событие возникает каждый раз, когда данные читаются из ИПТ.</summary>
         public event EventHandler<DataReadEventArgs> IptDataRead;
 
-        private void _iptTimer_Elapsed(object sender, ElapsedEventArgs e)
+        /// <summary>Событие возникает каждый раз, когда данные читаются из СКУД.</summary>
+        public event EventHandler<DataReadEventArgs> ScudDataRead;
+
+        private void _iptTimer_Elapsed(object sender, EventArgs eventArgs)
         {
             ReadIpt();
+        }
+
+        private void _scudTimerElapsed(object sender, EventArgs eventArgs)
+        {
+            ReadScud();
         }
 
         /// <summary>Соединение с ИПТ и СКУД.</summary>
@@ -146,7 +156,6 @@ namespace Ipt
 
         private void DisconnectIpt()
         {
-            _iptTimer.Stop();
             _iptReader.Disconnect();
             _iptReader.Dispose();
             _isIptConnected = false;
@@ -154,7 +163,6 @@ namespace Ipt
 
         private void DisconnectScud()
         {
-            _scudTimer.Stop();
             _scudReader.Disconnect();
             _scudReader.Dispose();
         }
@@ -186,6 +194,13 @@ namespace Ipt
                 handler(this, e);
         }
 
+        protected virtual void OnScudDataRead(DataReadEventArgs e)
+        {
+            EventHandler<DataReadEventArgs> handler = ScudDataRead;
+            if (handler != null)
+                handler(this, e);
+        }
+
         protected virtual void OnScudError(DataReaderErrorEventArgs e)
         {
             EventHandler<DataReaderErrorEventArgs> handler = Error;
@@ -196,10 +211,9 @@ namespace Ipt
         /// <summary>Чтение данных ИПТ.</summary>
         public void ReadIpt()
         {
-            Ipt4 ipt;
             try
             {
-                ipt = _iptReader.Read();
+                _ipt = _iptReader.Read();
             }
             catch (SocketException ex)
             {
@@ -213,23 +227,17 @@ namespace Ipt
                 OnIptError(new DataReaderErrorEventArgs(0, ex.Message));
                 return;
             }
-            OnIptDataRead(new DataReadEventArgs(_buffer, ipt));
+            OnIptDataRead(new DataReadEventArgs(_buffer, _ipt));
         }
 
         /// <summary>Чтение данных СКУД.</summary>
         public void ReadScud()
         {
-            //_buffer = _scudReader.Read();
             var rnd = new Random(DateTime.Now.Millisecond);
             var bytes = new byte[Marshal.SizeOf(typeof(Buffer))];
             rnd.NextBytes(bytes);
             _buffer = bytes.ToStruct<Buffer>();
-            //TODO Запись времени. 
-        }
-
-        private void ScudTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            ReadScud();
+            OnScudDataRead(new DataReadEventArgs(_buffer, _ipt));
         }
 
         /// <summary>Начать чтение данных.</summary>
