@@ -52,6 +52,10 @@ namespace MonitorForms
             {
                 e.Column.DisplayIndex = 0;
             }
+            if (e.Column.ValueType==typeof(float) || e.Column.ValueType==typeof(int))
+            {
+                e.Column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
         }
 
         //Проверка валидности введённого адреса
@@ -92,7 +96,7 @@ namespace MonitorForms
             {
                 if (par.Count(s => signal.Name.Equals(s.Name)) == 0)
                 {
-                    signalParamsBindingSource.Add(new SignalParams(signal.Name, true, double.NaN, double.NaN));
+                    signalParamsBindingSource.Add(new SignalParams(signal.Name, true, float.NaN, float.NaN));
                 }
             }
 
@@ -108,10 +112,10 @@ namespace MonitorForms
                           && !item.Name.Equals(Program.R2)
                           )
                 {
-                signalParamsBindingSource.RemoveAt(i);
+                    signalParamsBindingSource.RemoveAt(i);
+                }
             }
         }
-    }
 
         private void resetSettingsButton_Click(object sender, EventArgs e)
         {
@@ -119,9 +123,39 @@ namespace MonitorForms
             ReadSettings();
         }
 
-        private void scudSignalBindingSource_AddingNew(object sender, AddingNewEventArgs e)
+        private bool CheckScudIndex(int value)
         {
+            if (value < 0)
+            {
+                return false;
+            }
+            return scudSignalBindingSource.List.Cast<ScudSignal>().Count(s => s.Index.Equals(value)) <= 1;
+        }
 
+        //Переход к редактированию ячейки при добавлении нового элемента
+        private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
+        {
+            scudSignalDataGridView.BeginEdit(true);
+        }
+
+        //Проверка, что СКУД-параметр с таким именем не существует.
+        private bool CheckScudName(string name)
+        {
+            if (name.IsNullOrEmpty())
+                return false;
+            return scudSignalBindingSource.List.Cast<ScudSignal>().Count(s => s.Name.Equals(name)) <= 1;
+        }
+
+        private void scudSignalBindingSource_CurrentItemChanged(object sender, EventArgs e)
+        {
+            var curr = (ScudSignal) scudSignalBindingSource.Current;
+            if (curr == null)
+            {
+                return;
+            }
+            var result = CheckScudName(curr.Name) && CheckScudIndex(curr.Index);
+            okButton.Enabled = result;
+            syncButton.Enabled = result;
         }
     }
 }

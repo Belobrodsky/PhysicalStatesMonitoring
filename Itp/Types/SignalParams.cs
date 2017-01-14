@@ -17,16 +17,16 @@ namespace Ipt
         /// </summary>
         [XmlAttribute]
         [DisplayName("Макс.")]
-        public double Max { get; set; }
+        public float Max { get; set; }
 
         /// <summary>
         /// Минимум сигнала.
         /// </summary>
         [XmlAttribute]
         [DisplayName("Мин.")]
-        public double Min { get; set; }
+        public float Min { get; set; }
 
-        public SignalParams(string name, bool isActive, double min, double max)
+        public SignalParams(string name, bool isActive, float min, float max)
                 : base(name)
         {
             IsActive = isActive;

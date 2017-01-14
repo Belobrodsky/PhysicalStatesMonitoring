@@ -288,10 +288,11 @@
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
             this.bindingNavigatorAddNewItem.Text = "Добавить параметр";
+            this.bindingNavigatorAddNewItem.Click += new System.EventHandler(this.bindingNavigatorAddNewItem_Click);
             // 
             // scudSignalBindingSource
             // 
-            this.scudSignalBindingSource.AddingNew += new System.ComponentModel.AddingNewEventHandler(this.scudSignalBindingSource_AddingNew);
+            this.scudSignalBindingSource.CurrentItemChanged += new System.EventHandler(this.scudSignalBindingSource_CurrentItemChanged);
             // 
             // bindingNavigatorDeleteItem
             // 
@@ -620,6 +621,7 @@
             this.Controls.Add(this.tableLayoutPanel4);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "SettingsForm";
             this.ShowInTaskbar = false;

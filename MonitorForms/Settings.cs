@@ -106,8 +106,8 @@ namespace MonitorForms
                                         },
                           SignalParameters = new List<SignalParams>
                                              {
-                                                 new SignalParams("R_1", true, double.NaN, double.NaN),
-                                                 new SignalParams("R_2", true, double.NaN, double.NaN),
+                                                 new SignalParams("R_1", true, float.NaN, float.NaN),
+                                                 new SignalParams("R_2", true, float.NaN, float.NaN),
                                                  new SignalParams("PCore", true, 15, 17),
                                                  new SignalParams("TCold", true, 280, 320),
                                                  new SignalParams("THot", true, 280, 320),
@@ -123,8 +123,8 @@ namespace MonitorForms
                                                  new SignalParams("Nakz", true, 1200, 3200),
                                                  new SignalParams("Ntg", true, 0, 1200),
                                                  new SignalParams("Ao", true, -50, 10),
-                                                 new SignalParams("I_1", true, double.NaN, double.NaN),
-                                                 new SignalParams("I_2", true, double.NaN, double.NaN)
+                                                 new SignalParams("I_1", true, float.NaN, float.NaN),
+                                                 new SignalParams("I_2", true, float.NaN, float.NaN)
                                              },
                           Lambdas = new[] {0.0127, 0.0317, 0.1180, 0.3170, 1.4000, 3.9200},
                           Alphas = new[] {0.0340, 0.2020, 0.1840, 0.4030, 0.1430, 0.0340}
