@@ -23,5 +23,14 @@ namespace Ipt
         public SignalBase()
         {
         }
+
+        #region Overrides of Object
+
+        public override string ToString()
+        {
+            return string.Format("Name = {0}",Name);
+        }
+
+        #endregion
     }
 }

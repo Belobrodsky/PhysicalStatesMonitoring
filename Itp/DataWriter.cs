@@ -77,33 +77,34 @@ namespace Ipt
         //TODO:Менять на вычисленные значения токов. Передавать их в метод
         /// <summary>Запись данных.</summary>
         /// <param name="values">Данные со СКУД.</param>
-        /// <param name="J1">Ток с ИПТ</param>
-        /// <param name="J2">Ток с ИПТ</param>
-        /// <param name="R1">Рассчитанная реактивность.</param>
-        /// <param name="R2">Рассчитанная реактивность.</param>
-        /// <param name="Rc">Средняя реактивность</param>
-        public void WriteData(float[] values, double J1 = 0, double J2 = 0, double R1 = 0, double R2 = 0,
-                              double Rc = 0)
+        /// <param name="j1">Ток с ИПТ</param>
+        /// <param name="j2">Ток с ИПТ</param>
+        /// <param name="r1">Рассчитанная реактивность.</param>
+        /// <param name="r2">Рассчитанная реактивность.</param>
+        /// <param name="rc">Средняя реактивность</param>
+        public void WriteData(float[] values, double j1 = 0, double j2 = 0, double r1 = 0, double r2 = 0,
+                              double rc = 0)
         {
             var sb = new StringBuilder();
+            //sb.AppendFormat("{0:hh:mm:ss.ffffff}", DateTime.Now);
             sb.AppendFormat("{0}", UnixTime);
-            sb.AppendFormat("\t{0:e7}\t{1:e7}\t{2:e15}\t{3:e15}\t{4:e15}", J1, J2, R1, R2, Rc);
-            sb.AppendFormat("{0:E7}\t{1:E7}\t{2:E7}\t{3:E7}\t{4:E7}\t{5:E7}\t{6:E7}\t{7:E7}\t{8:E7}\t{9:E7}\t{10:E7}\t{11:E7}\t{12:E7}\t{13:E7}\t{14:E7}",
-                _scud["PCore"],
-                _scud["TCold"],
-                _scud["THot"],
-                _scud["PSg"],
-                _scud["H12"],
-                _scud["H11"],
-                _scud["H10"],
-                _scud["LPres"],
-                _scud["LSg"],
-                _scud["Cbor"],
-                _scud["Cborf"],
-                _scud["Fmakeup"],
-                _scud["Nakz"],
-                _scud["Ntg"],
-                _scud["Ao"]);
+            sb.AppendFormat("\t{0:e7}\t{1:e7}\t{2:e15}\t{3:e15}\t{4:e15}", j1, j2, r1, r2, rc);
+            sb.AppendFormat("\t{0:E7}\t{1:E7}\t{2:E7}\t{3:E7}\t{4:E7}\t{5:E7}\t{6:E7}\t{7:E7}\t{8:E7}\t{9:E7}\t{10:E7}\t{11:E7}\t{12:E7}\t{13:E7}\t{14:E7}",
+                values[_scud["PCore"]],
+                values[_scud["TCold"]],
+                values[_scud["THot"]],
+                values[_scud["PSg"]],
+                values[_scud["H12"]],
+                values[_scud["H11"]],
+                values[_scud["H10"]],
+                values[_scud["LPres"]],
+                values[_scud["LSg"]],
+                values[_scud["Cbor"]],
+                values[_scud["Cborf"]],
+                values[_scud["Fmakeup"]],
+                values[_scud["Nakz"]],
+                values[_scud["Ntg"]],
+                values[_scud["Ao"]]);
             _writer.WriteLine(sb.ToString());
             _writer.Flush();
         }

@@ -1,5 +1,3 @@
-using System;
-
 namespace MonitorForms
 {
     public partial class MainForm

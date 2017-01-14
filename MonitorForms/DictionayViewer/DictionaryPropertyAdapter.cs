@@ -120,5 +120,10 @@ namespace MonitorForms
         }
 
         #endregion
+
+        public void Clear()
+        {
+            _dictionary.Clear();
+        }
     }
 }

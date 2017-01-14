@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Timers;
+using GraphMonitor;
 
 namespace Ipt
 {
@@ -240,6 +241,7 @@ namespace Ipt
                 return;
             }
             //Поскольку таймер сработает не сразу, а через интервал, то нужно считать значения в нулевой момент времени.
+            PerformanceMeter.StartTime = DateTime.Now;
             ReadScud();
             ReadIpt();
 

@@ -63,7 +63,7 @@
     <Compile Include="IReader.cs" />
     <Compile Include="ScudReader.cs" />
     <Compile Include="Types\Buffer.cs" />
-    <Compile Include="Types\SignalSettings.cs" />
+    <Compile Include="Types\SignalParams.cs" />
     <Compile Include="Types\SignalBase.cs" />
     <Compile Include="Types\XmlSerializableDictionary.cs" />
     <Compile Include="Types\Ipt4.cs" />
@@ -73,6 +73,12 @@
     <Compile Include="Types\ReaderStateEnum.cs" />
     <Compile Include="Types\ScudSignal.cs" />
     <Compile Include="UnsafeNativeMethods.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphMonitor\GraphMonitor.csproj">
+      <Project>{23AEC3E1-86E2-41E6-9FF4-8E8134288525}</Project>
+      <Name>GraphMonitor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

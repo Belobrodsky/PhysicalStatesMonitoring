@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <None Include="Resources\VSO_Synchronize_16x.png" />
     <None Include="Resources\Remove_color_16x.png" />
     <None Include="Resources\action_add_16xLG.png" />
     <None Include="Resources\folder_Open_16xLG.png" />

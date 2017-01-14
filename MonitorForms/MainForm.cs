@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using GraphMonitor;
 using Ipt;
@@ -24,7 +25,7 @@ namespace MonitorForms
         private DataWriter _dataWriter;
         private bool _normalize;
         //Вспомогательный список, чтобы отбирать выбранные значения из настроек
-        private List<ScudSignal> _selectedScudSignals;
+        private List<ScudSignal> _selectedSignals;
         //Эти данные отображаются в таблице слева от графика
         private readonly DictionaryPropertyAdapter<string, double> _values;
 
@@ -89,17 +90,28 @@ namespace MonitorForms
             errorLogTextBox.InvokeEx(() => errorLogTextBox.AppendText(message));
         }
 
+        private void WriteData(object o)
+        {
+            var args = (DataReadEventArgs) o;
+            #region Вычисления и запись в файл 0.7 — 1 мс
+            //Вычисление значений токов и реактивностей.
+            _current.SearchReactivity1(Program.Settings.Lambdas, Program.Settings.Alphas, args.Buffer, args.Ipt4);
+            _current.SearchReactivity2(Program.Settings.Lambdas, Program.Settings.Alphas, args.Buffer, args.Ipt4);
+            Writer.WriteData(args.Buffer.Buff, _current.Tok1New, _current.Tok2New, _current.Reactivity1, _current.Reactivity1);
+            #endregion
+        }
+
         //При поступлении новых данных
         private void _dataReader_IptDataRead(object sender, DataReadEventArgs e)
         {
-            if (e.Buffer.Buff != null)
+            var writeThread = new Thread(WriteData);
+            writeThread.Start(e);
+            //Обновляем значения выбранных переменных СКУД
+            foreach (var signal in _selectedSignals)
             {
-                //Обновляем значения выбранных переменных СКУД
-                foreach (var signal in _selectedScudSignals)
-                {
-                    _values[signal.Name] = e.Buffer.Buff[signal.Index];
-                }
+                _values[signal.Name] = e.Buffer.Buff[signal.Index];
             }
+            //1-3 мс
             if (Program.Settings.IptListVisible)
             {
                 iptListBox.InvokeEx(
@@ -110,19 +122,15 @@ namespace MonitorForms
                         iptListBox.EndUpdate();
                     });
             }
-            //Вычисления 
-             _current.SearchReactivity1(Program.Settings.Lambdas, Program.Settings.Alphas, e.Buffer, e.Ipt4);
-             _current.SearchReactivity2(Program.Settings.Lambdas, Program.Settings.Alphas, e.Buffer, e.Ipt4);
-            //Значения токов и реактивностей.
-            _values["I_1"] = _current.Tok1New;
-            _values["I_2"] = _current.Tok2New;
-            _values["R_1"] = _current.Reactivity1;
-            _values["R_2"] = _current.Reactivity2;
-            //Обновляем таблицу
-            propertyGrid1.InvokeEx(() => propertyGrid1.Refresh());
-            //TODO:Добавить вычисление токов перед записью в файл
-            //NOTE:Writer создаётся в потоке формы, а файл пишется в потоке таймера. Выяснить возможные уязвимости
-            Writer.WriteData(e.Buffer.Buff, _current.Tok1New, _current.Tok2New, _current.Reactivity1, _current.Reactivity1);
+            _values[Program.I1] = _current.Tok1New;
+            _values[Program.I2] = _current.Tok2New;
+            _values[Program.R1] = _current.Reactivity1;
+            _values[Program.R2] = _current.Reactivity2;
+            //Обновляем таблицу 30 мс
+            propertyGrid1.InvokeEx(() =>
+            {
+                propertyGrid1.Refresh();
+            });
             AddToChart();
         }
 
@@ -288,7 +296,7 @@ namespace MonitorForms
         //Меню настроек
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new SettingsForm().ShowDialog(this);
+            if (new SettingsForm().ShowDialog(this) != DialogResult.OK) return;
             UpdateValuesSet();
         }
 
@@ -317,8 +325,9 @@ namespace MonitorForms
         //Обновление списков отображаемых значений.
         private void UpdateValuesSet()
         {
+            _values.Clear();
             //Отображаемые значения. Передаём их в словарь _values
-            foreach (var s in Program.Settings.SignalSettingses)
+            foreach (var s in Program.Settings.SignalParameters)
             {
                 if (s.IsActive)
                 {
@@ -326,11 +335,11 @@ namespace MonitorForms
                 }
             }
             //Выбранные значения СКУД, которые будут отображаться на графике и в таблице
-            _selectedScudSignals = Program.Settings.ScudSignals.Where(s => Program.Settings.SignalSettingses.Any(ss => s.Name == ss.Name && ss.IsActive)).ToList();
+            _selectedSignals = Program.Settings.ScudSignals.Where(s => Program.Settings.SignalParameters.Any(ss => s.Name == ss.Name && ss.IsActive)).ToList();
             graphChart1.Count = 0;
-            foreach (var signalSettings in Program.Settings.SignalSettingses.Where(s => s.IsActive))
+            foreach (var signal in Program.Settings.SignalParameters.Where(s => s.IsActive))
             {
-                graphChart1.AddNewSeries(signalSettings.Name);
+                graphChart1.AddNewSeries(signal.Name);
             }
             propertyGrid1.SelectedObject = _values;
         }

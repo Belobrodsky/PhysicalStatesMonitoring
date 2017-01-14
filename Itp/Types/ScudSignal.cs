@@ -22,5 +22,14 @@ namespace Ipt
         {
             
         }
+
+        #region Overrides of SignalBase
+
+        public override string ToString()
+        {
+            return string.Format("Name = {0}, Index = {1}", Name, Index);
+        }
+
+        #endregion
     }
 }
