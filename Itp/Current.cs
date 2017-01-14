@@ -23,26 +23,27 @@ namespace Ipt
 
         public Current()
         {
-            _timeOld= DateTime.MinValue;
+            TimeOld= DateTime.MinValue;
         }
 
-        public double _tok1New;
-        public double _tok2New;
+        public double Tok1New;
+        public double Tok2New;
 
-        public double _reactivity1;
-        public double _reactivity2;
+        public double Reactivity1;
+        public double Reactivity2;
+        public double ReactivityAverage;
 
-        public DateTime _timeNow;
-        public DateTime _timeOld;
+        public DateTime TimeNow;
+        public DateTime TimeOld;
 
         #endregion
 
         private void SearchCurrent(Ipt4 temp)
         {
             var step1 = Math.Pow(10, -temp.Power1);
-            _tok1New = temp.FCurrent1 / 25000.0 * step1;
+            Tok1New = temp.FCurrent1 / 25000.0 * step1;
             var step2 = Math.Pow(10, -temp.Power2);
-            _tok2New = temp.FCurrent2 / 25000.0 * step2;
+            Tok2New = temp.FCurrent2 / 25000.0 * step2;
         }
 
         //TODO: Александр. Старые значения времени и токов нужно хранить в полях класса. Извне брать только текущие значения.
@@ -54,39 +55,40 @@ namespace Ipt
             //TODO:ПРОПУСКАЕТСЯ ЭТОТ ЦИКЛ FOR
              SearchCurrent(temp);
 
-             if (_timeOld.Equals(DateTime.MinValue) && _tok1Old.Equals(double.NaN) && _tok2Old.Equals(double.NaN))
+             if (TimeOld.Equals(DateTime.MinValue) && _tok1Old.Equals(double.NaN) && _tok2Old.Equals(double.NaN))
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    _psi01[i] = _tok1New;
-                    _psi02[i] = _tok2New;
+                    _psi01[i] = Tok1New;
+                    _psi02[i] = Tok2New;
                 }
-                _timeOld = DateTime.Now;
-                _tok1Old = _tok1New;
-                _tok2Old = _tok2New;
+                TimeOld = DateTime.Now;
+                _tok1Old = Tok1New;
+                _tok2Old = Tok2New;
             }
 
             var timeNow = DateTime.Now;
-            var dt = timeNow - _timeOld;
+            var dt = timeNow - TimeOld;
 
             for (int i = 0; i < _one.Length; i++)
             {
                 double constTRaspada = l[i] * dt.TotalSeconds;
                 _one[i] = Math.Exp(-constTRaspada);
                 _two[i] = (1 - _one[i]) / constTRaspada;
-                _psi01[i] = _psi01[i] * _one[i] - (_tok1New - _tok1Old) * _two[i] - _tok1Old * _one[i] + _tok1New;
-                _psi02[i] = _psi02[i] * _one[i] - (_tok2New - _tok2Old) * _two[i] - _tok2Old * _one[i] + _tok2New;
-                _reactivity1 += a[i] * _psi01[i];
-                _reactivity2 += a[i] * _psi02[i];
+                _psi01[i] = _psi01[i] * _one[i] - (Tok1New - _tok1Old) * _two[i] - _tok1Old * _one[i] + Tok1New;
+                _psi02[i] = _psi02[i] * _one[i] - (Tok2New - _tok2Old) * _two[i] - _tok2Old * _one[i] + Tok2New;
+                Reactivity1 += a[i] * _psi01[i];
+                Reactivity2 += a[i] * _psi02[i];
             }
     
             //Зачем потребовалось создать _timeNow ?? Да просто иначе если бы в этой строке стояло бы DateTime.Now то это было бы уже другое время, нежели участвующее в формуле выше!!!
-            _timeOld = timeNow;
-            _tok1Old = _tok1New;
-            _tok2Old = _tok2New;
+            TimeOld = timeNow;
+            _tok1Old = Tok1New;
+            _tok2Old = Tok2New;
 
-            _reactivity1 = 1 - _reactivity1 / _tok1New;
-            _reactivity2 = 1 - _reactivity2 / _tok2New;
+            Reactivity1 = 1 - Reactivity1 / Tok1New;
+            Reactivity2 = 1 - Reactivity2 / Tok2New;
+            ReactivityAverage = (Reactivity1 + Reactivity2)/2;
         }
 
         class MyConst
