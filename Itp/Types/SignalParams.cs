@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Xml.Serialization;
 
 namespace Ipt
@@ -34,6 +35,21 @@ namespace Ipt
             Min = min;
         }
 
+        [XmlIgnore]
+        [Browsable(false)]
+        public double Value { get; set; }
+        
+        [XmlIgnore]
+        [Browsable(false)]
+        public double Normal
+        {
+            get
+            {
+                return Math.Abs(Max - Min) < double.Epsilon ? Value : (Value - Min) / (Max - Min);
+            }
+        }
+        
+
         public SignalParams()
         {
             
@@ -43,7 +59,7 @@ namespace Ipt
 
         public override string ToString()
         {
-            return string.Format("Name = {0}, IsActive = {1}, Max = {2}, Min - {3}", Name, IsActive, Max, Min);
+            return string.Format("Name = {0}, IsActive = {1}, Max = {2}, Min - {3}, Value = {4}", Name, IsActive, Max, Min, Value);
         }
 
         #endregion

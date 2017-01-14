@@ -34,9 +34,11 @@ namespace MonitorForms
             {
                 case "I_1":
                 case "I_2":
+                    format = "e2";
+                    break;
                 case "R_1":
                 case "R_2":
-                    format = "e2";
+                    format = "f3";
                     break;
                 default:
                     format = "f2";

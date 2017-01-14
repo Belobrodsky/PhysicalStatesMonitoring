@@ -62,6 +62,10 @@
     <Compile Include="GraphChart.Designer.cs">
       <DependentUpon>GraphChart.cs</DependentUpon>
     </Compile>
+    <Compile Include="GraphChart.ScudAndReact.cs">
+      <DependentUpon>GraphChart.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="MonitorValue.cs" />
     <Compile Include="PerformanceMeter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -12,7 +12,7 @@ namespace MonitorForms
     /// </summary>
     /// <typeparam name="TKey">Тип данных словарного ключа.</typeparam>
     /// <typeparam name="TValue">Тип данных словарного значения.</typeparam>
-    class DictionaryPropertyAdapter<TKey, TValue> : ICustomTypeDescriptor
+    class DictionaryPropertyAdapter<TKey, TValue> : ICustomTypeDescriptor, IEnumerator<TKey>
     {
         private readonly IDictionary<TKey, TValue> _dictionary;
 
@@ -29,7 +29,7 @@ namespace MonitorForms
         {
             get
             {
-                return _dictionary[key];
+                return _dictionary.ContainsKey(key) ? _dictionary[key] : default(TValue);
             }
             set
             {
@@ -125,5 +125,47 @@ namespace MonitorForms
         {
             _dictionary.Clear();
         }
+
+        #region Implementation of IDisposable
+
+        public void Dispose()
+        {
+        }
+
+        #endregion
+
+        #region Implementation of IEnumerator
+
+        public bool MoveNext()
+        {
+            return _dictionary.Keys.GetEnumerator().MoveNext();
+        }
+
+        public void Reset()
+        {
+            _dictionary.Keys.GetEnumerator().Reset();
+        }
+
+        object IEnumerator.Current
+        {
+            get
+            {
+                return Current;
+            }
+        }
+
+        #endregion
+
+        #region Implementation of IEnumerator<out TKey>
+
+        public TKey Current
+        {
+            get
+            {
+                return _dictionary.GetEnumerator().Current.Key;
+            }
+        }
+
+        #endregion
     }
 }

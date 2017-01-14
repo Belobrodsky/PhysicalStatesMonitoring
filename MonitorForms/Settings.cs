@@ -76,17 +76,17 @@ namespace MonitorForms
         private static Settings GetDefaultSettings()
         {
             var set = new Settings
-                      {
-                          IptIp = "192.168.008.002",
-                          IptPort = 2040,
-                          ScudIp = "192.168.008.001",
-                          ScudPort = 1024,
-                          LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.txt"),
-                          ErrorLogVisible = false,
-                          ScudListVisible = true,
-                          IptListVisible = true,
-                          IptFreqIndex = 0,
-                          ScudSignals = new List<ScudSignal>
+            {
+                IptIp = "192.168.008.002",
+                IptPort = 2040,
+                ScudIp = "192.168.008.001",
+                ScudPort = 1024,
+                LogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.txt"),
+                ErrorLogVisible = false,
+                ScudListVisible = true,
+                IptListVisible = true,
+                IptFreqIndex = 0,
+                ScudSignals = new List<ScudSignal>
                                         {
                                             new ScudSignal("PCore", 60),
                                             new ScudSignal("TCold", 82),
@@ -104,7 +104,7 @@ namespace MonitorForms
                                             new ScudSignal("Ntg", 59),
                                             new ScudSignal("Ao", 243)
                                         },
-                          SignalParameters = new List<SignalParams>
+                SignalParameters = new List<SignalParams>
                                              {
                                                  new SignalParams("R_1", true, float.NaN, float.NaN),
                                                  new SignalParams("R_2", true, float.NaN, float.NaN),
@@ -123,12 +123,12 @@ namespace MonitorForms
                                                  new SignalParams("Nakz", true, 1200, 3200),
                                                  new SignalParams("Ntg", true, 0, 1200),
                                                  new SignalParams("Ao", true, -50, 10),
-                                                 new SignalParams("I_1", true, float.NaN, float.NaN),
-                                                 new SignalParams("I_2", true, float.NaN, float.NaN)
+                                                 new SignalParams("I_1", false, float.NaN, float.NaN),
+                                                 new SignalParams("I_2", false, float.NaN, float.NaN)
                                              },
-                          Lambdas = new[] {0.0127, 0.0317, 0.1180, 0.3170, 1.4000, 3.9200},
-                          Alphas = new[] {0.0340, 0.2020, 0.1840, 0.4030, 0.1430, 0.0340}
-                      };
+                Lambdas = new[] { 0.0127, 0.0317, 0.1180, 0.3170, 1.4000, 3.9200 },
+                Alphas = new[] { 0.0340, 0.2020, 0.1840, 0.4030, 0.1430, 0.0340 }
+            };
             return set;
         }
 
@@ -147,6 +147,10 @@ namespace MonitorForms
                 catch (Exception)
                 {
                     return GetDefaultSettings();
+                }
+                finally
+                {
+                    reader.Close();
                 }
             }
         }

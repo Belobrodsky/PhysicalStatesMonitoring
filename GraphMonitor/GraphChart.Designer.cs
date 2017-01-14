@@ -35,8 +35,6 @@
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.freqLabel = new System.Windows.Forms.Label();
             this.rangeNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.rangeLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -80,8 +78,6 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.freqLabel, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.rangeNumericUpDown, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.rangeLabel, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -93,28 +89,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(129, 279);
             this.tableLayoutPanel1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Location = new System.Drawing.Point(3, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Частота";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // freqLabel
-            // 
-            this.freqLabel.AutoSize = true;
-            this.freqLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.freqLabel.Location = new System.Drawing.Point(65, 26);
-            this.freqLabel.Name = "freqLabel";
-            this.freqLabel.Size = new System.Drawing.Size(61, 13);
-            this.freqLabel.TabIndex = 2;
-            this.freqLabel.Text = "Частота";
-            this.freqLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // rangeNumericUpDown
             // 
@@ -195,8 +169,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.NumericUpDown rangeNumericUpDown;
         private System.Windows.Forms.Label rangeLabel;
-        private System.Windows.Forms.Label freqLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label1;
     }
 }

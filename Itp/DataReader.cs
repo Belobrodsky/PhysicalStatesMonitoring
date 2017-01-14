@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Timers;
 using GraphMonitor;
 using Ipt.Timer;
 
@@ -180,6 +179,7 @@ namespace Ipt
             }
         }
 
+        #region Вызовы событий
         protected virtual void OnIptDataRead(DataReadEventArgs e)
         {
             EventHandler<DataReadEventArgs> handler = IptDataRead;
@@ -206,7 +206,8 @@ namespace Ipt
             EventHandler<DataReaderErrorEventArgs> handler = Error;
             if (handler != null)
                 handler(this, e);
-        }
+        } 
+        #endregion
 
         /// <summary>Чтение данных ИПТ.</summary>
         public void ReadIpt()
@@ -233,10 +234,18 @@ namespace Ipt
         /// <summary>Чтение данных СКУД.</summary>
         public void ReadScud()
         {
-            var rnd = new Random(DateTime.Now.Millisecond);
-            var bytes = new byte[Marshal.SizeOf(typeof(Buffer))];
-            rnd.NextBytes(bytes);
-            _buffer = bytes.ToStruct<Buffer>();
+            if (_isScudConnected)
+            {
+                _buffer = _scudReader.Read();
+            }
+            else
+            {
+                //Генерация случайных значений, если СКУД отключён.
+                var rnd = new Random(DateTime.Now.Millisecond);
+                var bytes = new byte[Marshal.SizeOf(typeof(Buffer))];
+                rnd.NextBytes(bytes);
+                _buffer = bytes.ToStruct<Buffer>();
+            }
             OnScudDataRead(new DataReadEventArgs(_buffer, _ipt));
         }
 

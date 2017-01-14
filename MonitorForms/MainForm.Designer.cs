@@ -43,7 +43,10 @@
             this.graphValuesDataGridView = new System.Windows.Forms.DataGridView();
             this.mainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.dgvIptSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.iptTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.iptListBox = new System.Windows.Forms.ListBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.serverMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,29 +67,26 @@
             this.errorLogcontextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.clearMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.iptTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.iptListBox = new System.Windows.Forms.ListBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.scudGraphSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.graphChart1 = new GraphMonitor.GraphChart();
             this.scudPropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.graphChart1 = new GraphMonitor.GraphChart();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.graphValuesDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
             this.mainSplitContainer.Panel1.SuspendLayout();
             this.mainSplitContainer.Panel2.SuspendLayout();
             this.mainSplitContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvIptSplitContainer)).BeginInit();
+            this.dgvIptSplitContainer.Panel1.SuspendLayout();
+            this.dgvIptSplitContainer.Panel2.SuspendLayout();
+            this.dgvIptSplitContainer.SuspendLayout();
+            this.iptTableLayoutPanel.SuspendLayout();
             this.mainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             this.errorLogcontextMenu.SuspendLayout();
-            this.iptTableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scudGraphSplitContainer)).BeginInit();
             this.scudGraphSplitContainer.Panel1.SuspendLayout();
             this.scudGraphSplitContainer.Panel2.SuspendLayout();
@@ -218,7 +218,7 @@
             // 
             // mainSplitContainer.Panel2
             // 
-            this.mainSplitContainer.Panel2.Controls.Add(this.splitContainer2);
+            this.mainSplitContainer.Panel2.Controls.Add(this.dgvIptSplitContainer);
             this.mainSplitContainer.Size = new System.Drawing.Size(784, 491);
             this.mainSplitContainer.SplitterDistance = 245;
             this.mainSplitContainer.TabIndex = 4;
@@ -233,22 +233,60 @@
             this.copyMenuItem.Text = "Копировать";
             this.copyMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
             // 
-            // splitContainer2
+            // dgvIptSplitContainer
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
+            this.dgvIptSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvIptSplitContainer.Location = new System.Drawing.Point(0, 0);
+            this.dgvIptSplitContainer.Name = "dgvIptSplitContainer";
             // 
-            // splitContainer2.Panel1
+            // dgvIptSplitContainer.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.graphValuesDataGridView);
+            this.dgvIptSplitContainer.Panel1.Controls.Add(this.graphValuesDataGridView);
             // 
-            // splitContainer2.Panel2
+            // dgvIptSplitContainer.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.iptTableLayoutPanel);
-            this.splitContainer2.Size = new System.Drawing.Size(784, 242);
-            this.splitContainer2.SplitterDistance = 439;
-            this.splitContainer2.TabIndex = 2;
+            this.dgvIptSplitContainer.Panel2.Controls.Add(this.iptTableLayoutPanel);
+            this.dgvIptSplitContainer.Size = new System.Drawing.Size(784, 242);
+            this.dgvIptSplitContainer.SplitterDistance = global::MonitorForms.Properties.Settings.Default.DataGridViewWidthPanel;
+            this.dgvIptSplitContainer.TabIndex = 2;
+            // 
+            // iptTableLayoutPanel
+            // 
+            this.iptTableLayoutPanel.ColumnCount = 1;
+            this.iptTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.iptTableLayoutPanel.Controls.Add(this.iptListBox, 0, 1);
+            this.iptTableLayoutPanel.Controls.Add(this.label2, 0, 0);
+            this.iptTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.iptTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.iptTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.iptTableLayoutPanel.Name = "iptTableLayoutPanel";
+            this.iptTableLayoutPanel.RowCount = 2;
+            this.iptTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.iptTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.iptTableLayoutPanel.Size = new System.Drawing.Size(341, 242);
+            this.iptTableLayoutPanel.TabIndex = 2;
+            // 
+            // iptListBox
+            // 
+            this.iptListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.iptListBox.FormattingEnabled = true;
+            this.iptListBox.Location = new System.Drawing.Point(3, 16);
+            this.iptListBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.iptListBox.Name = "iptListBox";
+            this.iptListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.iptListBox.Size = new System.Drawing.Size(335, 226);
+            this.iptListBox.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(335, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "ИПТ";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // mainMenu
             // 
@@ -441,44 +479,6 @@
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(178, 6);
             // 
-            // iptTableLayoutPanel
-            // 
-            this.iptTableLayoutPanel.ColumnCount = 1;
-            this.iptTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.iptTableLayoutPanel.Controls.Add(this.iptListBox, 0, 1);
-            this.iptTableLayoutPanel.Controls.Add(this.label2, 0, 0);
-            this.iptTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.iptTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.iptTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.iptTableLayoutPanel.Name = "iptTableLayoutPanel";
-            this.iptTableLayoutPanel.RowCount = 2;
-            this.iptTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.iptTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.iptTableLayoutPanel.Size = new System.Drawing.Size(341, 242);
-            this.iptTableLayoutPanel.TabIndex = 2;
-            // 
-            // iptListBox
-            // 
-            this.iptListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.iptListBox.FormattingEnabled = true;
-            this.iptListBox.Location = new System.Drawing.Point(3, 16);
-            this.iptListBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.iptListBox.Name = "iptListBox";
-            this.iptListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.iptListBox.Size = new System.Drawing.Size(335, 226);
-            this.iptListBox.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(335, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "ИПТ";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // scudGraphSplitContainer
             // 
             this.scudGraphSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -493,21 +493,8 @@
             // 
             this.scudGraphSplitContainer.Panel2.Controls.Add(this.graphChart1);
             this.scudGraphSplitContainer.Size = new System.Drawing.Size(784, 220);
-            this.scudGraphSplitContainer.SplitterDistance = 261;
+            this.scudGraphSplitContainer.SplitterDistance = global::MonitorForms.Properties.Settings.Default.ScudPanelWidth;
             this.scudGraphSplitContainer.TabIndex = 5;
-            // 
-            // graphChart1
-            // 
-            this.graphChart1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.graphChart1.Count = 1;
-            this.graphChart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphChart1.Location = new System.Drawing.Point(0, 0);
-            this.graphChart1.MonitorValues = null;
-            this.graphChart1.Name = "graphChart1";
-            this.graphChart1.SelectedPoint = null;
-            this.graphChart1.SelectedSeries = null;
-            this.graphChart1.Size = new System.Drawing.Size(519, 220);
-            this.graphChart1.TabIndex = 1;
             // 
             // scudPropertyGrid
             // 
@@ -521,9 +508,23 @@
             this.scudPropertyGrid.Name = "scudPropertyGrid";
             this.scudPropertyGrid.PropertySort = System.Windows.Forms.PropertySort.NoSort;
             this.scudPropertyGrid.SelectedObject = this.copyMenuItem;
-            this.scudPropertyGrid.Size = new System.Drawing.Size(261, 220);
+            this.scudPropertyGrid.Size = new System.Drawing.Size(150, 220);
             this.scudPropertyGrid.TabIndex = 2;
             this.scudPropertyGrid.ToolbarVisible = false;
+            // 
+            // graphChart1
+            // 
+            this.graphChart1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphChart1.Count = 1;
+            this.graphChart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.graphChart1.Location = new System.Drawing.Point(0, 0);
+            this.graphChart1.MonitorValues = null;
+            this.graphChart1.Name = "graphChart1";
+            this.graphChart1.SelectedPoint = null;
+            this.graphChart1.SelectedSeries = null;
+            this.graphChart1.Size = new System.Drawing.Size(630, 220);
+            this.graphChart1.TabIndex = 1;
+            this.graphChart1.SelectedPointChanged += new System.EventHandler(this.GraphChart1_SelectedPointChanged);
             // 
             // MainForm
             // 
@@ -546,10 +547,12 @@
             this.mainSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).EndInit();
             this.mainSplitContainer.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
+            this.dgvIptSplitContainer.Panel1.ResumeLayout(false);
+            this.dgvIptSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvIptSplitContainer)).EndInit();
+            this.dgvIptSplitContainer.ResumeLayout(false);
+            this.iptTableLayoutPanel.ResumeLayout(false);
+            this.iptTableLayoutPanel.PerformLayout();
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.splitContainer4.Panel1.ResumeLayout(false);
@@ -558,8 +561,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.errorLogcontextMenu.ResumeLayout(false);
-            this.iptTableLayoutPanel.ResumeLayout(false);
-            this.iptTableLayoutPanel.PerformLayout();
             this.scudGraphSplitContainer.Panel1.ResumeLayout(false);
             this.scudGraphSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scudGraphSplitContainer)).EndInit();
@@ -590,7 +591,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem startReadingMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.SplitContainer dgvIptSplitContainer;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.TextBox errorLogTextBox;
         private System.Windows.Forms.ToolStripMenuItem viewMenuItem;
