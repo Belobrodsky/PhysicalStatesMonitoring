@@ -16,14 +16,14 @@ namespace Ipt
         //так как нет предыдущего времени, а есть только первое значение
         double[] _psi01 = new double[6];
         double[] _psi02 = new double[6];
-    
+
         public double Ro; ////возвращает реактивность, рассчитанную в Беттах
         private double _tok1Old = double.NaN;
         private double _tok2Old = double.NaN;
 
         public Current()
         {
-            TimeOld= DateTime.MinValue;
+            TimeOld = DateTime.MinValue;
         }
 
         public double Tok1New;
@@ -50,12 +50,9 @@ namespace Ipt
         //эти методы должны расчитывать реактивности из Ток1 и Ток2
         public void SearchReactivity(double[] l, double[] a, Buffer time, Ipt4 temp)
         {
-            //TODO:ВОЗМОЖНО ТУТ НУЖНО СТАВИТЬ УСЛОВИЕ, ЕСЛИ НАЧАЛО РЕГИСТРАЦИИ ТО НУЖНО ВЫПОЛНЯТЬ ЭТОТ ЦИКЛ 
-            //TODO:ТАК КАК НЕТ ДВУХ ЗНАЧЕНИЙ ТОКОВ, А ЕСТЬ ТОЛЬКО ОДНО, А ЕСЛИ ЗАРЕГИСТРИРОВАЛОСЬ ВТОРОЕ ЗНАЧЕНИЕ 
-            //TODO:ПРОПУСКАЕТСЯ ЭТОТ ЦИКЛ FOR
-             SearchCurrent(temp);
+            SearchCurrent(temp);
 
-             if (TimeOld.Equals(DateTime.MinValue) && _tok1Old.Equals(double.NaN) && _tok2Old.Equals(double.NaN))
+            if (TimeOld.Equals(DateTime.MinValue) && _tok1Old.Equals(double.NaN) && _tok2Old.Equals(double.NaN))
             {
                 for (int i = 0; i < 6; i++)
                 {
@@ -80,7 +77,7 @@ namespace Ipt
                 Reactivity1 += a[i] * _psi01[i];
                 Reactivity2 += a[i] * _psi02[i];
             }
-    
+
             //Зачем потребовалось создать _timeNow ?? Да просто иначе если бы в этой строке стояло бы DateTime.Now то это было бы уже другое время, нежели участвующее в формуле выше!!!
             TimeOld = timeNow;
             _tok1Old = Tok1New;
@@ -88,7 +85,7 @@ namespace Ipt
 
             Reactivity1 = 1 - Reactivity1 / Tok1New;
             Reactivity2 = 1 - Reactivity2 / Tok2New;
-            ReactivityAverage = (Reactivity1 + Reactivity2)/2;
+            ReactivityAverage = (Reactivity1 + Reactivity2) / 2;
         }
 
         class MyConst

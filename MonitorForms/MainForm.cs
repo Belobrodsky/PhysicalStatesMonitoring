@@ -120,7 +120,7 @@ namespace MonitorForms
             //TODO:Добавить вычисление токов перед записью в файл
             //NOTE:Writer создаётся в потоке формы, а файл пишется в потоке таймера. Выяснить возможные уязвимости
             //Для записи передавать KksValues
-            Writer.WriteData(values, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2, _current._reactivity1, _current._reactivity2);
+            Writer.WriteData(values, e.Ipt4.FCurrent1, e.Ipt4.FCurrent2, _current.Reactivity1, _current.Reactivity2,_current.ReactivityAverage);
             AddToChart();
         }
 
