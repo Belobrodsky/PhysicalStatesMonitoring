@@ -42,7 +42,10 @@
             this.iptFreqComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.graphValuesDataGridView = new System.Windows.Forms.DataGridView();
             this.mainSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.scudGraphSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.scudPropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphChart1 = new GraphMonitor.GraphChart();
             this.dgvIptSplitContainer = new System.Windows.Forms.SplitContainer();
             this.iptTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.iptListBox = new System.Windows.Forms.ListBox();
@@ -67,15 +70,16 @@
             this.errorLogcontextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.clearMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.scudGraphSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.scudPropertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.graphChart1 = new GraphMonitor.GraphChart();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.graphValuesDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
             this.mainSplitContainer.Panel1.SuspendLayout();
             this.mainSplitContainer.Panel2.SuspendLayout();
             this.mainSplitContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scudGraphSplitContainer)).BeginInit();
+            this.scudGraphSplitContainer.Panel1.SuspendLayout();
+            this.scudGraphSplitContainer.Panel2.SuspendLayout();
+            this.scudGraphSplitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIptSplitContainer)).BeginInit();
             this.dgvIptSplitContainer.Panel1.SuspendLayout();
             this.dgvIptSplitContainer.Panel2.SuspendLayout();
@@ -87,10 +91,6 @@
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             this.errorLogcontextMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.scudGraphSplitContainer)).BeginInit();
-            this.scudGraphSplitContainer.Panel1.SuspendLayout();
-            this.scudGraphSplitContainer.Panel2.SuspendLayout();
-            this.scudGraphSplitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -203,6 +203,7 @@
             this.graphValuesDataGridView.ReadOnly = true;
             this.graphValuesDataGridView.Size = new System.Drawing.Size(439, 242);
             this.graphValuesDataGridView.TabIndex = 1;
+            this.graphValuesDataGridView.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.graphValuesDataGridView_ColumnAdded);
             // 
             // mainSplitContainer
             // 
@@ -223,6 +224,39 @@
             this.mainSplitContainer.SplitterDistance = 245;
             this.mainSplitContainer.TabIndex = 4;
             // 
+            // scudGraphSplitContainer
+            // 
+            this.scudGraphSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scudGraphSplitContainer.Location = new System.Drawing.Point(0, 25);
+            this.scudGraphSplitContainer.Name = "scudGraphSplitContainer";
+            // 
+            // scudGraphSplitContainer.Panel1
+            // 
+            this.scudGraphSplitContainer.Panel1.Controls.Add(this.scudPropertyGrid);
+            // 
+            // scudGraphSplitContainer.Panel2
+            // 
+            this.scudGraphSplitContainer.Panel2.Controls.Add(this.graphChart1);
+            this.scudGraphSplitContainer.Size = new System.Drawing.Size(784, 220);
+            this.scudGraphSplitContainer.SplitterDistance = global::MonitorForms.Properties.Settings.Default.ScudPanelWidth;
+            this.scudGraphSplitContainer.TabIndex = 5;
+            // 
+            // scudPropertyGrid
+            // 
+            this.scudPropertyGrid.CategoryForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.scudPropertyGrid.CommandsDisabledLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.scudPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scudPropertyGrid.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.scudPropertyGrid.HelpVisible = false;
+            this.scudPropertyGrid.LineColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.scudPropertyGrid.Location = new System.Drawing.Point(0, 0);
+            this.scudPropertyGrid.Name = "scudPropertyGrid";
+            this.scudPropertyGrid.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
+            this.scudPropertyGrid.SelectedObject = this.copyMenuItem;
+            this.scudPropertyGrid.Size = new System.Drawing.Size(150, 220);
+            this.scudPropertyGrid.TabIndex = 2;
+            this.scudPropertyGrid.ToolbarVisible = false;
+            // 
             // copyMenuItem
             // 
             this.copyMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyMenuItem.Image")));
@@ -232,6 +266,20 @@
             this.copyMenuItem.Size = new System.Drawing.Size(181, 22);
             this.copyMenuItem.Text = "Копировать";
             this.copyMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
+            // 
+            // graphChart1
+            // 
+            this.graphChart1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphChart1.Count = 1;
+            this.graphChart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.graphChart1.Location = new System.Drawing.Point(0, 0);
+            this.graphChart1.MonitorValues = null;
+            this.graphChart1.Name = "graphChart1";
+            this.graphChart1.SelectedPoint = null;
+            this.graphChart1.SelectedSeries = null;
+            this.graphChart1.Size = new System.Drawing.Size(630, 220);
+            this.graphChart1.TabIndex = 1;
+            this.graphChart1.SelectedPointChanged += new System.EventHandler(this.GraphChart1_SelectedPointChanged);
             // 
             // dgvIptSplitContainer
             // 
@@ -479,53 +527,6 @@
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(178, 6);
             // 
-            // scudGraphSplitContainer
-            // 
-            this.scudGraphSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scudGraphSplitContainer.Location = new System.Drawing.Point(0, 25);
-            this.scudGraphSplitContainer.Name = "scudGraphSplitContainer";
-            // 
-            // scudGraphSplitContainer.Panel1
-            // 
-            this.scudGraphSplitContainer.Panel1.Controls.Add(this.scudPropertyGrid);
-            // 
-            // scudGraphSplitContainer.Panel2
-            // 
-            this.scudGraphSplitContainer.Panel2.Controls.Add(this.graphChart1);
-            this.scudGraphSplitContainer.Size = new System.Drawing.Size(784, 220);
-            this.scudGraphSplitContainer.SplitterDistance = global::MonitorForms.Properties.Settings.Default.ScudPanelWidth;
-            this.scudGraphSplitContainer.TabIndex = 5;
-            // 
-            // scudPropertyGrid
-            // 
-            this.scudPropertyGrid.CategoryForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.scudPropertyGrid.CommandsDisabledLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.scudPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scudPropertyGrid.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.scudPropertyGrid.HelpVisible = false;
-            this.scudPropertyGrid.LineColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.scudPropertyGrid.Location = new System.Drawing.Point(0, 0);
-            this.scudPropertyGrid.Name = "scudPropertyGrid";
-            this.scudPropertyGrid.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.scudPropertyGrid.SelectedObject = this.copyMenuItem;
-            this.scudPropertyGrid.Size = new System.Drawing.Size(150, 220);
-            this.scudPropertyGrid.TabIndex = 2;
-            this.scudPropertyGrid.ToolbarVisible = false;
-            // 
-            // graphChart1
-            // 
-            this.graphChart1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.graphChart1.Count = 1;
-            this.graphChart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphChart1.Location = new System.Drawing.Point(0, 0);
-            this.graphChart1.MonitorValues = null;
-            this.graphChart1.Name = "graphChart1";
-            this.graphChart1.SelectedPoint = null;
-            this.graphChart1.SelectedSeries = null;
-            this.graphChart1.Size = new System.Drawing.Size(630, 220);
-            this.graphChart1.TabIndex = 1;
-            this.graphChart1.SelectedPointChanged += new System.EventHandler(this.GraphChart1_SelectedPointChanged);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -538,6 +539,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -547,6 +549,10 @@
             this.mainSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).EndInit();
             this.mainSplitContainer.ResumeLayout(false);
+            this.scudGraphSplitContainer.Panel1.ResumeLayout(false);
+            this.scudGraphSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.scudGraphSplitContainer)).EndInit();
+            this.scudGraphSplitContainer.ResumeLayout(false);
             this.dgvIptSplitContainer.Panel1.ResumeLayout(false);
             this.dgvIptSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvIptSplitContainer)).EndInit();
@@ -561,10 +567,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.errorLogcontextMenu.ResumeLayout(false);
-            this.scudGraphSplitContainer.Panel1.ResumeLayout(false);
-            this.scudGraphSplitContainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.scudGraphSplitContainer)).EndInit();
-            this.scudGraphSplitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

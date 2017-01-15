@@ -20,6 +20,7 @@ namespace MonitorForms
         //TODO Отображение данных на графике.
         private void AddToChart(DateTime time)
         {
+            PerformanceMeter.Start(string.Format("Время обновления {0} графиков", _graphSignals.Count));
             var rnd = new Random();
             foreach (var pair in _graphSignals)
             {
@@ -36,6 +37,7 @@ namespace MonitorForms
                 var mv = new MonitorValue(time, value, pair.Value.Max, pair.Value.Min);
                 graphChart1.AddValue(mv, pair.Key);
             }
+            PerformanceMeter.Stop();
         }
 
         //На графике выбрана точка

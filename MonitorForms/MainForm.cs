@@ -341,7 +341,7 @@ namespace MonitorForms
             dgvIptSplitContainer.Panel2Collapsed = !(Program.Settings.IptListVisible || Program.Settings.ScudListVisible);
             dgvIptSplitContainer.Panel2Collapsed = !Program.Settings.IptListVisible;
             splitContainer4.Panel2Collapsed = !Program.Settings.ErrorLogVisible;
-
+            scudGraphSplitContainer.Panel1Collapsed = !Program.Settings.ScudListVisible;
             iptFreqComboBox.SelectedIndex = Program.Settings.IptFreqIndex;
         }
 
@@ -367,6 +367,14 @@ namespace MonitorForms
             //Передача значений на график
             graphChart1.InvokeEx(() => AddToChart(_current.TimeOld));
 
+        }
+
+        private void graphValuesDataGridView_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
+        {
+            if (e.Column.ValueType==typeof(DateTime))
+            {
+                e.Column.DefaultCellStyle.Format = "HH:mm:ss.fff";
+            }
         }
     }
 }
