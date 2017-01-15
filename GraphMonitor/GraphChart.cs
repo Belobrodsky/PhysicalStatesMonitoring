@@ -119,7 +119,7 @@ namespace GraphMonitor
             var index = chart.Series.IndexOf(name);
             if (index == -1)
                 return;
-            AddValue(val, index);
+            AddValue(val, index, false);
         }
 
         /// <summary>Добавление значения в заданный график.</summary>
@@ -131,9 +131,10 @@ namespace GraphMonitor
             if (seriesIndex < 0
                 || seriesIndex > chart.Series.Count - 1)
                 return;
+            val.Name = chart.Series[seriesIndex].Name;
             //Добавление точки на график
             var index = chart.Series[seriesIndex].Points.AddXY(
-                val.TimeStamp.ToOADate(), normalize ? val.NValue : val.Value);
+                val.TimeStamp.ToOADate(), val.Value);
             //В свойство Tag записываем пришедшее значение.
             chart.Series[seriesIndex].Points[index].Tag = val;
             //Удаление точек позже 10 минут
@@ -250,25 +251,36 @@ namespace GraphMonitor
                             Interval = 5
                         },
                         //Ось Y
-                        AxisY2 =
+                        AxisY =
                         {
                             Enabled = AxisEnabled.True,
+                            LineWidth = 3,
+                            LineColor = Color.Blue,
                             Name = "ReacAxis",
                             MajorGrid =
                             {
-                                LineDashStyle = ChartDashStyle.Dash,
-                                LineColor = Color.Gray
+                                LineDashStyle = ChartDashStyle.Solid,
+                                LineColor = Color.Blue
                             },
                             Title = "Реактивности",
                             TitleAlignment = StringAlignment.Center
                         },
                         //Ось для СКУД
-                        AxisY =
+                        AxisY2 =
                         {
                             Enabled = AxisEnabled.True,
                             Name = "ScudAxis",
                             Maximum = 1,
                             Minimum = 0,
+                            LabelStyle =
+                            {
+                                Format = "0%"
+                            },
+                            MajorGrid =
+                            {
+                                LineDashStyle = ChartDashStyle.Dash,
+                                LineColor = Color.Green
+                            },
                             Title = "СКУД",
                             TitleAlignment = StringAlignment.Center
                         },
@@ -311,8 +323,9 @@ namespace GraphMonitor
                                 SmallScrollMinSize = 1,
                                 SmallScrollSizeType = DateTimeIntervalType.Milliseconds,
                                 SmallScrollSize = 0.2,
-                                MinSizeType = DateTimeIntervalType.Seconds
-                            }
+                                MinSizeType = DateTimeIntervalType.Seconds,
+                                
+                            },
                         }
                     };
             chart.ChartAreas.Add(_area);
@@ -352,18 +365,18 @@ namespace GraphMonitor
         /// <param name="normalize">Нормализовать шкалу.</param>
         private void SetYLimits(bool normalize)
         {
-            if (normalize)
-            {
-                _area.AxisY2.Minimum = 0;
-                _area.AxisY2.Maximum = 1;
-                _area.AxisY2.LabelStyle.Format = "p";
-            }
-            else
-            {
-                _area.AxisY2.Minimum = double.NaN;
-                _area.AxisY2.Maximum = double.NaN;
-                _area.AxisY2.LabelStyle.Format = string.Empty;
-            }
+            //if (normalize)
+            //{
+            //    _area.AxisY2.Minimum = 0;
+            //    _area.AxisY2.Maximum = 1;
+            //    _area.AxisY2.LabelStyle.Format = "p";
+            //}
+            //else
+            //{
+            //    _area.AxisY2.Minimum = double.NaN;
+            //    _area.AxisY2.Maximum = double.NaN;
+            //    _area.AxisY2.LabelStyle.Format = string.Empty;
+            //}
         }
     }
 }

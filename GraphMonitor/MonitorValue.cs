@@ -39,6 +39,9 @@ namespace GraphMonitor
             }
         }
 
+        [DisplayName("Имя")]
+        public string Name { get; set; }
+        
         public MonitorValue(DateTime timestamp, double value, double max, double min)
             : this()
         {

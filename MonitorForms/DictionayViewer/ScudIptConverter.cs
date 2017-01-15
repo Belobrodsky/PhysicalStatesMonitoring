@@ -5,7 +5,7 @@ using System.Globalization;
 namespace MonitorForms
 {
     /// <summary>
-    /// Класс-конвертер для отображения значений в таблице
+    /// Класс-конвертер для отображения значений в таблице.
     /// </summary>
     internal class ScudIptConverter : TypeConverter
     {
@@ -32,14 +32,17 @@ namespace MonitorForms
             string format = string.Empty;
             switch (context.PropertyDescriptor.Name)
             {
-                case "I_1":
-                case "I_2":
+                //Токи отображаем в экспоненциальной форме с 2 знаками после запятой
+                case Program.I1:
+                case Program.I2:
                     format = "e2";
                     break;
-                case "R_1":
-                case "R_2":
+                //Реактивности с тремя знаками после запятой
+                case Program.R1:
+                case Program.R2:
                     format = "f3";
                     break;
+                //Переменные СКУД с двумя знаками после запятой
                 default:
                     format = "f2";
                     break;

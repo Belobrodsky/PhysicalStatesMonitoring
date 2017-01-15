@@ -166,20 +166,6 @@ namespace MonitorForms
             copyMenuItem.Enabled = errorLogTextBox.SelectionLength > 0;
         }
 
-        //На графике выбрана точка
-        private void GraphChart1_SelectedPointChanged(object sender, EventArgs e)
-        {
-            graphValuesDataGridView.DataSource = graphChart1.MonitorValues.Select(
-                mv => new
-                {
-                    Время = mv.TimeStamp,
-                    Макс = mv.Max,
-                    Мин = mv.Min,
-                    Норм = mv.NValue,
-                    Значение = mv.Value
-                }).ToList();
-        }
-
         //Смена частоты
         private void iptFreqComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -207,18 +193,6 @@ namespace MonitorForms
             MessageBox.Show(
                 MbCliWrapper.GetReleaseInfo().ToString(CultureInfo.InvariantCulture), "Версия библиотеки",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        //Кнопка «Нормализовать»
-        private void normalizeButton_CheckedChanged(object sender, EventArgs e)
-        {
-            _normalize = !_normalize;
-        }
-
-        //Кнопка «Удалить график»
-        private void removeSeriesButton_Click(object sender, EventArgs e)
-        {
-            graphChart1.RemoveLastSeries();
         }
 
         //Меню «Запустить эмулятор»
@@ -288,13 +262,6 @@ namespace MonitorForms
             Reader.Start();
         }
 
-        //Таймер для анимации данных на графике
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            for (int i = 0; i < graphChart1.Count; i++)
-                graphChart1.AddValue(new MonitorValue(DateTime.Now, _rnd.Next(-10, 11), 10, -10), i, _normalize);
-        }
-
         //Обновление интерфейса
         private void UpdateUi(DataReadEventArgs e)
         {
@@ -307,8 +274,6 @@ namespace MonitorForms
             _values[Program.I2] = _current.Tok2New;
             _values[Program.R1] = _current.Reactivity1;
             _values[Program.R2] = _current.Reactivity2;
-            //Передача значений на график
-            graphChart1.InvokeEx(() => AddToChart(_current.TimeNow));
 
             //Обновление списка ИПТ
             if (Program.Settings.IptListVisible)
@@ -362,6 +327,8 @@ namespace MonitorForms
             }
             //Значения, отображаемые на графике в словарь, чтобы обращаться по имени.
             _graphSignals = Program.Settings.SignalParameters.Where(sp => sp.IsActive && !sp.Name.Equals(Program.I1) && !sp.Name.Equals(Program.I2)).ToDictionary(sp => sp.Name);
+            //NOTE Пределы устанавливаются только по первой реактивности.
+            graphChart1.SetReactLimits(_graphSignals[Program.R1].Min, _graphSignals[Program.R1].Max);
         }
 
         //Обновление вида
@@ -396,6 +363,10 @@ namespace MonitorForms
             Writer.WriteData(args.Buffer.Buff, _current.Tok1New, _current.Tok2New, _current.Reactivity1, _current.Reactivity1, _current.ReactivityAverage);
 
             #endregion
+
+            //Передача значений на график
+            graphChart1.InvokeEx(() => AddToChart(_current.TimeOld));
+
         }
     }
 }
