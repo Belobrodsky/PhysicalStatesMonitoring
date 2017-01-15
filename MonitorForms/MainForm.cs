@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using GraphMonitor;
 using Ipt;
 
@@ -377,6 +378,18 @@ namespace MonitorForms
             if (e.Column.ValueType == typeof(DateTime))
             {
                 e.Column.DefaultCellStyle.Format = "HH:mm:ss.fff";
+            }
+        }
+
+        private void graphChart1_AxisLimitsChanged(object sender, AxisLimitsChangedEventArgs e)
+        {
+            if (e.ChangedAxis.AxisName == AxisName.Y)
+            {
+                foreach (var sp in Program.ProgramSettings.SignalParameters.Where(sp => sp.Name == Program.R1 || sp.Name == Program.R2))
+                {
+                    sp.Max = (float) e.ChangedAxis.Maximum;
+                    sp.Min = (float) e.ChangedAxis.Minimum;
+                }
             }
         }
     }

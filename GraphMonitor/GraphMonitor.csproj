@@ -55,6 +55,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AxisLimitsChangedEventArgs.cs" />
     <Compile Include="CheckboxLegend.cs" />
     <Compile Include="GraphChart.cs">
       <SubType>UserControl</SubType>

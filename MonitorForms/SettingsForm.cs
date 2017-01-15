@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using Ipt;
+
 // ReSharper disable AssignNullToNotNullAttribute
 
 namespace MonitorForms
@@ -10,11 +12,10 @@ namespace MonitorForms
     /// <summary>Форма настроек приложения.</summary>
     public partial class SettingsForm : Form
     {
-        //TODO Проверка уникальности имён переменных СКУД
         public SettingsForm()
         {
             InitializeComponent();
-
+            
             signalSettingsDataGridView.AutoGenerateColumns = true;
             signalSettingsDataGridView.ColumnAdded += DgvOnColumnAdded;
 
@@ -49,19 +50,16 @@ namespace MonitorForms
         private void DgvOnColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
             if (e.Column.DataPropertyName == "Name")
-            {
                 e.Column.DisplayIndex = 0;
-            }
-            if (e.Column.ValueType==typeof(float) || e.Column.ValueType==typeof(int))
-            {
+            if (e.Column.ValueType == typeof(float)
+                || e.Column.ValueType == typeof(int))
                 e.Column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            }
         }
 
         //Проверка валидности введённого адреса
         private void ipEndPointEditor_IsAddressValidChanged(object sender, EventArgs e)
         {
-            okButton.Enabled = ((IpEndPointEditor)sender).IsAddressValid;
+            okButton.Enabled = ((IpEndPointEditor) sender).IsAddressValid;
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -89,31 +87,25 @@ namespace MonitorForms
 
         private void syncButton_Click(object sender, EventArgs e)
         {
-            var par = signalParamsBindingSource.List.Cast<SignalParams>().ToList();
-            var scuds = scudSignalBindingSource.List.Cast<SignalBase>().ToList();
+            List<SignalParams> par = signalParamsBindingSource.List.Cast<SignalParams>().ToList();
+            List<SignalBase> scuds = scudSignalBindingSource.List.Cast<SignalBase>().ToList();
             //Добавляем в настройки отображения из списка СКУД отсутствующие параметры
             foreach (var signal in scuds)
-            {
                 if (par.Count(s => signal.Name.Equals(s.Name)) == 0)
-                {
                     signalParamsBindingSource.Add(new SignalParams(signal.Name, true, float.NaN, float.NaN));
-                }
-            }
 
             par = signalParamsBindingSource.List.Cast<SignalParams>().ToList();
             //Удаляем из отображения то, чего нет в списке СКУД
             for (var i = par.Count - 1; i >= 0; i--)
             {
-                SignalBase item = par[i];//Элемент списка настроек отображения
+                SignalBase item = par[i]; //Элемент списка настроек отображения
                 if (scuds.Count(s => s.Name.Equals(item.Name)) == 0
-                          && !item.Name.Equals(Program.I1)
-                          && !item.Name.Equals(Program.I2)
-                          && !item.Name.Equals(Program.R1)
-                          && !item.Name.Equals(Program.R2)
-                          )
-                {
+                    && !item.Name.Equals(Program.I1)
+                    && !item.Name.Equals(Program.I2)
+                    && !item.Name.Equals(Program.R1)
+                    && !item.Name.Equals(Program.R2)
+                )
                     signalParamsBindingSource.RemoveAt(i);
-                }
             }
         }
 
@@ -126,9 +118,7 @@ namespace MonitorForms
         private bool CheckScudIndex(int value)
         {
             if (value < 0)
-            {
                 return false;
-            }
             return scudSignalBindingSource.List.Cast<ScudSignal>().Count(s => s.Index.Equals(value)) <= 1;
         }
 
@@ -150,9 +140,7 @@ namespace MonitorForms
         {
             var curr = (ScudSignal) scudSignalBindingSource.Current;
             if (curr == null)
-            {
                 return;
-            }
             var result = CheckScudName(curr.Name) && CheckScudIndex(curr.Index);
             okButton.Enabled = result;
             syncButton.Enabled = result;

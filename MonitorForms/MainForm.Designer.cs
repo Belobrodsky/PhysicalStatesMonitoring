@@ -45,7 +45,6 @@
             this.scudGraphSplitContainer = new System.Windows.Forms.SplitContainer();
             this.scudPropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.graphChart1 = new GraphMonitor.GraphChart();
             this.dgvIptSplitContainer = new System.Windows.Forms.SplitContainer();
             this.iptTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.iptListBox = new System.Windows.Forms.ListBox();
@@ -70,6 +69,7 @@
             this.errorLogcontextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.clearMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.graphChart1 = new GraphMonitor.GraphChart();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.graphValuesDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
@@ -266,20 +266,6 @@
             this.copyMenuItem.Size = new System.Drawing.Size(181, 22);
             this.copyMenuItem.Text = "Копировать";
             this.copyMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
-            // 
-            // graphChart1
-            // 
-            this.graphChart1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.graphChart1.Count = 1;
-            this.graphChart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphChart1.Location = new System.Drawing.Point(0, 0);
-            this.graphChart1.MonitorValues = null;
-            this.graphChart1.Name = "graphChart1";
-            this.graphChart1.SelectedPoint = null;
-            this.graphChart1.SelectedSeries = null;
-            this.graphChart1.Size = new System.Drawing.Size(934, 220);
-            this.graphChart1.TabIndex = 1;
-            this.graphChart1.SelectedPointChanged += new System.EventHandler(this.GraphChart1_SelectedPointChanged);
             // 
             // dgvIptSplitContainer
             // 
@@ -526,6 +512,21 @@
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(178, 6);
+            // 
+            // graphChart1
+            // 
+            this.graphChart1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphChart1.Count = 1;
+            this.graphChart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.graphChart1.Location = new System.Drawing.Point(0, 0);
+            this.graphChart1.MonitorValues = null;
+            this.graphChart1.Name = "graphChart1";
+            this.graphChart1.SelectedPoint = null;
+            this.graphChart1.SelectedSeries = null;
+            this.graphChart1.Size = new System.Drawing.Size(934, 220);
+            this.graphChart1.TabIndex = 1;
+            this.graphChart1.SelectedPointChanged += new System.EventHandler(this.GraphChart1_SelectedPointChanged);
+            this.graphChart1.AxisLimitsChanged += new System.EventHandler<GraphMonitor.AxisLimitsChangedEventArgs>(this.graphChart1_AxisLimitsChanged);
             // 
             // MainForm
             // 
