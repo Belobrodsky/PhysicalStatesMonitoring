@@ -112,7 +112,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip1.Size = new System.Drawing.Size(784, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1159, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -201,7 +201,7 @@
             this.graphValuesDataGridView.Location = new System.Drawing.Point(0, 0);
             this.graphValuesDataGridView.Name = "graphValuesDataGridView";
             this.graphValuesDataGridView.ReadOnly = true;
-            this.graphValuesDataGridView.Size = new System.Drawing.Size(439, 242);
+            this.graphValuesDataGridView.Size = new System.Drawing.Size(648, 242);
             this.graphValuesDataGridView.TabIndex = 1;
             this.graphValuesDataGridView.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.graphValuesDataGridView_ColumnAdded);
             // 
@@ -220,7 +220,7 @@
             // mainSplitContainer.Panel2
             // 
             this.mainSplitContainer.Panel2.Controls.Add(this.dgvIptSplitContainer);
-            this.mainSplitContainer.Size = new System.Drawing.Size(784, 491);
+            this.mainSplitContainer.Size = new System.Drawing.Size(1159, 491);
             this.mainSplitContainer.SplitterDistance = 245;
             this.mainSplitContainer.TabIndex = 4;
             // 
@@ -237,7 +237,7 @@
             // scudGraphSplitContainer.Panel2
             // 
             this.scudGraphSplitContainer.Panel2.Controls.Add(this.graphChart1);
-            this.scudGraphSplitContainer.Size = new System.Drawing.Size(784, 220);
+            this.scudGraphSplitContainer.Size = new System.Drawing.Size(1159, 220);
             this.scudGraphSplitContainer.SplitterDistance = global::MonitorForms.Properties.Settings.Default.ScudPanelWidth;
             this.scudGraphSplitContainer.TabIndex = 5;
             // 
@@ -253,7 +253,7 @@
             this.scudPropertyGrid.Name = "scudPropertyGrid";
             this.scudPropertyGrid.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
             this.scudPropertyGrid.SelectedObject = this.copyMenuItem;
-            this.scudPropertyGrid.Size = new System.Drawing.Size(150, 220);
+            this.scudPropertyGrid.Size = new System.Drawing.Size(221, 220);
             this.scudPropertyGrid.TabIndex = 2;
             this.scudPropertyGrid.ToolbarVisible = false;
             // 
@@ -277,7 +277,7 @@
             this.graphChart1.Name = "graphChart1";
             this.graphChart1.SelectedPoint = null;
             this.graphChart1.SelectedSeries = null;
-            this.graphChart1.Size = new System.Drawing.Size(630, 220);
+            this.graphChart1.Size = new System.Drawing.Size(934, 220);
             this.graphChart1.TabIndex = 1;
             this.graphChart1.SelectedPointChanged += new System.EventHandler(this.GraphChart1_SelectedPointChanged);
             // 
@@ -294,7 +294,7 @@
             // dgvIptSplitContainer.Panel2
             // 
             this.dgvIptSplitContainer.Panel2.Controls.Add(this.iptTableLayoutPanel);
-            this.dgvIptSplitContainer.Size = new System.Drawing.Size(784, 242);
+            this.dgvIptSplitContainer.Size = new System.Drawing.Size(1159, 242);
             this.dgvIptSplitContainer.SplitterDistance = global::MonitorForms.Properties.Settings.Default.DataGridViewWidthPanel;
             this.dgvIptSplitContainer.TabIndex = 2;
             // 
@@ -311,7 +311,7 @@
             this.iptTableLayoutPanel.RowCount = 2;
             this.iptTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.iptTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.iptTableLayoutPanel.Size = new System.Drawing.Size(341, 242);
+            this.iptTableLayoutPanel.Size = new System.Drawing.Size(507, 242);
             this.iptTableLayoutPanel.TabIndex = 2;
             // 
             // iptListBox
@@ -322,7 +322,7 @@
             this.iptListBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.iptListBox.Name = "iptListBox";
             this.iptListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.iptListBox.Size = new System.Drawing.Size(335, 226);
+            this.iptListBox.Size = new System.Drawing.Size(501, 226);
             this.iptListBox.TabIndex = 2;
             // 
             // label2
@@ -331,7 +331,7 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(335, 13);
+            this.label2.Size = new System.Drawing.Size(501, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "ИПТ";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -344,7 +344,7 @@
             this.settingsMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
-            this.mainMenu.Size = new System.Drawing.Size(784, 24);
+            this.mainMenu.Size = new System.Drawing.Size(1159, 24);
             this.mainMenu.TabIndex = 5;
             this.mainMenu.Text = "menuStrip1";
             // 
@@ -485,7 +485,7 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.errorLogTextBox);
-            this.splitContainer4.Size = new System.Drawing.Size(784, 673);
+            this.splitContainer4.Size = new System.Drawing.Size(1159, 673);
             this.splitContainer4.SplitterDistance = 491;
             this.splitContainer4.TabIndex = 6;
             // 
@@ -500,7 +500,7 @@
             this.errorLogTextBox.ReadOnly = true;
             this.errorLogTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.errorLogTextBox.ShortcutsEnabled = false;
-            this.errorLogTextBox.Size = new System.Drawing.Size(784, 178);
+            this.errorLogTextBox.Size = new System.Drawing.Size(1159, 178);
             this.errorLogTextBox.TabIndex = 0;
             // 
             // errorLogcontextMenu
@@ -531,7 +531,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 697);
+            this.ClientSize = new System.Drawing.Size(1159, 697);
             this.Controls.Add(this.splitContainer4);
             this.Controls.Add(this.mainMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

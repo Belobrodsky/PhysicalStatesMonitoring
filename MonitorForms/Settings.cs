@@ -165,11 +165,10 @@ namespace MonitorForms
             }
         }
 
-        public void Reset()
+        public Settings Reset()
         {
             File.Delete(SettingsPath);
-            Read();
-            Save(this);
+            return Read();
         }
     }
 }

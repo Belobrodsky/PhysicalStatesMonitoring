@@ -38,7 +38,7 @@ namespace MonitorForms
                 if (_dataReader == null)
                 {
                     _dataReader = DataReader.GetInstance();
-                    _dataReader.IptInterval = 1000 / _freqs[Program.Settings.IptFreqIndex];
+                    _dataReader.IptInterval = 1000 / _freqs[Program.ProgramSettings.IptFreqIndex];
                     _dataReader.Error -= _dataReader_Error;
                     _dataReader.Error += _dataReader_Error;
                     _dataReader.IptDataRead -= _dataReader_IptDataRead;
@@ -56,7 +56,7 @@ namespace MonitorForms
             get
             {
                 return _dataWriter ?? (_dataWriter = DataWriter.GetInstance(
-                           Program.Settings.LogFile));
+                           Program.ProgramSettings.LogFile));
             }
         }
 
@@ -116,15 +116,15 @@ namespace MonitorForms
         {
             if (sender.Equals(errorLogMenuItem))
             {
-                Program.Settings.ErrorLogVisible = !Program.Settings.ErrorLogVisible;
+                Program.ProgramSettings.ErrorLogVisible = !Program.ProgramSettings.ErrorLogVisible;
             }
             else if (sender.Equals(scudMenuItem))
             {
-                Program.Settings.ScudListVisible = !Program.Settings.ScudListVisible;
+                Program.ProgramSettings.ScudListVisible = !Program.ProgramSettings.ScudListVisible;
             }
             else if (sender.Equals(iptMenuItem))
             {
-                Program.Settings.IptListVisible = !Program.Settings.IptListVisible;
+                Program.ProgramSettings.IptListVisible = !Program.ProgramSettings.IptListVisible;
             }
             UpdateView();
         }
@@ -138,13 +138,13 @@ namespace MonitorForms
         //Меню «Подключиться»
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Program.Settings.LogFile.IsNullOrEmpty())
+            if (Program.ProgramSettings.LogFile.IsNullOrEmpty())
                 SelectFile();
-            if (Program.Settings.LogFile.IsNullOrEmpty())
+            if (Program.ProgramSettings.LogFile.IsNullOrEmpty())
                 return;
             Reader.Connect(
-                Program.Settings.ScudIpAddress, Program.Settings.ScudPort, Program.Settings.IptIpAddress,
-                Program.Settings.IptPort);
+                Program.ProgramSettings.ScudIpAddress, Program.ProgramSettings.ScudPort, Program.ProgramSettings.IptIpAddress,
+                Program.ProgramSettings.IptPort);
         }
 
         //Копирование в буфер из окна ошибок
@@ -173,7 +173,7 @@ namespace MonitorForms
             {
                 _dataReader.IptInterval = 1000 / _freqs[iptFreqComboBox.SelectedIndex];
             }
-            Program.Settings.IptFreqIndex = iptFreqComboBox.SelectedIndex;
+            Program.ProgramSettings.IptFreqIndex = iptFreqComboBox.SelectedIndex;
         }
 
         //Загрузка формы
@@ -198,12 +198,12 @@ namespace MonitorForms
         //Меню «Запустить эмулятор»
         private void runEmulatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var psi = new ProcessStartInfo(Program.Settings.EmulPath)
+            var psi = new ProcessStartInfo(Program.ProgramSettings.EmulPath)
             {
                 Arguments = string.Format(
                               "-emul -ip {0} -p {1}",
-                              Program.Settings.IptIp,
-                              Program.Settings.IptPort),
+                              Program.ProgramSettings.IptIp,
+                              Program.ProgramSettings.IptPort),
                 WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
             };
             var p = Process.Start(psi);
@@ -224,7 +224,7 @@ namespace MonitorForms
                 dialog.Filter = "Текстовые файлы|*.txt";
                 if (dialog.ShowDialog(this) != DialogResult.OK)
                     return;
-                Program.Settings.LogFile = dialog.FileName;
+                Program.ProgramSettings.LogFile = dialog.FileName;
             }
         }
 
@@ -234,9 +234,9 @@ namespace MonitorForms
         {
             disconnectToolStripMenuItem.Enabled = Reader != null && Reader.ReaderState != ReaderStateEnum.Disconnected;
             startReadingMenuItem.Enabled = Reader != null && Reader.ReaderState == ReaderStateEnum.Connected;
-            runEmulatorMenuItem.Enabled = !Program.Settings.EmulPath.IsNullOrEmpty();
-            connectMenuItem.Enabled = !Program.Settings.IptIp.Equals(Program.Settings.ScudIp)
-                                      || !Program.Settings.IptPort.Equals(Program.Settings.ScudPort);
+            runEmulatorMenuItem.Enabled = !Program.ProgramSettings.EmulPath.IsNullOrEmpty();
+            connectMenuItem.Enabled = !Program.ProgramSettings.IptIp.Equals(Program.ProgramSettings.ScudIp)
+                                      || !Program.ProgramSettings.IptPort.Equals(Program.ProgramSettings.ScudPort);
         }
 
         //Меню настроек
@@ -258,7 +258,7 @@ namespace MonitorForms
         private void startReadingtoolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Создание нового файла.
-            Writer.NewFile(Program.Settings.LogFile);
+            Writer.NewFile(Program.ProgramSettings.LogFile);
             Reader.Start();
         }
 
@@ -276,7 +276,7 @@ namespace MonitorForms
             _values[Program.R2] = _current.Reactivity2;
 
             //Обновление списка ИПТ
-            if (Program.Settings.IptListVisible)
+            if (Program.ProgramSettings.IptListVisible)
             {
                 iptListBox.InvokeEx(
                     () =>
@@ -298,7 +298,7 @@ namespace MonitorForms
         {
             _values.Clear();
             //Отображаемые значения. Передаём их в словарь _values
-            foreach (var s in Program.Settings.SignalParameters)
+            foreach (var s in Program.ProgramSettings.SignalParameters)
             {
                 if (s.IsActive)
                 {
@@ -311,7 +311,7 @@ namespace MonitorForms
             scudPropertyGrid.SelectedObject = _values;
 
             //Выбранные значения СКУД, которые будут отображаться на графике и в таблице
-            _selectedScud = Program.Settings.ScudSignals.Where(s => Program.Settings.SignalParameters.Any(ss => s.Name == ss.Name && ss.IsActive)).ToDictionary(s => s.Name);
+            _selectedScud = Program.ProgramSettings.ScudSignals.Where(s => Program.ProgramSettings.SignalParameters.Any(ss => s.Name == ss.Name && ss.IsActive)).ToDictionary(s => s.Name);
 
             //Добавляем графики СКУД
             graphChart1.Count = 0;
@@ -320,29 +320,32 @@ namespace MonitorForms
                 graphChart1.AddScudSeries(signal.Key);
             }
             //Добавление графиков реактивностей, если они отмечены
-            var reacts = Program.Settings.SignalParameters.Where(sp => sp.Name.Equals(Program.R1) || sp.Name.Equals(Program.R2)).ToList();
+            var reacts = Program.ProgramSettings.SignalParameters.Where(sp => sp.Name.Equals(Program.R1) || sp.Name.Equals(Program.R2)).ToList();
             foreach (var sp in reacts)
             {
                 graphChart1.AddReactSeries(sp.Name);
             }
             //Значения, отображаемые на графике в словарь, чтобы обращаться по имени.
-            _graphSignals = Program.Settings.SignalParameters.Where(sp => sp.IsActive && !sp.Name.Equals(Program.I1) && !sp.Name.Equals(Program.I2)).ToDictionary(sp => sp.Name);
+            _graphSignals = Program.ProgramSettings.SignalParameters.Where(sp => sp.IsActive && !sp.Name.Equals(Program.I1) && !sp.Name.Equals(Program.I2)).ToDictionary(sp => sp.Name);
             //NOTE Пределы устанавливаются только по первой реактивности.
-            graphChart1.SetReactLimits(_graphSignals[Program.R1].Min, _graphSignals[Program.R1].Max);
+            if (_graphSignals.ContainsKey(Program.R1))
+            {
+                graphChart1.SetReactLimits(_graphSignals[Program.R1].Min, _graphSignals[Program.R1].Max);
+            }
         }
 
         //Обновление вида
         private void UpdateView()
         {
-            scudMenuItem.Checked = Program.Settings.ScudListVisible;
-            iptMenuItem.Checked = Program.Settings.IptListVisible;
-            errorLogMenuItem.Checked = Program.Settings.ErrorLogVisible;
+            scudMenuItem.Checked = Program.ProgramSettings.ScudListVisible;
+            iptMenuItem.Checked = Program.ProgramSettings.IptListVisible;
+            errorLogMenuItem.Checked = Program.ProgramSettings.ErrorLogVisible;
 
-            dgvIptSplitContainer.Panel2Collapsed = !(Program.Settings.IptListVisible || Program.Settings.ScudListVisible);
-            dgvIptSplitContainer.Panel2Collapsed = !Program.Settings.IptListVisible;
-            splitContainer4.Panel2Collapsed = !Program.Settings.ErrorLogVisible;
-            scudGraphSplitContainer.Panel1Collapsed = !Program.Settings.ScudListVisible;
-            iptFreqComboBox.SelectedIndex = Program.Settings.IptFreqIndex;
+            dgvIptSplitContainer.Panel2Collapsed = !(Program.ProgramSettings.IptListVisible || Program.ProgramSettings.ScudListVisible);
+            dgvIptSplitContainer.Panel2Collapsed = !Program.ProgramSettings.IptListVisible;
+            splitContainer4.Panel2Collapsed = !Program.ProgramSettings.ErrorLogVisible;
+            scudGraphSplitContainer.Panel1Collapsed = !Program.ProgramSettings.ScudListVisible;
+            iptFreqComboBox.SelectedIndex = Program.ProgramSettings.IptFreqIndex;
         }
 
         //Открытие меню «Вид»
@@ -359,7 +362,7 @@ namespace MonitorForms
             #region Вычисления и запись в файл 0.7 — 1 мс
 
             //Вычисление значений токов и реактивностей.
-            _current.SearchReactivity(Program.Settings.Lambdas, Program.Settings.Alphas, args.Buffer, args.Ipt4);
+            _current.SearchReactivity(Program.ProgramSettings.Lambdas, Program.ProgramSettings.Alphas, args.Buffer, args.Ipt4);
             Writer.WriteData(args.Buffer.Buff, _current.Tok1New, _current.Tok2New, _current.Reactivity1, _current.Reactivity1, _current.ReactivityAverage);
 
             #endregion
@@ -371,7 +374,7 @@ namespace MonitorForms
 
         private void graphValuesDataGridView_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
-            if (e.Column.ValueType==typeof(DateTime))
+            if (e.Column.ValueType == typeof(DateTime))
             {
                 e.Column.DefaultCellStyle.Format = "HH:mm:ss.fff";
             }

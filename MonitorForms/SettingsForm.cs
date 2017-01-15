@@ -26,24 +26,24 @@ namespace MonitorForms
 
         private void ReadSettings()
         {
-            scudIpEndPoint.Address = Program.Settings.ScudIp;
-            scudIpEndPoint.Port = Program.Settings.ScudPort;
-            iptIpEndPoint.Address = Program.Settings.IptIp;
-            iptIpEndPoint.Port = Program.Settings.IptPort;
-            logFilePathSelector.FilePath = Program.Settings.LogFile;
-            emulFilePathSelector.FilePath = Program.Settings.EmulPath;
+            scudIpEndPoint.Address = Program.ProgramSettings.ScudIp;
+            scudIpEndPoint.Port = Program.ProgramSettings.ScudPort;
+            iptIpEndPoint.Address = Program.ProgramSettings.IptIp;
+            iptIpEndPoint.Port = Program.ProgramSettings.IptPort;
+            logFilePathSelector.FilePath = Program.ProgramSettings.LogFile;
+            emulFilePathSelector.FilePath = Program.ProgramSettings.EmulPath;
 
             constArrayEditor.Clear();
-            constArrayEditor.Add("Лямбда", Program.Settings.Lambdas);
-            constArrayEditor.Add("Альфа", Program.Settings.Alphas);
+            constArrayEditor.Add("Лямбда", Program.ProgramSettings.Lambdas);
+            constArrayEditor.Add("Альфа", Program.ProgramSettings.Alphas);
 
             scudSignalBindingSource.Clear();
             scudSignalBindingSource.DataSource = typeof(ScudSignal);
-            Program.Settings.ScudSignals.ForEach(ss => scudSignalBindingSource.Add(new ScudSignal(ss.Name, ss.Index)));
+            Program.ProgramSettings.ScudSignals.ForEach(ss => scudSignalBindingSource.Add(new ScudSignal(ss.Name, ss.Index)));
 
             signalParamsBindingSource.Clear();
             signalParamsBindingSource.DataSource = typeof(SignalParams);
-            Program.Settings.SignalParameters.ForEach(ss => signalParamsBindingSource.Add(new SignalParams(ss.Name, ss.IsActive, ss.Min, ss.Max)));
+            Program.ProgramSettings.SignalParameters.ForEach(ss => signalParamsBindingSource.Add(new SignalParams(ss.Name, ss.IsActive, ss.Min, ss.Max)));
         }
 
         private void DgvOnColumnAdded(object sender, DataGridViewColumnEventArgs e)
@@ -67,24 +67,24 @@ namespace MonitorForms
         private void okButton_Click(object sender, EventArgs e)
         {
             WriteSettings();
-            Settings.Save(Program.Settings);
+            Settings.Save(Program.ProgramSettings);
             Close();
         }
 
         private void WriteSettings()
         {
-            Program.Settings.ScudIp = scudIpEndPoint.Address;
-            Program.Settings.ScudPort = scudIpEndPoint.Port;
-            Program.Settings.IptIp = iptIpEndPoint.Address;
-            Program.Settings.IptPort = iptIpEndPoint.Port;
-            Program.Settings.LogFile = logFilePathSelector.FilePath;
-            Program.Settings.EmulPath = emulFilePathSelector.FilePath;
-            Program.Settings.Lambdas = constArrayEditor[0].Cast<double>().ToArray();
-            Program.Settings.Alphas = constArrayEditor[1].Cast<double>().ToArray();
+            Program.ProgramSettings.ScudIp = scudIpEndPoint.Address;
+            Program.ProgramSettings.ScudPort = scudIpEndPoint.Port;
+            Program.ProgramSettings.IptIp = iptIpEndPoint.Address;
+            Program.ProgramSettings.IptPort = iptIpEndPoint.Port;
+            Program.ProgramSettings.LogFile = logFilePathSelector.FilePath;
+            Program.ProgramSettings.EmulPath = emulFilePathSelector.FilePath;
+            Program.ProgramSettings.Lambdas = constArrayEditor[0].Cast<double>().ToArray();
+            Program.ProgramSettings.Alphas = constArrayEditor[1].Cast<double>().ToArray();
             //Имена и индексы переменных СКУД
-            Program.Settings.ScudSignals = (scudSignalBindingSource.List as BindingList<ScudSignal>).ToList();
+            Program.ProgramSettings.ScudSignals = (scudSignalBindingSource.List as BindingList<ScudSignal>).ToList();
             //Параметры отображения значений
-            Program.Settings.SignalParameters = (signalParamsBindingSource.List as BindingList<SignalParams>).ToList();
+            Program.ProgramSettings.SignalParameters = (signalParamsBindingSource.List as BindingList<SignalParams>).ToList();
         }
 
         private void syncButton_Click(object sender, EventArgs e)
@@ -119,7 +119,7 @@ namespace MonitorForms
 
         private void resetSettingsButton_Click(object sender, EventArgs e)
         {
-            Program.Settings.Reset();
+            Program.ResetSettings();
             ReadSettings();
         }
 

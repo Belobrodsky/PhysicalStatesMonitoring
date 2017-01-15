@@ -25,7 +25,7 @@ namespace MonitorForms.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("150")]
+        [global::System.Configuration.DefaultSettingValueAttribute("221")]
         public int ScudPanelWidth {
             get {
                 return ((int)(this["ScudPanelWidth"]));
@@ -37,7 +37,7 @@ namespace MonitorForms.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("439")]
+        [global::System.Configuration.DefaultSettingValueAttribute("648")]
         public int DataGridViewWidthPanel {
             get {
                 return ((int)(this["DataGridViewWidthPanel"]));

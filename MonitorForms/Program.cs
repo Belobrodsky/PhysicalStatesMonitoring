@@ -7,7 +7,7 @@ namespace MonitorForms
     {
         #region Свойства
 
-        internal static Settings Settings { get; private set; }
+        internal static Settings ProgramSettings { get; set; }
         #endregion
         /// <summary>Обозначение первого тока.</summary>
         public const string I1 = "I_1";
@@ -18,6 +18,11 @@ namespace MonitorForms
         /// <summary>Обозначение второй реактивности.</summary>
         public const string R2 = "R_2";
 
+        internal static void ResetSettings()
+        {
+            ProgramSettings = ProgramSettings.Reset();
+            Settings.Save(ProgramSettings);
+        }
         /// <summary>
         ///     The main entry point for the application.
         /// </summary>
@@ -25,12 +30,12 @@ namespace MonitorForms
         static void Main()
         {
             //Чтение настроек приложения
-            Settings = Settings.Read();
+            ProgramSettings = Settings.Read();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
             //Сохранение настроек
-            Settings.Save(Settings);
+            Settings.Save(ProgramSettings);
         }
     }
 }

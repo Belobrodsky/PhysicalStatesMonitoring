@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="ScudPanelWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">150</Value>
+      <Value Profile="(Default)">221</Value>
     </Setting>
     <Setting Name="DataGridViewWidthPanel" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">439</Value>
+      <Value Profile="(Default)">648</Value>
     </Setting>
   </Settings>
 </SettingsFile>
